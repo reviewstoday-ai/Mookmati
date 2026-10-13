@@ -172,3 +172,4 @@ body{margin:0;background:#faf6ee;}
 .mk-nav{display:flex;gap:18px;flex-wrap:wrap;}
 .mk-nav a{color:#2b2420;text-decoration:none;font-weight:600;font-size:15px;}
 .mk-nav a:hover,.mk-nav a.on{color:#b5653f;}
+@media (max-width:480px){.mk .cat{padding:16px;}.mk .cat .name{font-size:22px;}}
