@@ -165,7 +165,10 @@ body{margin:0;background:#faf6ee;}
 .mk-bar a{color:#faf6ee;}
 .mk-head{background:#faf6ee;border-bottom:1px solid #e2d6c3;font-family:Mulish,sans-serif;}
 .mk-head .in{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.mk-logo{font:600 34px 'Cormorant Garamond',serif;color:#23325a;text-decoration:none;line-height:1;}
+.mk-logo{font:600 30px 'Cormorant Garamond',serif;color:#23325a;text-decoration:none;line-height:1;display:flex;align-items:center;gap:12px;}
+.mk-logo img{height:60px;width:auto;border-radius:6px;display:block;}
+.mk-logo small{display:block;font:600 11px Mulish,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#b5653f;margin-top:4px;}
+.mk .pship{display:block;font-size:12px;font-weight:600;color:#1f7a4d;margin-top:2px;}
 .mk-nav{display:flex;gap:18px;flex-wrap:wrap;}
 .mk-nav a{color:#2b2420;text-decoration:none;font-weight:600;font-size:15px;}
 .mk-nav a:hover,.mk-nav a.on{color:#b5653f;}
