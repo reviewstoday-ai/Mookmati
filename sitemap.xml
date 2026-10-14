@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://mookmati.in/</loc></url>
-  <url><loc>https://mookmati.in/shop.html</loc></url>
-  <url><loc>https://mookmati.in/about.html</loc></url>
-  <url><loc>https://mookmati.in/contact.html</loc></url>
-  <url><loc>https://mookmati.in/shipping.html</loc></url>
-  <url><loc>https://mookmati.in/returns.html</loc></url>
-  <url><loc>https://mookmati.in/privacy.html</loc></url>
-  <url><loc>https://mookmati.in/terms.html</loc></url>
+  <url><loc>https://mookmati.in/</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/bedsheets.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/shop.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/about.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/contact.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/shipping.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/returns.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/privacy.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/credits.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/terms.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/bedsheet-blue-coral-flower.html</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://mookmati.in/bedsheet-rajasthani-floral-super-king.html</loc><lastmod>2026-10-13</lastmod></url>
 </urlset>
