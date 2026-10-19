@@ -346,9 +346,14 @@ returns = policy("Returns and Exchanges", "Our promise if something is not right
       <h2>How to start a return</h2>
       <ol>
         <li>Message us on <a href="{wa('Hello Mookmati, I would like to return or exchange an order.')}" target="_blank" rel="noopener">WhatsApp</a> with your order details and photos.</li>
-        <li>We confirm eligibility and share the return address or arrange a pickup.</li>
+        <li>We confirm eligibility and share the return address. You send the item back to us by post or courier.</li>
         <li>Once we receive and check the item, we process your exchange or refund.</li>
       </ol>
+      <h2>Return shipping cost</h2>
+      <ul>
+        <li><strong>Change of mind:</strong> you pay the cost of sending the item back to us. There is no restocking fee.</li>
+        <li><strong>Damaged, defective or wrong item:</strong> we cover the return cost in full.</li>
+      </ul>
       <h2>Refunds</h2>
       <p>Approved refunds are paid to your original payment method within 7 working days of our receiving the returned item.</p>
 """)
