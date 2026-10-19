@@ -697,6 +697,44 @@ with open(f"{OUT}/sitemap.xml", "w") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
             "".join(f"  <url><loc>{DOMAIN}{'/' if s == 'index' else '/' + s + '.html'}</loc><lastmod>{TODAY}</lastmod></url>\n" for s, *_ in PAGES) +
             "</urlset>\n")
+# Google Merchant Center product feed (RSS 2.0 with g: namespace)
+from xml.sax.saxutils import escape as _x
+GPC = {"bedsheets": "Home & Garden > Linens & Bedding > Bedding > Bed Sheets"}
+_items = []
+for _cat, _plist in CATALOG.items():
+    if _cat.startswith("_"):
+        continue
+    for _p in _plist:
+        if not _p.get("price"):
+            continue
+        _img = next((f"images/{_p['code']}.{e}" for e in ("jpg", "webp") if os.path.exists(f"{OUT}/images/{_p['code']}.{e}")), "logo.png")
+        _items.append(f"""  <item>
+    <g:id>{_x(_p['code'])}</g:id>
+    <g:title>{_x(_p['title'])}</g:title>
+    <g:description>{_x(_p['desc'])} Free shipping across India. Order on WhatsApp +91 94566 01984.</g:description>
+    <g:link>{SITE}/{_p['slug']}.html</g:link>
+    <g:image_link>{SITE}/{_img}</g:image_link>
+    <g:availability>in_stock</g:availability>
+    <g:price>{_num(_p['price'])}.00 INR</g:price>
+    <g:brand>Mookmati</g:brand>
+    <g:condition>new</g:condition>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>{_x(GPC.get(_cat, "Home & Garden"))}</g:google_product_category>
+    <g:product_type>{_x(_cat.replace('-', ' ').title())}</g:product_type>
+    <g:material>Cotton</g:material>
+    <g:size>108 x 108 inches</g:size>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+  </item>
+""")
+with open(f"{OUT}/feed.xml", "w", encoding="utf-8") as f:
+    f.write('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n<channel>\n'
+            f"  <title>Mookmati products</title>\n  <link>{SITE}/</link>\n  <description>Handmade products from Mookmati, The Silent Earth Studio</description>\n"
+            + "".join(_items) + "</channel>\n</rss>\n")
+
 with open(f"{OUT}/robots.txt", "w") as f:
     bots = ["Googlebot", "Bingbot", "Google-Extended", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Applebot", "Applebot-Extended", "DuckDuckBot", "YandexBot"]
     f.write("".join(f"User-agent: {b}\nAllow: /\n\n" for b in bots) + f"User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n")
