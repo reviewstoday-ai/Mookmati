@@ -1,0 +1,167 @@
+/* =========================================================
+   MOOKMATI SITE STYLES
+   Paste all of this into: Appearance > Customize > Additional CSS
+   (In block themes: Appearance > Editor > Styles > Additional CSS)
+   Every rule is scoped to .mk so it never breaks your theme.
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Mulish:wght@400;600;700&display=swap');
+
+.mk{
+  --clay:#b5653f;
+  --madder:#8e2f2a;
+  --indigo:#23325a;
+  --cotton:#faf6ee;
+  --sand:#efe4d2;
+  --ink:#2b2420;
+  --muted:#6b5e55;
+  --line:#e2d6c3;
+  font-family:'Mulish',sans-serif;
+  color:var(--ink);
+  background:var(--cotton);
+  line-height:1.7;
+  font-size:17px;
+}
+.mk *{box-sizing:border-box;}
+.mk h1,.mk h2,.mk h3,.mk h4{font-family:'Cormorant Garamond',serif;color:var(--indigo);line-height:1.15;margin:0 0 .5em;font-weight:600;}
+.mk p{margin:0 0 1em;}
+.mk a{color:var(--madder);}
+.mk .wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+.mk .narrow{max-width:780px;}
+.mk section{padding:72px 0;}
+.mk .eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:13px;font-weight:700;color:var(--clay);margin-bottom:12px;display:block;}
+.mk .center{text-align:center;max-width:660px;margin:0 auto 44px;}
+.mk .center h2{font-size:clamp(32px,4.5vw,46px);}
+.mk .tint{background:var(--sand);}
+
+/* Block-print motif background */
+.mk .print{
+  background-color:var(--indigo);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23faf6ee' stroke-opacity='.14' stroke-width='1.5'%3E%3Ccircle cx='32' cy='32' r='6'/%3E%3Cpath d='M32 14c5 6 5 12 0 18-5-6-5-12 0-18zM32 50c5-6 5-12 0-18-5 6-5 12 0 18zM14 32c6-5 12-5 18 0-6 5-12 5-18 0zM50 32c-6-5-12-5-18 0 6 5 12 5 18 0z'/%3E%3Ccircle cx='0' cy='0' r='3'/%3E%3Ccircle cx='64' cy='0' r='3'/%3E%3Ccircle cx='0' cy='64' r='3'/%3E%3Ccircle cx='64' cy='64' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  color:var(--cotton);
+}
+.mk .print.clay{background-color:var(--clay);}
+.mk .print.madder{background-color:var(--madder);}
+
+/* Buttons */
+.mk .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.mk .btn{display:inline-block;padding:13px 26px;border-radius:999px;font-weight:700;text-decoration:none;font-size:15px;letter-spacing:.03em;transition:transform .15s ease,opacity .15s ease;line-height:1.3;}
+.mk .btn:hover{transform:translateY(-2px);opacity:.92;}
+.mk .btn-wa{background:#1f7a4d;color:#fff;}
+.mk .btn-clay{background:var(--clay);color:#fff;}
+.mk .btn-line{background:transparent;color:var(--cotton);border:2px solid var(--cotton);}
+.mk .btn-dark{background:var(--indigo);color:#fff;}
+.mk .btn-sm{padding:9px 16px;font-size:13px;}
+
+/* Hero */
+.mk .hero{text-align:center;padding:110px 0 100px;}
+.mk .hero h1{color:var(--cotton);font-size:clamp(50px,9vw,96px);margin-bottom:8px;letter-spacing:.02em;}
+.mk .hero .tag{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3.4vw,30px);font-style:italic;margin-bottom:18px;}
+.mk .hero .sub{max-width:580px;margin:0 auto 34px;opacity:.92;}
+.mk .hero .eyebrow{color:#e9c9a8;}
+.mk .pagehead{text-align:center;padding:70px 0 60px;}
+.mk .pagehead h1{color:var(--cotton);font-size:clamp(40px,6vw,64px);margin-bottom:6px;}
+.mk .pagehead p{max-width:560px;margin:0 auto;opacity:.92;}
+
+/* Category tiles */
+.mk .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.mk .cat{display:flex;flex-direction:column;justify-content:flex-end;min-height:220px;padding:22px;border-radius:14px;text-decoration:none;color:var(--cotton);position:relative;overflow:hidden;}
+.mk .cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.mk .cat:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,10,.65),rgba(20,15,10,0) 60%);}
+.mk .cat span{position:relative;z-index:1;}
+.mk .cat .name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.1;}
+.mk .cat .go{font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.9;}
+.mk .cat:nth-child(3n+1){background-color:var(--indigo);}
+.mk .cat:nth-child(3n+2){background-color:var(--clay);}
+.mk .cat:nth-child(3n){background-color:var(--madder);}
+
+/* Two-column story */
+.mk .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+.mk .split h2{font-size:clamp(32px,4.5vw,46px);}
+.mk .quote{border-left:4px solid var(--madder);padding:6px 0 6px 22px;font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:var(--madder);}
+
+/* Value cards */
+.mk .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.mk .vcard{background:var(--cotton);border-radius:14px;padding:30px 26px;border-top:5px solid var(--clay);}
+.mk .vcard:nth-child(2){border-top-color:var(--indigo);}
+.mk .vcard:nth-child(3){border-top-color:var(--madder);}
+.mk .vcard h3{font-size:26px;}
+.mk .vcard p{color:var(--muted);margin:0;}
+.mk .num{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--clay);line-height:1;margin-bottom:8px;display:block;}
+
+/* Steps */
+.mk .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;counter-reset:s;}
+.mk .step{text-align:center;padding:10px 14px;}
+.mk .step:before{counter-increment:s;content:counter(s);display:flex;align-items:center;justify-content:center;width:54px;height:54px;margin:0 auto 16px;border-radius:50%;background:var(--indigo);color:var(--cotton);font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;}
+.mk .step h3{font-size:24px;}
+.mk .step p{color:var(--muted);}
+
+/* Shop: category jump bar */
+.mk .jump{position:sticky;top:0;z-index:5;background:var(--cotton);border-bottom:1px solid var(--line);}
+.mk .jump .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:14px;padding-bottom:14px;}
+.mk .jump a{white-space:nowrap;text-decoration:none;color:var(--indigo);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:14px;font-weight:600;}
+.mk .jump a:hover{background:var(--indigo);color:var(--cotton);}
+.mk .shopcat{padding:56px 0 24px;scroll-margin-top:70px;}
+.mk .shopcat h2{font-size:clamp(30px,4vw,40px);margin-bottom:4px;}
+.mk .shopcat .lead{color:var(--muted);margin-bottom:26px;}
+
+/* Product cards */
+.mk .products{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.mk .pcard{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;}
+.mk .pimg{aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;padding:14px;color:var(--cotton);}
+.mk .pimg img{width:100%;height:100%;object-fit:cover;}
+.mk .pimg.has-img{padding:0;}
+.mk .pbody{padding:16px 16px 18px;display:flex;flex-direction:column;gap:4px;flex:1;}
+.mk .pbody h4{font-size:21px;margin:0;}
+.mk .pcode{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.mk .pnote{font-size:14px;color:var(--muted);margin:0;}
+.mk .pprice{font-weight:700;color:var(--ink);margin:6px 0 10px;}
+.mk .pbody .btn{margin-top:auto;text-align:center;}
+
+/* Policy and long text pages */
+.mk .prose h2{font-size:30px;margin-top:1.6em;}
+.mk .prose h3{font-size:24px;margin-top:1.2em;}
+.mk .prose ul,.mk .prose ol{padding-left:1.3em;margin:0 0 1em;}
+.mk .prose li{margin-bottom:.4em;}
+.mk .prose p,.mk .prose li{text-align:justify;}
+.mk .updated{color:var(--muted);font-size:14px;}
+.mk .box{background:var(--sand);border-radius:12px;padding:22px 24px;margin:0 0 1.2em;}
+
+/* Contact */
+.mk .contactgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.mk .ccard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center;}
+.mk .ccard h3{font-size:26px;}
+
+/* FAQ */
+.mk details{border-bottom:1px solid var(--line);padding:16px 0;}
+.mk summary{cursor:pointer;font-weight:700;color:var(--indigo);}
+.mk details p{margin:10px 0 0;color:var(--muted);}
+
+/* Footer */
+.mk.mk-footer{background:var(--indigo);color:var(--cotton);font-size:15px;padding:56px 0 24px;}
+.mk-footer .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;}
+.mk-footer h4{color:var(--cotton);font-size:22px;}
+.mk-footer a{color:var(--cotton);opacity:.85;text-decoration:none;display:block;margin-bottom:8px;}
+.mk-footer a:hover{opacity:1;text-decoration:underline;}
+.mk-footer .brand{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;line-height:1;margin-bottom:10px;display:block;}
+.mk-footer .small{border-top:1px solid rgba(250,246,238,.2);margin-top:36px;padding-top:18px;font-size:13px;opacity:.75;text-align:center;}
+
+/* Floating WhatsApp button */
+.mk-float{position:fixed;right:18px;bottom:18px;z-index:99;background:#1f7a4d;color:#fff !important;border-radius:999px;padding:13px 20px;font-family:'Mulish',sans-serif;font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.2);}
+
+@media (max-width:980px){
+  .mk .cats{grid-template-columns:repeat(2,1fr);}
+  .mk .products{grid-template-columns:repeat(2,1fr);}
+  .mk-footer .fgrid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:720px){
+  .mk section{padding:54px 0;}
+  .mk .split{grid-template-columns:1fr;gap:30px;}
+  .mk .grid3,.mk .steps,.mk .contactgrid{grid-template-columns:1fr;}
+  .mk .products{gap:14px;}
+  .mk .pbody h4{font-size:19px;}
+  .mk .prose p,.mk .prose li{text-align:left;}
+}
+@media (max-width:440px){
+  .mk-footer .fgrid{grid-template-columns:1fr;}
+  .mk .cat{min-height:170px;}
+}

@@ -1,0 +1,62 @@
+{
+  "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py",
+  "bedsheets": [
+    {
+      "code": "MK-BS-003",
+      "slug": "bedsheet-cream-terracotta-border",
+      "name": "Cream Terracotta Border Bedsheet Set",
+      "price": "950",
+      "title": "Cream Terracotta Border Hand Block-Printed Cotton Bedsheet Set, King Size 108 x 108",
+      "note": "Rajasthani hand block print with natural vegetable dyes. Soft cream cotton, flower motifs and a terracotta border. King size 108 x 108 in, with matching pillow covers.",
+      "lead": "Blooming flower motifs on soft cream cotton with a rich terracotta border, hand block-printed in Rajasthan with natural vegetable dyes.",
+      "points": [
+        "Rajasthani hand block print, one wooden block at a time",
+        "Coloured with natural vegetable dyes",
+        "100% cotton in a soft cream base with a terracotta border",
+        "King size: 108 x 108 inches",
+        "Matching pillow covers included"
+      ],
+      "desc": "Rajasthani hand block-printed cotton bedsheet set with flower motifs on soft cream and a rich terracotta border. Natural vegetable dyes, 100% cotton, king size 108 x 108 inches, with matching pillow covers.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DequRBElAHK/",
+      "added": "2026-10-19"
+    },
+    {
+      "code": "MK-BS-001",
+      "slug": "bedsheet-blue-coral-flower",
+      "name": "Blue Coral Flower Bedsheet Set",
+      "price": "1,500",
+      "title": "Blue Coral Flower Hand Block-Printed Cotton Bedsheet Set, King Plus 108 x 108",
+      "note": "Hand block-printed with natural dyes in Rajasthan. 100% pure cotton, borderless finish. King plus size 108 x 108 in, with 2 matching pillow covers.",
+      "lead": "Blue coral flowers, hand block-printed on pure cotton in Rajasthan and coloured with natural dyes.",
+      "points": [
+        "Hand block-printed design with blue coral flowers and a borderless finish",
+        "Coloured with natural dyes, no harsh chemicals",
+        "100% pure cotton, soft and breathable",
+        "King plus size: 108 x 108 inches",
+        "Includes 2 matching pillow covers",
+        "Designed and crafted in Rajasthan"
+      ],
+      "desc": "Hand block-printed cotton bedsheet set with blue coral flowers and a borderless finish. Coloured with natural dyes, 100% pure cotton, king plus size 108 x 108 inches, with 2 matching pillow covers. Made in Rajasthan.",
+      "instagram": "https://www.instagram.com/mookmatistudio/reel/DeV5Acxuu5G/",
+      "added": "2026-10-10"
+    },
+    {
+      "code": "MK-BS-002",
+      "slug": "bedsheet-rajasthani-floral-super-king",
+      "name": "Rajasthani Floral Super King Bedsheet",
+      "price": "1,500",
+      "title": "Rajasthani Floral Super King Cotton Bedsheet, 108 x 108",
+      "note": "Rose, saffron and soft blue bouquets on a crisp white base, Rajasthani block print style. 100% pure cotton. Super King size 108 x 108 in.",
+      "lead": "Rose, saffron and soft blue bouquets on a crisp white base, in a Rajasthani block print style.",
+      "points": [
+        "Rose, saffron and soft blue bouquets on a crisp white base",
+        "Rajasthani block print style",
+        "100% pure cotton that stays cool on warm nights",
+        "Super King size: 108 x 108 inches, fits even the biggest beds"
+      ],
+      "desc": "Super King cotton bedsheet, 108 x 108 inches, with rose, saffron and soft blue bouquets on a white base in Rajasthani block print style. 100% pure cotton.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DebbJvGFC2k/",
+      "added": "2026-10-13"
+    }
+  ]
+}

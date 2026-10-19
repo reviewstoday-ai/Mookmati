@@ -1,0 +1,30 @@
+# Mookmati Instagram-to-website agent
+
+Instructions for the scheduled run that keeps mookmati.in in step with new product posts on instagram.com/mookmatistudio.
+
+## Source of truth
+- Website repository: github.com/reviewstoday-ai/Mookmati (GitHub Pages, served at mookmati.in).
+- Product catalogue: `_build/products.json` (newest first). Each product's `instagram` field records the post it came from.
+- Build: `python3 _build/site.py` regenerates every page, the sitemap and llms.txt from the catalogue.
+
+## Steps
+1. Clone the repository and read `_build/products.json`. Collect every `instagram` URL already listed.
+2. Open instagram.com/mookmatistudio in Chrome (Claude in Chrome). List the post and reel links on the profile.
+3. For each post not already in the catalogue, read its caption. Treat it as a **product launch** only if the caption states a price (for example "Only 950/-" or "Rs 1,500") and describes an item for sale. Skip greetings, quotes and announcements.
+4. For each new product, add an object at the top of the right category list in `products.json`:
+   - `code`: next free code in that category (bedsheets use MK-BS-###).
+   - `slug`: short lowercase words joined by hyphens, starting with the category, e.g. `bedsheet-indigo-butti`.
+   - `name`, `price` (digits with Indian commas, no rupee sign), `title`, `note`, `lead`, `points`, `desc`: written only from facts in the caption. Never invent material, size, dye or pillow-cover claims.
+   - `instagram`: the post URL. `added`: today's date.
+   - Categories: bedsheets, sarees, handloom, jewellery, home-decor, serveware, handicrafts. If a category list does not exist yet, create it.
+5. Save the first product photo of the post: remove Instagram's sign-up overlay, zoom-capture the photo area avoiding the carousel arrow, counter badge, cursor and any text banner, and save it as `images/<code>.webp` (also `.jpg`).
+6. Run `python3 _build/site.py`. Check that the new product page exists, appears on shop.html and in sitemap.xml, and that no image is broken.
+7. Publish:
+   - If this session can push to the repository, commit with message `Add <name> from Instagram` and push to `main`.
+   - Otherwise, zip only the changed and new files, send the zip to Chirag, and tell him to upload them with "Add file > Upload files" (images go inside the `images` folder).
+8. Message Chirag with a short summary: products added (name, price, link), or "No new products today". Follow his formatting preferences: plain words, bullets, no em dashes, and a closing two-line "In plain terms" summary inside <<< NS >>> markers.
+
+## Rules
+- Never remove or change an existing product unless Chirag asks.
+- If a caption is unclear (no price, several products, or the photo is a poster rather than the product), add nothing for that post and list it in the summary for Chirag to decide.
+- If Chrome is not reachable, do nothing and tell Chirag the check could not run.
