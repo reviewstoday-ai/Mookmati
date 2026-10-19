@@ -22,7 +22,10 @@ Instructions for the scheduled run that keeps mookmati.in in step with new produ
 7. Publish:
    - If this session can push to the repository, commit with message `Add <name> from Instagram` and push to `main`.
    - Otherwise, zip only the changed and new files, send the zip to Chirag, and tell him to upload them with "Add file > Upload files" (images go inside the `images` folder).
-8. Message Chirag with a short summary: products added (name, price, link), or "No new products today". Follow his formatting preferences: plain words, bullets, no em dashes, and a closing two-line "In plain terms" summary inside <<< NS >>> markers.
+8. Tell search engines, only when a product was added and the site is live (wait until the new page loads on mookmati.in):
+   - Google Search Console (property sc-domain:mookmati.in, already signed in in Chrome): use "Inspect any URL" on each new product page and on https://mookmati.in/bedsheets.html (or the product's category page), then click "Request indexing". Google allows only a few requests a day; if it refuses, note it in the summary and move on.
+   - Bing Webmaster Tools (bing.com/webmasters, site https://mookmati.in/): open URL Submission, click "Submit URLs", and submit each new product page plus https://mookmati.in/shop.html and https://mookmati.in/.
+9. Message Chirag with a short summary: products added (name, price, link), search engine submissions done, or "No new products today". Follow his formatting preferences: plain words, bullets, no em dashes, and a closing two-line "In plain terms" summary inside <<< NS >>> markers.
 
 ## Rules
 - Never remove or change an existing product unless Chirag asks.
