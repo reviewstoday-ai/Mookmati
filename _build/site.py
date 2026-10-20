@@ -60,6 +60,28 @@ def product_card(code, name, note, price, idx=0):
           </div>
         </div>"""
 
+def product_strip(title="Explore our collection", exclude=None):
+    items = [(p["code"], p["name"], p["price"], p["slug"]) for cat, ps in CATALOG.items() if not cat.startswith("_") for p in ps if p["code"] != exclude]
+    if not items:
+        return ""
+    def tile(code, name, price, slug, hidden=False):
+        img = next((f"images/{code}.{e}" for e in ("webp", "jpg") if os.path.exists(f"{OUT}/images/{code}.{e}")), "logo-360.webp")
+        extra = ' aria-hidden="true" tabindex="-1"' if hidden else ""
+        price_txt = f"&#8377; {price}" if price else "Price on request"
+        return (f'<a class="stile" href="{slug}.html"{extra}><img src="{img}" alt="{"" if hidden else esc(name)}" loading="lazy" decoding="async" width="220" height="220">'
+                f'<span class="sname">{name}</span><span class="sprice">{price_txt}</span></a>')
+    reps = max(1, -(-8 // len(items)))          # repeat so one loop is wide enough to fill the screen
+    loop = items * reps
+    track = "".join(tile(*it, hidden=(i >= len(items))) for i, it in enumerate(loop))
+    track += "".join(tile(*it, hidden=True) for it in loop)   # second copy for a seamless loop
+    secs = max(20, 5 * len(loop))
+    return f"""
+  <section class="strip-sec">
+    <div class="wrap"><div class="strip-head"><h2>{title}</h2><a href="shop.html">View all</a></div></div>
+    <div class="strip" aria-label="{title}"><div class="strip-track" style="animation-duration:{secs}s;">{track}</div></div>
+  </section>
+"""
+
 def coming_soon(name):
     msg = f"Hello Mookmati, please tell me when your {name} collection is available."
     return f"""
@@ -99,50 +121,90 @@ photo_credits = ('<p style="font-size:12px;color:var(--muted);margin:22px 0 0;li
 home_credits = ('<p style="font-size:12px;color:var(--muted);margin:22px 0 0;line-height:1.6;">Category photos are illustrative, from Wikimedia Commons, cropped. '
                 + "; ".join(_credit(s, n) for s, n, _ in CATS) + ".</p>")
 bs = PRODUCTS["bedsheets"]
-home = f"""
-  <section class="hero print">
-    <div class="wrap">
-      <img src="logo-360.webp" alt="Mookmati, The Silent Earth Studio" fetchpriority="high" width="150" height="197" style="width:150px;height:auto;border-radius:12px;margin:0 auto 22px;display:block;box-shadow:0 8px 24px rgba(0,0,0,.25);">
-      <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Mookmati, The Silent Earth Studio</h1>
-      <p class="tag">The silent earth, shaped by hand.</p>
-      <p class="sub">Textiles, sarees, jewellery and crafts made slowly by Indian artisans, and guided by the path of non-violence.</p>
-      <div class="btns">
-        <a class="btn btn-clay" href="shop.html">Shop the collection</a>
-        <a class="btn btn-line" href="{wa('Hello Mookmati, I would like to know more about your products.')}" target="_blank" rel="noopener">Chat on WhatsApp</a>
-      </div>
-    </div>
-  </section>
+def _ico(name):
+    paths = {
+        "pin": '<path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/>',
+        "ig": '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/>',
+        "wa": '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.2c.3 1.9 2.1 4 4.4 4.9l1.2-1.1 1.6.8-.4 1.3c-3.3.5-7.4-3.4-7.6-6.6l1.3-.5.8 1.6z" fill="currentColor" stroke="none"/>',
+        "bag": '<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+    }
+    return f'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths[name]}</svg>'
 
-  <section>
-    <div class="wrap split">
-      <div class="products" style="grid-template-columns:1fr 1fr;width:100%;">{product_card(*bs[0])}{product_card(*bs[1], idx=1)}
-      </div>
-      <div>
-        <span class="eyebrow">Our first collection</span>
-        <h2>Hand block-printed bedsheets</h2>
-        <p>Our journey begins with pure cotton bedsheets, printed by hand in Rajasthan. Prices start {PRICE_FROM_HTML.replace("from ","at ")}, with free shipping across India.</p>
-        <p>Each sheet is printed one wooden block at a time. Small variations in the print are the mark of a human hand, not a flaw.</p>
-        <div class="btns" style="justify-content:flex-start;">
-          <a class="btn btn-dark" href="shop.html#bedsheets">See all bedsheets</a>
+_live_bs = CATALOG["bedsheets"]
+_newest = _live_bs[0]
+HERO_SLIDES = [
+    ("indigo", "New arrival", _newest["name"], _newest["lead"], f"&#8377; {_newest['price']}, free shipping across India",
+     f"{_newest['slug']}.html", "Shop now", f"images/{_newest['code']}.webp", _newest["name"]),
+    ("madder", "Hand block-printed in Rajasthan", "Bedsheets that carry the touch of a human hand",
+     "Pure cotton, printed one wooden block at a time.", f"Prices {PRICE_FROM_HTML}", "bedsheets.html", "Shop bedsheets",
+     f"images/{_live_bs[1]['code']}.webp" if len(_live_bs) > 1 else f"images/{_newest['code']}.webp", "Hand block-printed cotton bedsheet"),
+    ("clay", "Visit our store", "Mookmati, The Silent Earth Studio",
+     "See and feel every piece in person at GF193, Gaur City Center, Noida Extension.", "Call or WhatsApp +91 94566 01984", "contact.html", "Get directions",
+     "logo-360.webp", "Mookmati logo"),
+]
+def _slide(i, tone, eyebrow, title, text, price, href, cta, img, alt):
+    return f"""
+      <div class="hslide {tone}" style="animation-delay:{i * 6}s;"{' aria-hidden="true"' if i else ''}>
+        <div class="htext">
+          <span class="heyebrow">{eyebrow}</span>
+          <h2>{title}</h2>
+          <p>{text}</p>
+          <p class="hprice">{price}</p>
+          <a class="hbtn" href="{href}"{' tabindex="-1"' if i else ''}>{cta}</a>
         </div>
-      </div>
-    </div>
-  </section>
+        <div class="himg"><img src="{img}" alt="{'' if i else esc(alt)}" {'fetchpriority="high"' if not i else 'loading="lazy"'} decoding="async"></div>
+      </div>"""
+hero_html = "".join(_slide(i, *sl) for i, sl in enumerate(HERO_SLIDES))
+hero_dots = "".join(f'<span style="animation-delay:{i * 6}s;"></span>' for i in range(len(HERO_SLIDES)))
 
-  <section class="tint">
+def _find_card(s, n):
+    if s == "bedsheets":
+        href, cap = "bedsheets.html", f"Starting &#8377;{_inr(_bs_prices[0])}" if _bs_prices else "Shop now"
+    else:
+        href, cap = f"shop.html#{s}", "Coming soon"
+    return (f'<a class="fcard" href="{href}"><img src="images/categories/{s}.webp" alt="{n}" loading="lazy" decoding="async" width="440" height="330">'
+            f'<span class="fcap"><em>{n}</em><span>{cap}</span></span></a>')
+find_cards = "".join(_find_card(s, n) for s, n, _ in CATS)
+
+home = f"""
+  <h1 class="sr">Mookmati, The Silent Earth Studio: hand block-printed cotton bedsheets and handmade goods</h1>
+  <section class="hero2" aria-label="Featured">
+    <div class="hslides">{hero_html}
+    </div>
+    <div class="hdots" aria-hidden="true">{hero_dots}</div>
+  </section>
+{product_strip("New Arrivals")}
+  <section class="finds-sec">
     <div class="wrap">
-      <div class="center">
-        <span class="eyebrow">Shop by category</span>
-        <h2>Made by hand, for everyday life</h2>
-        <p>Bedsheets are available now. More collections are on their way.</p>
-      </div>
-      <div class="cats">
-{photo_tiles}        <a class="cat" href="shop.html"><img src="images/MK-BS-002.webp" alt="Mookmati hand block-printed bedsheet" loading="lazy" decoding="async"><span class="name">View all</span><span class="go">Full collection</span></a>
+      <div class="finds">
+        <h2 class="ftitle">Fantastic<br>Finds</h2>
+        <div class="frow">{find_cards}</div>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="duo-sec">
+    <div class="wrap duo">
+      <a class="dbanner" href="bedsheets.html"><img src="images/categories/bedsheets.webp" alt="Artisan carving a wooden printing block" loading="lazy" decoding="async"><span class="dtext"><strong>ONE BLOCK AT A TIME</strong><em>Hand block-printed cotton bedsheets</em><span class="dbtn">Explore now</span></span></a>
+      <a class="dbanner" href="about.html"><img src="images/categories/handloom.webp" alt="Weaver at a handloom" loading="lazy" decoding="async"><span class="dtext"><strong>GUIDED BY AHIMSA</strong><em>The story behind Mookmati</em><span class="dbtn">Read our story</span></span></a>
+    </div>
+  </section>
+
+  <section class="promo print madder">
+    <div class="wrap promo-in">
+      <div>
+        <span class="peyebrow">Free shipping across India</span>
+        <h2>The Art of Ordering Simply</h2>
+        <p>Pick a piece, tap Order on WhatsApp, and we confirm price, stock and delivery with you personally.</p>
+      </div>
+      <div class="pbtns">
+        <a class="hbtn light" href="shop.html">Shop now</a>
+        <a class="hbtn ghost" href="{wa('Hello Mookmati, I would like to know more about your products.')}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="story-sec">
     <div class="wrap split">
       <div>
         <span class="eyebrow">Our story</span>
@@ -151,47 +213,19 @@ home = f"""
         <p>We choose what we sell in the same spirit. Every piece is made by hand. Every choice starts with one question: does this cause harm?</p>
         <a class="btn btn-dark" href="about.html">Read our story</a>
       </div>
-      <div>
-        <p class="quote">Ahimsa is not only what we avoid. It is how we choose to make things.</p>
-        <p>Non-violence, as taught by Acharya Vidyasagar Ji, guides our brand. It shapes the materials we pick, the artisans we work with, and the pace at which we work.</p>
+      <div class="vlist">
+        <div><span class="num">01</span><h3>Made by hand</h3><p>Every piece passes through an artisan's hands.</p></div>
+        <div><span class="num">02</span><h3>Gentle by choice</h3><p>Natural materials and dyes wherever the craft allows.</p></div>
+        <div><span class="num">03</span><h3>Fair to makers</h3><p>We work directly with artisans, so more of every sale reaches them.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="tint">
-    <div class="wrap">
-      <div class="center">
-        <span class="eyebrow">Why Mookmati</span>
-        <h2>What we stand for</h2>
-      </div>
-      <div class="grid3">
-        <div class="vcard"><span class="num">01</span><h3>Made by hand</h3><p>Every piece passes through an artisan's hands. Small variations are the mark of real craft.</p></div>
-        <div class="vcard"><span class="num">02</span><h3>Gentle by choice</h3><p>We favour natural materials and dyes wherever the craft allows.</p></div>
-        <div class="vcard"><span class="num">03</span><h3>Fair to makers</h3><p>We work directly with artisans so more of every sale reaches the people who made it.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="center">
-        <span class="eyebrow">How to order</span>
-        <h2>Simple, personal, direct</h2>
-      </div>
-      <div class="steps">
-        <div class="step"><h3>Pick a piece</h3><p>Browse the shop and tap "Order on WhatsApp" on any product.</p></div>
-        <div class="step"><h3>Chat with us</h3><p>We confirm availability, price and delivery time on WhatsApp.</p></div>
-        <div class="step"><h3>Pay and receive</h3><p>Complete payment and we ship it to your door.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="print clay">
+  <section class="igband">
     <div class="wrap" style="text-align:center;">
-      <span class="eyebrow" style="color:#fbe3cf;">Follow us</span>
-      <h2 style="color:#faf6ee;font-size:clamp(30px,4.5vw,44px);">@{IG} on Instagram</h2>
-      <p style="max-width:520px;margin:0 auto 26px;">New arrivals, artisan stories and behind-the-scenes from our studio.</p>
-      <a class="btn btn-line" href="{IG_URL}" target="_blank" rel="noopener">Follow @{IG}</a>
+      <a class="ighandle" href="{IG_URL}" target="_blank" rel="noopener">{_ico("ig")} @{IG}</a>
+      <p>New arrivals, artisan stories and behind-the-scenes from our studio.</p>
+      <div class="iggrid">""" + "".join(f'<a href="{IG_URL}" target="_blank" rel="noopener"><img src="images/{p["code"]}.webp" alt="{esc(p["name"])} on Instagram" loading="lazy" decoding="async"></a>' for p in _live_bs[:6]) + """</div>
     </div>
   </section>
 """
@@ -242,7 +276,7 @@ about = f"""
           <img src="images/acharya-vidyasagar-ji.webp" fetchpriority="high" width="410" height="320" alt="Acharya Shri Vidyasagar Ji Maharaj raising his hand in blessing" style="width:100%;height:auto;border-radius:14px;display:block;box-shadow:0 10px 28px rgba(35,50,90,.18);">
           <figcaption style="margin-top:10px;text-align:center;">
             <span style="display:block;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--indigo);font-weight:600;">Acharya Shri Vidyasagar Ji Maharaj</span>
-            <span style="display:block;font-size:12px;color:var(--muted);">Photo: <a href="https://commons.wikimedia.org/wiki/File:0521_acaaraya.jpg" target="_blank" rel="noopener">Agniban.com via Wikimedia Commons</a>, public domain, cropped.</span>
+            <span style="display:block;font-size:12px;color:var(--muted);">Photo: Agniban.com via Wikimedia Commons, public domain, cropped.</span>
           </figcaption>
         </figure>
         <p class="quote">Ahimsa is not only what we avoid. It is how we choose to make things.</p>
@@ -260,6 +294,14 @@ about = f"""
         <li><strong>Pace.</strong> Handmade work takes time. We would rather wait for a piece than rush the people making it.</li>
       </ul>
       <p>We are starting small, with hand block-printed bedsheets from Rajasthan. Sarees, handloom, jewellery, home decor, serveware and handicrafts will follow as we find artisans whose work we are proud to share.</p>
+    </div>
+  </section>
+  <section>
+    <div class="wrap narrow prose">
+      <span class="eyebrow">Our parent brand</span>
+      <h2 style="margin-top:0;">Part of the Sareebari family</h2>
+      <p>Mookmati operates under its parent brand, <a href="https://sareebari.com" target="_blank" rel="noopener">Sareebari.com</a>.</p>
+      <div class="box"><strong>GST number:</strong> 09AUFPM5087Q1ZP</div>
     </div>
   </section>
   <section>
@@ -297,20 +339,20 @@ contact = f"""
       <details><summary>How do I place an order?</summary><p>Tap "Order on WhatsApp" on any product. We confirm price, stock and delivery time in the chat, then share payment details.</p></details>
       <details><summary>How can I pay?</summary><p>We share payment options on WhatsApp when we confirm your order.</p></details>
       <details><summary>How long does delivery take?</summary><p>We tell you the expected delivery date on WhatsApp before you pay. See our <a href="shipping.html">Shipping Policy</a> for details.</p></details>
-      <details><summary>Can I return or exchange a product?</summary><p>Yes. See our <a href="returns.html">Returns and Exchanges</a> policy.</p></details>
+      <details><summary>Can I return or exchange a product?</summary><p>We accept returns only for products that arrive damaged, within 7 days of delivery, with an unboxing video. See our <a href="returns.html">Returns and Exchanges</a> policy.</p></details>
       <details><summary>Why does my product look slightly different from the photo?</summary><p>Handmade products vary a little from piece to piece. Colours may also look different on different screens. These variations are part of the craft and are not defects.</p></details>
     </div>
   </section>
 """
 
-def policy(title, intro, body):
+def policy(title, intro, body, updated="10 October 2026"):
     return f"""
   <section class="pagehead print">
     <div class="wrap"><h1>{title}</h1><p>{intro}</p></div>
   </section>
   <section>
     <div class="wrap narrow prose">
-      <p class="updated">Last updated: 10 October 2026</p>
+      <p class="updated">Last updated: {updated}</p>
 {body}
     </div>
   </section>
@@ -328,35 +370,35 @@ shipping = policy("Shipping Policy", "How and when your order reaches you.", f""
       <h2>Tracking</h2>
       <p>We share a tracking link on WhatsApp once your order is dispatched.</p>
       <h2>Damaged in transit</h2>
-      <p>If your parcel arrives damaged, please record an unboxing video and message us within 48 hours. See our <a href="returns.html">Returns and Exchanges</a> policy.</p>
+      <p>Please record an unboxing video when you open your parcel. If it arrives damaged, message us within 7 days of delivery with the video. Without an unboxing video we cannot accept a return. See our <a href="returns.html">Returns and Exchanges</a> policy.</p>
 """)
 
-returns = policy("Returns and Exchanges", "Our promise if something is not right.", f"""
-      <div class="box"><strong>In short:</strong> message us on WhatsApp within 7 days of delivery. Unused items in original condition can be exchanged or returned. Damaged or wrong items are replaced at no cost to you.</div>
-      <h2>Eligibility</h2>
+returns = policy("Returns and Exchanges", "Our promise if your product arrives damaged.", f"""
+      <div class="box"><strong>In short:</strong> we accept returns only for products that arrive damaged, within 7 days of delivery, and only with an unboxing video. You send the damaged product back to us, and we refund your return shipping charge once we receive it, against the shipping invoice.</div>
+      <h2>When we accept a return</h2>
       <ul>
-        <li>Request a return or exchange within 7 days of delivery.</li>
-        <li>The item must be unused, unwashed and in its original packaging with tags.</li>
-        <li>Custom or made-to-order pieces cannot be returned unless they arrive damaged or incorrect.</li>
+        <li>Returns are accepted <strong>only for damaged products</strong>.</li>
+        <li>You must message us within <strong>7 days of delivery</strong>.</li>
+        <li>An <strong>unboxing video is a must</strong>. Please record a clear, uncut video while opening the parcel, showing the sealed package and the damage. Without an unboxing video, the product will not be accepted for return.</li>
       </ul>
-      <h2>Damaged, defective or wrong items</h2>
-      <p>Please share photos and an unboxing video on WhatsApp within 48 hours of delivery. We will arrange a replacement or full refund at no extra cost.</p>
+      <h2>When we cannot accept a return</h2>
+      <ul>
+        <li>Products that are not damaged, including a change of mind.</li>
+        <li>Requests made more than 7 days after delivery.</li>
+        <li>Requests without an unboxing video.</li>
+      </ul>
       <h2>About handmade variations</h2>
-      <p>Handmade products show small differences in print, weave, colour and finish. These are signs of handcraft and are not treated as defects.</p>
+      <p>Handmade products show small differences in print, weave, colour and finish. These are signs of handcraft and are not treated as damage.</p>
       <h2>How to start a return</h2>
       <ol>
-        <li>Message us on <a href="{wa('Hello Mookmati, I would like to return or exchange an order.')}" target="_blank" rel="noopener">WhatsApp</a> with your order details and photos.</li>
-        <li>We confirm eligibility and share the return address. You send the item back to us by post or courier.</li>
-        <li>Once we receive and check the item, we process your exchange or refund.</li>
+        <li>Message us on <a href="{wa('Hello Mookmati, my product arrived damaged. I would like to return it.')}" target="_blank" rel="noopener">WhatsApp</a> within 7 days of delivery with your order details, photos of the damage and the unboxing video.</li>
+        <li>We check the video and confirm your return, and share our return address.</li>
+        <li>You send the damaged product back to us by courier and keep the shipping invoice.</li>
+        <li>Once our team receives the product, we process your return.</li>
       </ol>
       <h2>Return shipping cost</h2>
-      <ul>
-        <li><strong>Change of mind:</strong> you pay the cost of sending the item back to us. There is no restocking fee.</li>
-        <li><strong>Damaged, defective or wrong item:</strong> we cover the return cost in full.</li>
-      </ul>
-      <h2>Refunds</h2>
-      <p>Approved refunds are paid to your original payment method within 7 working days of our receiving the returned item.</p>
-""")
+      <p>The buyer pays the cost of shipping the damaged product back to us. Once our team receives the product, we refund that shipping charge to you, subject to the shipping invoice. Please share a copy of the invoice with us on WhatsApp.</p>
+""", updated="20 October 2026")
 
 privacy = policy("Privacy Policy", "What we collect, why, and how we protect it.", f"""
       <p>This policy explains how Mookmati ("we", "us") handles your personal data when you visit mookmati.in or order from us through WhatsApp or Instagram.</p>
@@ -414,37 +456,42 @@ terms = policy("Terms of Use", "The rules for using our website and buying from 
       <p>Questions about these terms? Message us on {WA_LINK}.</p>
 """)
 
-footer = f"""<footer class="mk mk-footer">
+footer = f"""<footer class="mk mk-footer2">
   <div class="wrap">
-    <div class="fgrid">
+    <div class="fcols">
       <div>
-        <img src="logo-360.webp" alt="Mookmati logo" loading="lazy" width="68" height="90" style="height:90px;width:auto;border-radius:8px;margin-bottom:12px;display:block;">
-        <span class="brand">Mookmati</span>
-        <p style="opacity:.85;">Handmade in India. Guided by non-violence.</p>
-        <a href="{IG_URL}" target="_blank" rel="noopener">Instagram: @{IG}</a>
-        <a href="{wa()}" target="_blank" rel="noopener">WhatsApp: +91 94566 01984</a>
+        <h4>Let us help you</h4>
+        <a href="{wa('Hello Mookmati, I would like to place an order.')}" target="_blank" rel="noopener">Order on WhatsApp</a>
+        <a href="contact.html">Store locator</a>
+        <a href="{wa('Hello Mookmati, I would like to ask about a bulk order.')}" target="_blank" rel="noopener">Bulk orders</a>
+        <a href="contact.html">Contact us</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="contact.html">How to order</a>
+        <a href="shipping.html">Shipping and delivery</a>
+        <a href="returns.html">Returns and exchanges</a>
+        <a href="contact.html">FAQs</a>
       </div>
       <div>
         <h4>Shop</h4>
-""" + "".join(f'        <a href="{"bedsheets.html" if s == "bedsheets" else "shop.html#" + s}">{n}</a>\n' for s, n, _ in CATS) + """      </div>
+""" + "".join(f'        <a href="{"bedsheets.html" if s == "bedsheets" else "shop.html#" + s}">{n}</a>\n' for s, n, _ in CATS) + f"""      </div>
       <div>
-        <h4>Help</h4>
-        <a href="contact.html">Contact and FAQ</a>
-        <a href="shipping.html">Shipping Policy</a>
-        <a href="returns.html">Returns and Exchanges</a>
-      </div>
-      <div>
-        <h4>About</h4>
+        <h4>About Mookmati</h4>
         <a href="about.html">Our story</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Use</a>
-        <a href="credits.html">Photo Credits</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="terms.html">Terms of use</a>
+        <a href="credits.html">Photo credits</a>
       </div>
+    </div>
+    <div class="fbottom">
+      <div class="ffollow"><span>Follow us</span><a href="{IG_URL}" target="_blank" rel="noopener" aria-label="Instagram">{_ico("ig")}</a><a href="{wa()}" target="_blank" rel="noopener" aria-label="WhatsApp">{_ico("wa")}</a></div>
+      <div class="fstore"><strong>Visit our store</strong><span>GF193, Gaur City Center, Noida Extension &middot; +91 94566 01984</span></div>
     </div>
     <div class="small">&copy; 2026 Mookmati. All rights reserved.</div>
   </div>
 </footer>
-<a class="mk-float" href=\"""" + wa("Hello Mookmati!") + """\" target="_blank" rel="noopener">WhatsApp us</a>"""
+<a class="mk-float" href="{wa("Hello Mookmati!")}" target="_blank" rel="noopener" aria-label="WhatsApp us">{_ico("wa")}<span>WhatsApp us</span></a>"""
 
 import json
 SITE = DOMAIN
@@ -568,7 +615,7 @@ for code, name, note, price in PRODUCTS["bedsheets"]:
       </div>
     </div>
   </section>
-"""
+""" + product_strip("You may also like", exclude=code)
     head = ld(product_ld(code, name, price, slug, img)) + "\n" + ld(crumbs([("Home", "/"), ("Bedsheets", "/bedsheets.html"), (name, f"/{slug}.html")]))
     PRODUCT_PAGES.append((slug, None, body, f"{d['title']} | Mookmati", d["desc"] + f" \u20b9{price}, free shipping in India.", head, SITE + "/" + img))
 
@@ -593,7 +640,7 @@ LLMS = """# Mookmati, The Silent Earth Studio
 - [About Mookmati](https://mookmati.in/about.html)
 - [Contact and FAQ](https://mookmati.in/contact.html)
 - [Shipping](https://mookmati.in/shipping.html): free shipping in India, international shipping charged extra
-- [Returns and exchanges](https://mookmati.in/returns.html): 7-day returns on unused items
+- [Returns and exchanges](https://mookmati.in/returns.html): returns only for damaged products, within 7 days of delivery, unboxing video required
 """
 
 PAGES = [
@@ -619,7 +666,23 @@ HEADER_CSS = """
 body{margin:0;background:#faf6ee;}
 .mk-bar{background:#8e2f2a;color:#faf6ee;text-align:center;font:600 13px Mulish,sans-serif;padding:8px 12px;letter-spacing:.04em;}
 .mk-bar a{color:#faf6ee;}
-.mk-head{background:#faf6ee;border-bottom:1px solid #e2d6c3;font-family:Mulish,sans-serif;}
+.mk-head{background:#faf6ee;border-bottom:1px solid #e2d6c3;font-family:Mulish,sans-serif;position:sticky;top:0;z-index:60;box-shadow:0 2px 10px rgba(35,50,90,.06);}
+.mk .jump{position:static;}
+.mk .strip-sec{padding:36px 0 40px;border-bottom:1px solid #e2d6c3;}
+.mk .strip-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px;}
+.mk .strip-head h2{margin:0;font-size:clamp(26px,3.5vw,34px);}
+.mk .strip-head a{font:700 14px Mulish,sans-serif;color:#b5653f;}
+.mk .strip{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);}
+.mk .strip-track{display:flex;gap:18px;width:max-content;padding:4px 0;animation:mkstrip linear infinite;}
+.mk .strip:hover .strip-track,.mk .strip:focus-within .strip-track{animation-play-state:paused;}
+.mk .stile{flex:0 0 220px;display:block;background:#fff;border:1px solid #e2d6c3;border-radius:14px;overflow:hidden;text-decoration:none;color:#2b2420;transition:transform .2s,box-shadow .2s;}
+.mk .stile:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(35,50,90,.14);}
+.mk .stile img{width:220px;height:220px;object-fit:cover;display:block;}
+.mk .stile .sname{display:block;padding:10px 12px 2px;font:600 15px Mulish,sans-serif;line-height:1.3;}
+.mk .stile .sprice{display:block;padding:0 12px 12px;font:700 15px Mulish,sans-serif;color:#b5653f;}
+@keyframes mkstrip{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mk .strip{overflow-x:auto;}.mk .strip-track{animation:none;}}
+@media (max-width:600px){.mk .stile{flex-basis:160px;}.mk .stile img{width:160px;height:160px;}}
 .mk-head .in{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 .mk-logo{font:600 30px 'Cormorant Garamond',serif;color:#23325a;text-decoration:none;line-height:1;display:flex;align-items:center;gap:12px;}
 .mk-logo img{height:60px;width:auto;border-radius:6px;display:block;}
@@ -629,6 +692,114 @@ body{margin:0;background:#faf6ee;}
 .mk-nav a{color:#2b2420;text-decoration:none;font-weight:600;font-size:15px;}
 .mk-nav a:hover,.mk-nav a.on{color:#b5653f;}
 @media (max-width:480px){.mk .cat{padding:16px;}.mk .cat .name{font-size:22px;}}
+/* ---- Fabindia-style layout ---- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+.mk-head{background:#fff;}
+.mk-head .in{padding:10px 20px;flex-wrap:nowrap;}
+.mk-icons{display:flex;gap:18px;align-items:center;}
+.mk-icons a{color:#8e2f2a;display:flex;}
+.mk-icons a:hover{color:#23325a;}
+.mk-head .mk-nav{display:block;background:#f6efe4;border-top:1px solid #e2d6c3;}
+.mk-nav .nin{max-width:1180px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;gap:22px;overflow-x:auto;scrollbar-width:none;}
+.mk-nav .nin::-webkit-scrollbar{display:none;}
+.mk-nav a{white-space:nowrap;padding:11px 0;font-size:15px;font-weight:600;border-bottom:2px solid transparent;}
+.mk-nav a.on{color:#8e2f2a;border-bottom-color:#8e2f2a;}
+.mk-nav a:hover{color:#8e2f2a;}
+.mk section.hero2{padding:0;background:#23325a;position:relative;}
+.hslides{display:grid;}
+.hslide{grid-area:1/1;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;min-height:440px;opacity:0;visibility:hidden;animation:mkfade 18s infinite;}
+.hslide.indigo{background:#23325a;}
+.hslide.madder{background:#8e2f2a;}
+.hslide.clay{background:#b5653f;}
+.hslides:hover .hslide,.hslides:hover ~ .hdots span{animation-play-state:paused;}
+.htext{padding:56px 40px 56px max(40px,calc((100vw - 1180px)/2 + 20px));color:#faf6ee;}
+.heyebrow{display:inline-block;font:700 12px Mulish,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#f3d9b8;border:1px solid rgba(243,217,184,.6);padding:6px 12px;border-radius:999px;margin-bottom:18px;}
+.mk .htext h2{color:#faf6ee;font-size:clamp(34px,4.6vw,56px);font-style:italic;margin-bottom:14px;}
+.htext p{font-size:18px;opacity:.92;max-width:520px;margin:0 0 10px;}
+.htext .hprice{font-weight:700;color:#f3d9b8;margin-bottom:22px;}
+.mk .hbtn{display:inline-block;background:#faf6ee;color:#8e2f2a;font:700 14px Mulish,sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:13px 26px;border-radius:4px;text-decoration:none;}
+.mk .hbtn:hover{background:#fff;}
+.mk .hbtn.ghost{background:transparent;color:#faf6ee;border:1.5px solid #faf6ee;}
+.himg{height:100%;min-height:440px;display:flex;align-items:center;justify-content:center;padding:28px;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.14),rgba(255,255,255,0) 65%);}
+.himg img{max-height:400px;max-width:100%;width:auto;border-radius:10px;box-shadow:0 18px 40px rgba(0,0,0,.35);}
+.hdots{position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center;gap:8px;}
+.hdots span{width:9px;height:9px;border-radius:50%;background:rgba(250,246,238,.4);animation:mkdot 18s infinite;}
+@keyframes mkfade{0%{opacity:0;visibility:visible}3%{opacity:1}30%{opacity:1}33.3%{opacity:0;visibility:visible}33.4%,100%{opacity:0;visibility:hidden}}
+@keyframes mkdot{0%,33%{background:#faf6ee}33.4%,100%{background:rgba(250,246,238,.4)}}
+@media (prefers-reduced-motion:reduce){.hslide,.hdots span{animation:none;}.hslide:first-child{opacity:1;visibility:visible;}}
+.mk section.finds-sec{padding:48px 0;}
+.finds{background:#f3e6e2;display:grid;grid-template-columns:170px 1fr;align-items:center;gap:20px;padding:30px 0 30px 30px;border-radius:4px;}
+.mk .ftitle{font-size:clamp(30px,3.4vw,40px);font-weight:500;margin:0;color:#2b2420;}
+.frow{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 30px 8px 0;scrollbar-width:thin;}
+.mk .fcard{flex:0 0 280px;height:280px;position:relative;scroll-snap-align:start;overflow:hidden;border-radius:2px;text-decoration:none;}
+.fcard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.fcard:hover img{transform:scale(1.05);}
+.fcap{position:absolute;left:0;right:0;bottom:0;background:rgba(43,36,32,.55);color:#faf6ee;padding:12px 18px;font-family:'Cormorant Garamond',serif;}
+.fcap em{display:block;font-size:24px;font-weight:600;line-height:1.1;}
+.fcap span{font-size:19px;}
+.mk section.duo-sec{padding:12px 0 56px;}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.mk .dbanner{position:relative;display:block;height:340px;overflow:hidden;text-decoration:none;}
+.dbanner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
+.dbanner:hover img{transform:scale(1.04);}
+.dbanner:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,10,.75),rgba(20,15,10,0) 60%);}
+.dtext{position:absolute;left:24px;bottom:22px;right:24px;z-index:1;color:#faf6ee;font-family:'Cormorant Garamond',serif;}
+.dtext strong{display:block;font-size:clamp(24px,2.6vw,32px);letter-spacing:.03em;font-weight:600;}
+.dtext em{display:block;font-size:22px;margin-bottom:10px;}
+.dbtn{display:inline-block;background:#5a1f1c;color:#faf6ee;font:700 11px Mulish,sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:999px;}
+.mk section.promo{padding:56px 0;}
+.promo-in{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;}
+.peyebrow{font:700 12px Mulish,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#f3d9b8;}
+.mk .promo h2{color:#faf6ee;font-size:clamp(32px,4.4vw,52px);font-style:italic;margin:8px 0 10px;}
+.promo p{max-width:560px;margin:0;opacity:.92;}
+.pbtns{display:flex;gap:12px;flex-wrap:wrap;}
+.mk section.story-sec{padding:64px 0;}
+.vlist{display:grid;gap:14px;}
+.vlist>div{background:#fff;border:1px solid #e2d6c3;border-left:4px solid #b5653f;border-radius:8px;padding:16px 20px;}
+.vlist>div:nth-child(2){border-left-color:#23325a;}
+.vlist>div:nth-child(3){border-left-color:#8e2f2a;}
+.vlist .num{font:700 12px Mulish,sans-serif;color:#b5653f;letter-spacing:.14em;}
+.mk .vlist h3{font-size:24px;margin:2px 0 4px;}
+.vlist p{margin:0;font-size:15px;color:#6b5e55;}
+.mk section.igband{background:#ece7e3;padding:44px 0 50px;}
+.mk .ighandle{display:inline-flex;align-items:center;gap:8px;font:700 18px Mulish,sans-serif;color:#2b2420;text-decoration:none;}
+.igband p{color:#6b5e55;margin:8px 0 22px;}
+.iggrid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:980px;margin:0 auto;}.iggrid a{flex:0 1 180px;}
+.iggrid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:4px;}
+.mk-footer2{background:#f3e6e2;color:#2b2420;padding:52px 0 26px;font-family:Mulish,sans-serif;}
+.mk-footer2 .fcols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+.mk-footer2 h4{font:700 16px Mulish,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#2b2420;margin:0 0 14px;}
+.mk-footer2 a{display:block;color:#2b2420;text-decoration:none;font-size:14px;margin-bottom:9px;}
+.mk-footer2 a:hover{color:#8e2f2a;}
+.fbottom{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:30px;padding-top:22px;border-top:1px solid #dccbc4;}
+.ffollow{display:flex;align-items:center;gap:16px;font-weight:700;font-size:17px;}
+.ffollow a{margin:0;}
+.fstore{display:flex;flex-direction:column;font-size:14px;gap:2px;}
+.fstore strong{font-size:17px;}
+.mk-footer2 .small{margin-top:22px;font-size:13px;color:#6b5e55;}
+.mk-float{display:flex;align-items:center;gap:8px;}
+@media (max-width:860px){
+  .hslide{grid-template-columns:1fr;min-height:0;}
+  .himg{order:-1;min-height:0;padding:22px 20px 0;}
+  .himg img{max-height:260px;}
+  .htext{padding:22px 20px 46px;}
+  .htext p{font-size:16px;}
+  .finds{grid-template-columns:1fr;padding:22px 0 22px 20px;}
+  .mk .fcard{flex-basis:220px;height:220px;}
+  .duo{grid-template-columns:1fr;}
+  .mk .dbanner{height:260px;}
+  .mk-footer2 .fcols{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:600px){
+  .mk-head .in{padding:8px 16px;}
+  .mk-logo{font-size:24px;gap:8px;}.mk-logo img{height:42px;}.mk-logo small{font-size:9px;}
+  .mk-icons{gap:14px;}
+  .mk-nav .nin{justify-content:flex-start;padding:0 16px;gap:20px;}
+  .mk-nav a{font-size:14px;padding:9px 0;}
+  .iggrid a{flex:0 1 calc(50% - 5px);}
+  .mk-float span{display:none;}
+  .mk-float{padding:12px !important;}
+}
 """
 
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#23325a"/><text x="32" y="45" font-family="Georgia,serif" font-size="40" font-weight="700" text-anchor="middle" fill="#faf6ee">M</text></svg>"""
@@ -643,9 +814,9 @@ with open(f"{OUT}/style.css", "w") as f:
 with open(f"{OUT}/images/README.txt", "w") as f:
     f.write("Put product photos here, named by product code, e.g. MK-BS-001.jpg\n")
 
-NAV = [("index", "Home"), ("shop", "Shop"), ("about", "About"), ("contact", "Contact")]
+NAV = [("index", "Home"), ("shop", "Shop All"), ("bedsheets", "Bedsheets")] + [(f"shop.html#{s}", n) for s, n, _ in CATS[1:]] + [("about", "Our Story"), ("contact", "Contact")]
 for slug, _, body, title, desc, extra_head, og_img in PAGES:
-    nav = "".join(f'<a class="{"on" if s == slug else ""}" href="{s}.html">{n}</a>' for s, n in NAV)
+    nav = "".join(f'<a class="{"on" if s == slug or (s == "bedsheets" and slug.startswith("bedsheet-")) else ""}" href="{s if "#" in s else s + ".html"}">{n}</a>' for s, n in NAV)
     url = DOMAIN + ("/" if slug == "index" else f"/{slug}.html")
     doc = f"""<!doctype html>
 <html lang="en-IN">
@@ -674,8 +845,8 @@ for slug, _, body, title, desc, extra_head, og_img in PAGES:
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="mk-bar">Handmade in India. Order easily on <a href="{wa()}" target="_blank" rel="noopener">WhatsApp</a>.</div>
-<header class="mk-head"><div class="in"><a class="mk-logo" href="index.html"><img src="logo-120.webp" alt="Mookmati, The Silent Earth Studio" width="46" height="60"><span>Mookmati<small>The Silent Earth Studio</small></span></a><nav class="mk-nav">{nav}</nav></div></header>
+<div class="mk-bar">Handmade in India. Free shipping across India. Order easily on <a href="{wa()}" target="_blank" rel="noopener">WhatsApp</a>.</div>
+<header class="mk-head"><div class="in"><a class="mk-logo" href="index.html"><img src="logo-120.webp" alt="Mookmati, The Silent Earth Studio" width="46" height="60"><span>Mookmati<small>The Silent Earth Studio</small></span></a><div class="mk-icons"><a href="contact.html" title="Visit our store" aria-label="Visit our store">{_ico("pin")}</a><a href="{IG_URL}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">{_ico("ig")}</a><a href="{wa()}" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">{_ico("wa")}</a><a href="shop.html" title="Shop" aria-label="Shop">{_ico("bag")}</a></div></div><nav class="mk-nav" aria-label="Main"><div class="nin">{nav}</div></nav></header>
 <main class="mk">{body}</main>
 {footer}
 </body>
