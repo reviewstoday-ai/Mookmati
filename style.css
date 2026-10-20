@@ -273,6 +273,7 @@ body{margin:0;background:#faf6ee;}
 .fstore strong{font-size:17px;}
 .mk-footer2 .small{margin-top:22px;font-size:13px;color:#6b5e55;}
 .mk-float{display:flex;align-items:center;gap:8px;}
+.mk .popt{font-size:.6em;font-weight:600;color:#6b5e55;text-transform:uppercase;letter-spacing:.06em;}
 .mk .mrp{color:#8a7f76;font-weight:400;font-size:.82em;margin-left:6px;}
 .pgal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;}
 .pgal img{width:100%;height:auto;border-radius:10px;display:block;}
