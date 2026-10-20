@@ -273,6 +273,13 @@ body{margin:0;background:#faf6ee;}
 .fstore strong{font-size:17px;}
 .mk-footer2 .small{margin-top:22px;font-size:13px;color:#6b5e55;}
 .mk-float{display:flex;align-items:center;gap:8px;}
+.mk .mrp{color:#8a7f76;font-weight:400;font-size:.82em;margin-left:6px;}
+.pgal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;}
+.pgal img{width:100%;height:auto;border-radius:10px;display:block;}
+.mk .pdesc{font-size:16px;}
+.mk .pdesc p{margin:0 0 .9em;}
+.mk .pdesc ul{padding-left:20px;margin:0 0 1em;}
+.mk .pdesc h3{font-size:22px;margin:1em 0 .4em;}
 @media (max-width:860px){
   .hslide{grid-template-columns:1fr;min-height:0;}
   .himg{order:-1;min-height:0;padding:22px 20px 0;}
