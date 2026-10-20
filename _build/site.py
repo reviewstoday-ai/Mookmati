@@ -9,6 +9,8 @@ TODAY = datetime.date.today().isoformat()
 WA = "919456601984"
 IG = "mookmatistudio"
 IG_URL = f"https://www.instagram.com/{IG}/"
+FB_URL = "https://www.facebook.com/profile.php?id=61595446956987"
+X_URL = "https://x.com/mookmati"
 DOMAIN = "https://mookmati.in"
 
 def wa(msg=None):
@@ -33,6 +35,18 @@ def esc(s):
 
 PRODUCT_SLUG = {p["code"]: p["slug"] for cat, items in CATALOG.items() if not cat.startswith("_") for p in items}
 def _num(price): return int(price.replace(",", "")) if price else 0
+PBY = {p["code"]: dict(p, cat=cat) for cat, items in CATALOG.items() if not cat.startswith("_") for p in items}
+CAT_LABEL = {"bedsheets": "Bedsheets", "sarees": "Sarees", "handloom": "Handloom", "jewellery": "Jewellery", "home-decor": "Home Decor", "serveware": "Serveware", "handicrafts": "Handicrafts"}
+CAT_SLUG_PREFIX = {"bedsheets": "bedsheet-", "sarees": "saree-", "jewellery": "jewellery-"}
+PAGE_CATS = [c for c in ("bedsheets", "sarees", "jewellery") if CATALOG.get(c)]
+def cat_href(s):
+    return f"{s}.html" if s in PAGE_CATS else f"shop.html#{s}"
+def cat_min_price(s):
+    v = sorted(_num(p["price"]) for p in CATALOG.get(s, []) if p.get("price"))
+    return v[0] if v else 0
+def price_html(code, price):
+    mrp = PBY.get(code, {}).get("mrp")
+    return f"&#8377; {price}" + (f' <s class="mrp">&#8377; {mrp}</s>' if mrp else "")
 _bs_prices = sorted({_num(p["price"]) for p in CATALOG.get("bedsheets", []) if p["price"]})
 def _inr(n): return f"{n:,}"
 PRICE_FROM = (f"from \u20b9{_inr(_bs_prices[0])}" if len(_bs_prices) > 1 else f"\u20b9{_inr(_bs_prices[0])}") if _bs_prices else ""
@@ -46,7 +60,7 @@ def product_card(code, name, note, price, idx=0):
             photo = f"images/{code}.{ext}"
     img = (f'<div class="pimg has-img"><img src="{photo}" alt="{esc(name)}" decoding="async" width="337" height="421"></div>'
            if photo else f'<div class="pimg print{shade}" aria-hidden="true"></div>')
-    price_txt = (f"&#8377; {price} <span class=\"pship\">Free shipping in India</span>") if price else "Price on request"
+    price_txt = (f"{price_html(code, price)} <span class=\"pship\">Free shipping in India</span>") if price else "Price on request"
     msg = f"Hello Mookmati, I would like to order the {name} (code {code})."
     return f"""
         <div class="pcard">
@@ -61,7 +75,11 @@ def product_card(code, name, note, price, idx=0):
         </div>"""
 
 def product_strip(title="Explore our collection", exclude=None):
-    items = [(p["code"], p["name"], p["price"], p["slug"]) for cat, ps in CATALOG.items() if not cat.startswith("_") for p in ps if p["code"] != exclude]
+    lists = [[(p["code"], p["name"], p["price"], p["slug"]) for p in ps if p["code"] != exclude] for cat, ps in CATALOG.items() if not cat.startswith("_")]
+    items = []
+    for k in range(max([len(l) for l in lists] + [0])):     # newest of each category in turn
+        items += [l[k] for l in lists if k < len(l)]
+    items = items[:18]
     if not items:
         return ""
     def tile(code, name, price, slug, hidden=False):
@@ -109,7 +127,7 @@ CREDITS = {
     "handicrafts": ("Hatima Putul terracotta doll, Asharikandi, Assam", "Nayan j Nath", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Hatima_Putul_Traditional_Terracotta_Doll_from_Asharikandi_Village_Dhubri_Assam_03.jpg", "https://creativecommons.org/licenses/by-sa/4.0/"),
 }
 photo_tiles = "".join(
-    f'        <a class="cat" href="{"bedsheets.html" if s == "bedsheets" else "shop.html#" + s}"><img src="images/categories/{s}.webp" alt="{n}" loading="lazy" decoding="async" width="440" height="330"><span class="name">{n}</span>'
+    f'        <a class="cat" href="{cat_href(s)}"><img src="images/categories/{s}.webp" alt="{n}" loading="lazy" decoding="async" width="440" height="330"><span class="name">{n}</span>'
     f'<span class="go">{"Shop now" if live(s) else "Coming soon"}</span></a>\n' for s, n, _ in CATS)
 def _credit(s, n):
     t, by, lic, src, licurl = CREDITS[s]
@@ -126,6 +144,8 @@ def _ico(name):
         "pin": '<path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/>',
         "ig": '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/>',
         "wa": '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.2c.3 1.9 2.1 4 4.4 4.9l1.2-1.1 1.6.8-.4 1.3c-3.3.5-7.4-3.4-7.6-6.6l1.3-.5.8 1.6z" fill="currentColor" stroke="none"/>',
+        "fb": '<path d="M14 8h3V4.5h-3c-2.5 0-4 1.6-4 4.1V11H7.5v3.5H10V21h3.5v-6.5H16.5l.5-3.5h-3.5V8.8c0-.5.3-.8.5-.8z"/>',
+        "x": '<path d="M4 4l16 16M20 4L4 20" stroke-width="1.9"/>',
         "bag": '<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
     }
     return f'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths[name]}</svg>'
@@ -158,8 +178,8 @@ hero_html = "".join(_slide(i, *sl) for i, sl in enumerate(HERO_SLIDES))
 hero_dots = "".join(f'<span style="animation-delay:{i * 6}s;"></span>' for i in range(len(HERO_SLIDES)))
 
 def _find_card(s, n):
-    if s == "bedsheets":
-        href, cap = "bedsheets.html", f"Starting &#8377;{_inr(_bs_prices[0])}" if _bs_prices else "Shop now"
+    if live(s):
+        href, cap = cat_href(s), (f"Starting &#8377;{_inr(cat_min_price(s))}" if cat_min_price(s) else "Shop now")
     else:
         href, cap = f"shop.html#{s}", "Coming soon"
     return (f'<a class="fcard" href="{href}"><img src="images/categories/{s}.webp" alt="{n}" loading="lazy" decoding="async" width="440" height="330">'
@@ -240,12 +260,14 @@ shop = """
   <nav class="jump"><div class="wrap">
 """ + "".join(f'    <a href="#{s}">{n}</a>\n' for s, n, _ in CATS) + '  </div></nav>\n  <div class="wrap">\n'
 for i, (s, n, lead) in enumerate(CATS):
-    body = (f'<div class="products">{"".join(product_card(*p, idx=i + j) for j, p in enumerate(PRODUCTS[s]))}\n      </div>'
+    _pl = PRODUCTS.get(s, [])
+    body = (f'<div class="products">{"".join(product_card(*p, idx=i + j) for j, p in enumerate(_pl[:8]))}\n      </div>'
+            + (f'<p style="text-align:center;margin-top:22px;"><a class="btn btn-dark" href="{cat_href(s)}">View all {len(_pl)} {n.lower()}</a></p>' if len(_pl) > 8 else "")
             if live(s) else coming_soon(n))
     shop += f"""
     <div class="shopcat" id="{s}">
       <h2>{n}</h2>
-      <p class="lead">{lead}{' <a href="bedsheets.html">About our bedsheets</a>' if s == "bedsheets" else ''}</p>
+      <p class="lead">{lead}{' <a href="bedsheets.html">About our bedsheets</a>' if s == "bedsheets" else (f' <a href="{s}.html">See all {n.lower()}</a>' if s in PAGE_CATS else '')}</p>
       {body}
     </div>
 """
@@ -293,7 +315,7 @@ about = f"""
         <li><strong>Makers.</strong> We work with artisans and small workshops, and we pay fairly for their skill and time.</li>
         <li><strong>Pace.</strong> Handmade work takes time. We would rather wait for a piece than rush the people making it.</li>
       </ul>
-      <p>We are starting small, with hand block-printed bedsheets from Rajasthan. Sarees, handloom, jewellery, home decor, serveware and handicrafts will follow as we find artisans whose work we are proud to share.</p>
+      <p>We began with hand block-printed bedsheets from Rajasthan, and now also offer handloom sarees (never silk) and jewellery. Handloom fabrics, home decor, serveware and handicrafts will follow as we find artisans whose work we are proud to share.</p>
     </div>
   </section>
   <section>
@@ -475,7 +497,7 @@ footer = f"""<footer class="mk mk-footer2">
       </div>
       <div>
         <h4>Shop</h4>
-""" + "".join(f'        <a href="{"bedsheets.html" if s == "bedsheets" else "shop.html#" + s}">{n}</a>\n' for s, n, _ in CATS) + f"""      </div>
+""" + "".join(f'        <a href="{cat_href(s)}">{n}</a>\n' for s, n, _ in CATS) + f"""      </div>
       <div>
         <h4>About Mookmati</h4>
         <a href="about.html">Our story</a>
@@ -485,7 +507,7 @@ footer = f"""<footer class="mk mk-footer2">
       </div>
     </div>
     <div class="fbottom">
-      <div class="ffollow"><span>Follow us</span><a href="{IG_URL}" target="_blank" rel="noopener" aria-label="Instagram">{_ico("ig")}</a><a href="{wa()}" target="_blank" rel="noopener" aria-label="WhatsApp">{_ico("wa")}</a></div>
+      <div class="ffollow"><span>Follow us</span><a href="{IG_URL}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">{_ico("ig")}</a><a href="{FB_URL}" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">{_ico("fb")}</a><a href="{X_URL}" target="_blank" rel="noopener" aria-label="X" title="X">{_ico("x")}</a><a href="{wa()}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">{_ico("wa")}</a></div>
       <div class="fstore"><strong>Visit our store</strong><span>GF193, Gaur City Center, Noida Extension &middot; +91 94566 01984</span></div>
     </div>
     <div class="small">&copy; 2026 Mookmati. All rights reserved.</div>
@@ -506,19 +528,24 @@ ORG = {
   "telephone": "+91-9456601984",
   "address": {"@type": "PostalAddress", "streetAddress": "GF193, Gaur City Center", "addressLocality": "Greater Noida West (Noida Extension)", "addressRegion": "Uttar Pradesh", "addressCountry": "IN"},
   "areaServed": "IN", "currenciesAccepted": "INR",
-  "sameAs": [IG_URL],
+  "sameAs": [IG_URL, FB_URL, X_URL],
   "contactPoint": {"@type": "ContactPoint", "telephone": "+91-9456601984", "contactType": "sales", "availableLanguage": ["en", "hi"]},
 }
 
 PDETAIL = {p["code"]: {"title": p["title"], "lead": p["lead"], "points": p["points"], "desc": p["desc"]}
            for cat, items in CATALOG.items() if not cat.startswith("_") for p in items}
 
+GPC = {"bedsheets": "Home & Garden > Linens & Bedding > Bedding > Bed Sheets",
+       "sarees": "Apparel & Accessories > Clothing > Traditional & Ceremonial Clothing > Saris & Lehengas",
+       "jewellery": "Apparel & Accessories > Jewelry"}
+
 def product_ld(code, name, price, slug, img):
     d = PDETAIL[code]
     return {
       "@context": "https://schema.org", "@type": "Product", "sku": code, "name": name,
       "description": d["desc"], "image": [SITE + "/" + img], "brand": {"@type": "Brand", "name": "Mookmati"},
-      "material": "Cotton", "size": "108 x 108 inches", "category": "Home & Garden > Linens & Bedding > Bedding > Bed Sheets",
+      **({"material": "Cotton", "size": "108 x 108 inches"} if PBY[code]["cat"] == "bedsheets" else ({"material": PBY[code]["fabric"]} if PBY[code].get("fabric") else {})),
+      "category": GPC.get(PBY[code]["cat"], "Home & Garden"),
       "countryOfOrigin": "IN",
       "offers": {"@type": "Offer", "url": f"{SITE}/{slug}.html", "price": price.replace(",", ""), "priceCurrency": "INR",
                  "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition",
@@ -589,35 +616,77 @@ bedsheets_page = f"""
   </section>
 """
 
-# Individual product pages
-PRODUCT_PAGES = []
-for code, name, note, price in PRODUCTS["bedsheets"]:
-    d = PDETAIL[code]; slug = PRODUCT_SLUG[code]; img = product_img(code)
-    msg = f"Hello Mookmati, I would like to order the {name} (code {code})."
-    body = f"""
+# Category landing pages for sarees and jewellery
+CAT_INTRO = {
+    "sarees": ("Handloom Sarees", "Handwoven mul cotton, Bengal handloom, linen and Ajrakh sarees. No silk: every saree here is chosen in the spirit of ahimsa."),
+    "jewellery": ("Jewellery", "Handcrafted earrings, necklace sets and danglers to complete your look."),
+}
+def category_page(s):
+    h1, intro = CAT_INTRO[s]
+    cards = "".join(product_card(*p, idx=i) for i, p in enumerate(PRODUCTS[s]))
+    return f"""
+  <section class="pagehead print">
+    <div class="wrap">
+      <h1>{h1}</h1>
+      <p>{intro} Free shipping across India. Order on WhatsApp.</p>
+    </div>
+  </section>
   <section>
     <div class="wrap">
-      <p style="font-size:14px;color:var(--muted);margin-bottom:24px;"><a href="index.html">Home</a> / <a href="bedsheets.html">Bedsheets</a> / {name}</p>
+      <div class="products">{cards}
+      </div>
+      <div style="text-align:center;margin-top:36px;">
+        <a class="btn btn-wa" href="{wa('Hello Mookmati, I would like to know more about your ' + h1.lower() + '.')}" target="_blank" rel="noopener">Ask about {h1.lower()} on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+"""
+CAT_PAGES = {c: category_page(c) for c in PAGE_CATS if c != "bedsheets"}
+
+def product_gallery(code, n):
+    return [f"images/{code}.jpg" if os.path.exists(f"{OUT}/images/{code}.jpg") else product_img(code)] + \
+           [f"images/{code}-{k}.jpg" for k in range(2, (n or 1) + 1) if os.path.exists(f"{OUT}/images/{code}-{k}.jpg")]
+
+# Individual product pages
+PRODUCT_PAGES = []
+for cat in [c for c in CATALOG if not c.startswith("_")]:
+    for code, name, note, price in PRODUCTS[cat]:
+        p = PBY[code]; d = PDETAIL[code]; slug = PRODUCT_SLUG[code]
+        gal = product_gallery(code, p.get("images")) if cat != "bedsheets" else [product_img(code)]
+        img = gal[0]; label = CAT_LABEL.get(cat, cat.title())
+        msg = f"Hello Mookmati, I would like to order the {name} (code {code})."
+        thumbs = ("<div class=\"pgal\">" + "".join(f'<img src="{g}" alt="{esc(name)}, photo {k + 2}" loading="lazy" decoding="async">' for k, g in enumerate(gal[1:])) + "</div>") if len(gal) > 1 else ""
+        if p.get("desc_html"):
+            detail = f'<div class="pdesc prose">{p["desc_html"]}</div>'
+            lead = ""
+        else:
+            detail = '<ul class="ticks" style="list-style:none;padding:0;">' + "".join(f'<li style="padding-left:24px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;top:9px;width:10px;height:10px;border-radius:50%;background:var(--clay);"></span>{x}</li>' for x in d["points"]) + "</ul>"
+            lead = f'<p style="font-size:19px;">{d["lead"]}</p>'
+        ig_btn = f'<a class="btn btn-dark" href="{p["instagram"]}" target="_blank" rel="noopener">See it on Instagram</a>' if p.get("instagram") else f'<a class="btn btn-dark" href="{cat_href(cat)}">More {label.lower()}</a>'
+        body = f"""
+  <section>
+    <div class="wrap">
+      <p style="font-size:14px;color:var(--muted);margin-bottom:24px;"><a href="index.html">Home</a> / <a href="{cat_href(cat)}">{label}</a> / {name}</p>
       <div class="split" style="align-items:start;">
-        <div><img src="{img}" alt="{esc(d['title'])}" fetchpriority="high" style="width:100%;height:auto;border-radius:14px;display:block;"></div>
+        <div><img src="{img}" alt="{esc(d['title'])}" fetchpriority="high" style="width:100%;height:auto;border-radius:14px;display:block;">{thumbs}</div>
         <div>
           <span class="eyebrow">{code}</span>
-          <h1 style="font-size:clamp(32px,4.5vw,44px);">{name}</h1>
-          <p style="font-size:19px;">{d['lead']}</p>
-          <p class="pprice" style="font-size:26px;">&#8377; {price}<span class="pship" style="font-size:14px;">Free shipping across India. International shipping charged extra.</span></p>
-          <ul class="ticks" style="list-style:none;padding:0;">""" + "".join(f'<li style="padding-left:24px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;top:9px;width:10px;height:10px;border-radius:50%;background:var(--clay);"></span>{x}</li>' for x in d["points"]) + f"""</ul>
-          <div class="btns" style="justify-content:flex-start;margin-top:18px;">
+          <h1 style="font-size:clamp(30px,4.2vw,42px);">{name}</h1>
+          {lead}
+          <p class="pprice" style="font-size:26px;">{price_html(code, price)}<span class="pship" style="font-size:14px;">Free shipping across India. International shipping charged extra.</span></p>
+          <div class="btns" style="justify-content:flex-start;margin:14px 0 22px;">
             <a class="btn btn-wa" href="{wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
-            <a class="btn btn-dark" href="{IG_URL}" target="_blank" rel="noopener">See it on Instagram</a>
+            {ig_btn}
           </div>
+          {detail}
           <p style="font-size:14px;color:var(--muted);margin-top:18px;">Prefer to see it in person? Visit our store at GF193, Gaur City Center, Noida Extension. See our <a href="shipping.html">Shipping</a> and <a href="returns.html">Returns</a> policies.</p>
         </div>
       </div>
     </div>
   </section>
 """ + product_strip("You may also like", exclude=code)
-    head = ld(product_ld(code, name, price, slug, img)) + "\n" + ld(crumbs([("Home", "/"), ("Bedsheets", "/bedsheets.html"), (name, f"/{slug}.html")]))
-    PRODUCT_PAGES.append((slug, None, body, f"{d['title']} | Mookmati", d["desc"] + f" \u20b9{price}, free shipping in India.", head, SITE + "/" + img))
+        head = ld(product_ld(code, name, price, slug, img)) + "\n" + ld(crumbs([("Home", "/"), (label, "/" + cat_href(cat)), (name, f"/{slug}.html")]))
+        PRODUCT_PAGES.append((slug, None, body, f"{d['title']} | Mookmati", d["desc"] + f" ₹{price}, free shipping in India.", head, SITE + "/" + img))
 
 SCHEMA = {
   "index": ld(ORG) + "\n" + ld({"@context": "https://schema.org", "@type": "WebSite", "name": "Mookmati", "url": SITE + "/"}),
@@ -626,15 +695,19 @@ SCHEMA = {
   "bedsheets": ld({"@context": "https://schema.org", "@type": "ItemList", "name": "Hand block-printed cotton bedsheets",
                    "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": f"{SITE}/{PRODUCT_SLUG[c]}.html", "name": n} for i, (c, n, _, _) in enumerate(PRODUCTS["bedsheets"])]})
                + "\n" + ld(faq_ld) + "\n" + ld(crumbs([("Home", "/"), ("Bedsheets", "/bedsheets.html")])),
+  **{c: ld({"@context": "https://schema.org", "@type": "ItemList", "name": CAT_INTRO[c][0],
+            "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": f"{SITE}/{PRODUCT_SLUG[k]}.html", "name": n} for i, (k, n, _, _) in enumerate(PRODUCTS[c])]})
+        + "\n" + ld(crumbs([("Home", "/"), (CAT_LABEL[c], f"/{c}.html")])) for c in CAT_PAGES},
 }
 
 LLMS = """# Mookmati, The Silent Earth Studio
 
-> Mookmati (mookmati.in) is an Indian brand selling handmade home textiles and crafts guided by ahimsa (non-violence), inspired by Acharya Shri Vidyasagar Ji Maharaj and his epic Mookmati. Current products are hand block-printed 100% cotton bedsheets from Rajasthan, 108 x 108 inches, priced """ + PRICE_FROM.replace("\u20b9","Rs ") + """ with free shipping across India. Orders are placed on WhatsApp (+91 94566 01984) or Instagram (@mookmatistudio). Store: GF193, Gaur City Center, Noida Extension (Greater Noida West), Uttar Pradesh, India.
+> Mookmati (mookmati.in) is an Indian brand selling handmade home textiles and crafts guided by ahimsa (non-violence), inspired by Acharya Shri Vidyasagar Ji Maharaj and his epic Mookmati. Products include handloom cotton, linen and Ajrakh sarees (no silk), jewellery, and hand block-printed 100% cotton bedsheets from Rajasthan priced """ + PRICE_FROM.replace("\u20b9","Rs ") + """ with free shipping across India. Orders are placed on WhatsApp (+91 94566 01984) or Instagram (@mookmatistudio). Store: GF193, Gaur City Center, Noida Extension (Greater Noida West), Uttar Pradesh, India.
 
 ## Products
 - [Hand block-printed cotton bedsheets](https://mookmati.in/bedsheets.html): category overview, sizes, care and FAQs
-""" + "".join(f"- [{p['name']}](https://mookmati.in/{p['slug']}.html): {p['desc']} Rs {p['price']}\n" for p in CATALOG["bedsheets"]) + """- [All products](https://mookmati.in/shop.html): sarees, handloom, jewellery, home decor, serveware and handicrafts coming soon
+""" + "".join(f"- [{p['name']}](https://mookmati.in/{p['slug']}.html): {p['desc']} Rs {p['price']}\n" for p in CATALOG["bedsheets"]) + """""" + "".join(f"\n## {CAT_INTRO[c][0]}\n- [{CAT_INTRO[c][0]}](https://mookmati.in/{c}.html): {CAT_INTRO[c][1]}\n" + "".join(f"- [{p['name']}](https://mookmati.in/{p['slug']}.html): Rs {p['price']}\n" for p in CATALOG[c]) for c in CAT_PAGES) + """
+- [All products](https://mookmati.in/shop.html): handloom, home decor, serveware and handicrafts coming soon
 
 ## About and policies
 - [About Mookmati](https://mookmati.in/about.html)
@@ -648,8 +721,10 @@ PAGES = [
      "Shop hand block-printed 100% cotton bedsheets from Rajasthan, king size 108 x 108 inches, " + PRICE_FROM + " with free shipping across India. Handmade goods guided by ahimsa. Order on WhatsApp."),
     ("bedsheets", None, bedsheets_page, "Hand Block-Printed Cotton Bedsheets, King Size 108 x 108 | Mookmati",
      "Pure cotton hand block-printed bedsheets from Rajasthan, 108 x 108 inches, " + PRICE_FROM + " with free shipping across India. Natural dyes, no silk. Order on WhatsApp or visit our Noida Extension store."),
+] + [(c, None, CAT_PAGES[c], f"{CAT_INTRO[c][0]} | Mookmati",
+      CAT_INTRO[c][1] + " Free shipping across India. Order on WhatsApp.") for c in CAT_PAGES] + [
     ("shop", "Shop", shop, "Shop | Mookmati",
-     "Shop handmade cotton bedsheets, with sarees, handloom, jewellery, home decor, serveware and handicrafts coming soon. Order on WhatsApp, free shipping in India."),
+     "Shop hand block-printed cotton bedsheets, handloom sarees (no silk) and jewellery. Handloom, home decor, serveware and handicrafts coming soon. Order on WhatsApp, free shipping in India."),
     ("about", "About", about, "About Us | Mookmati",
      "Mookmati is named after Acharya Vidyasagar Ji's epic and guided by ahimsa, the path of non-violence."),
     ("contact", "Contact", contact, "Contact Us | Mookmati",
@@ -778,6 +853,13 @@ body{margin:0;background:#faf6ee;}
 .fstore strong{font-size:17px;}
 .mk-footer2 .small{margin-top:22px;font-size:13px;color:#6b5e55;}
 .mk-float{display:flex;align-items:center;gap:8px;}
+.mk .mrp{color:#8a7f76;font-weight:400;font-size:.82em;margin-left:6px;}
+.pgal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;}
+.pgal img{width:100%;height:auto;border-radius:10px;display:block;}
+.mk .pdesc{font-size:16px;}
+.mk .pdesc p{margin:0 0 .9em;}
+.mk .pdesc ul{padding-left:20px;margin:0 0 1em;}
+.mk .pdesc h3{font-size:22px;margin:1em 0 .4em;}
 @media (max-width:860px){
   .hslide{grid-template-columns:1fr;min-height:0;}
   .himg{order:-1;min-height:0;padding:22px 20px 0;}
@@ -814,9 +896,9 @@ with open(f"{OUT}/style.css", "w") as f:
 with open(f"{OUT}/images/README.txt", "w") as f:
     f.write("Put product photos here, named by product code, e.g. MK-BS-001.jpg\n")
 
-NAV = [("index", "Home"), ("shop", "Shop All"), ("bedsheets", "Bedsheets")] + [(f"shop.html#{s}", n) for s, n, _ in CATS[1:]] + [("about", "Our Story"), ("contact", "Contact")]
+NAV = [("index", "Home"), ("shop", "Shop All")] + [(s if s in PAGE_CATS else f"shop.html#{s}", n) for s, n, _ in CATS] + [("about", "Our Story"), ("contact", "Contact")]
 for slug, _, body, title, desc, extra_head, og_img in PAGES:
-    nav = "".join(f'<a class="{"on" if s == slug or (s == "bedsheets" and slug.startswith("bedsheet-")) else ""}" href="{s if "#" in s else s + ".html"}">{n}</a>' for s, n in NAV)
+    nav = "".join(f'<a class="{"on" if s == slug or (s in CAT_SLUG_PREFIX and slug.startswith(CAT_SLUG_PREFIX[s])) else ""}" href="{s if "#" in s else s + ".html"}">{n}</a>' for s, n in NAV)
     url = DOMAIN + ("/" if slug == "index" else f"/{slug}.html")
     doc = f"""<!doctype html>
 <html lang="en-IN">
@@ -875,7 +957,6 @@ with open(f"{OUT}/sitemap.xml", "w") as f:
             "</urlset>\n")
 # Google Merchant Center product feed (RSS 2.0 with g: namespace)
 from xml.sax.saxutils import escape as _x
-GPC = {"bedsheets": "Home & Garden > Linens & Bedding > Bedding > Bed Sheets"}
 _items = []
 for _cat, _plist in CATALOG.items():
     if _cat.startswith("_"):
@@ -897,9 +978,9 @@ for _cat, _plist in CATALOG.items():
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>{_x(GPC.get(_cat, "Home & Garden"))}</g:google_product_category>
     <g:product_type>{_x(_cat.replace('-', ' ').title())}</g:product_type>
-    <g:material>Cotton</g:material>
+""" + ("""    <g:material>Cotton</g:material>
     <g:size>108 x 108 inches</g:size>
-    <g:shipping>
+""" if _cat == "bedsheets" else "") + f"""    <g:shipping>
       <g:country>IN</g:country>
       <g:service>Standard</g:service>
       <g:price>0.00 INR</g:price>
