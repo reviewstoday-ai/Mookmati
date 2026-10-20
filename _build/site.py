@@ -37,8 +37,8 @@ PRODUCT_SLUG = {p["code"]: p["slug"] for cat, items in CATALOG.items() if not ca
 def _num(price): return int(price.replace(",", "")) if price else 0
 PBY = {p["code"]: dict(p, cat=cat) for cat, items in CATALOG.items() if not cat.startswith("_") for p in items}
 CAT_LABEL = {"bedsheets": "Bedsheets", "sarees": "Sarees", "handloom": "Handloom", "jewellery": "Jewellery", "home-decor": "Home Decor", "serveware": "Serveware", "handicrafts": "Handicrafts"}
-CAT_SLUG_PREFIX = {"bedsheets": "bedsheet-", "sarees": "saree-", "jewellery": "jewellery-"}
-PAGE_CATS = [c for c in ("bedsheets", "sarees", "jewellery") if CATALOG.get(c)]
+CAT_SLUG_PREFIX = {"bedsheets": "bedsheet-", "sarees": "saree-", "jewellery": "jewellery-", "home-decor": "table-runner-"}
+PAGE_CATS = [c for c in ("bedsheets", "sarees", "jewellery", "home-decor") if CATALOG.get(c)]
 def cat_href(s):
     return f"{s}.html" if s in PAGE_CATS else f"shop.html#{s}"
 def cat_min_price(s):
@@ -46,6 +46,9 @@ def cat_min_price(s):
     return v[0] if v else 0
 def price_html(code, price):
     mrp = PBY.get(code, {}).get("mrp")
+    sp = PBY.get(code, {}).get("set_price")
+    if sp:
+        return f'&#8377; {price} <span class="popt">runner</span> &middot; &#8377; {sp} <span class="popt">full set</span>'
     return f"&#8377; {price}" + (f' <s class="mrp">&#8377; {mrp}</s>' if mrp else "")
 _bs_prices = sorted({_num(p["price"]) for p in CATALOG.get("bedsheets", []) if p["price"]})
 def _inr(n): return f"{n:,}"
@@ -60,7 +63,7 @@ def product_card(code, name, note, price, idx=0):
             photo = f"images/{code}.{ext}"
     img = (f'<div class="pimg has-img"><img src="{photo}" alt="{esc(name)}" decoding="async" width="337" height="421"></div>'
            if photo else f'<div class="pimg print{shade}" aria-hidden="true"></div>')
-    price_txt = (f"{price_html(code, price)} <span class=\"pship\">Free shipping in India</span>") if price else "Price on request"
+    price_txt = (f"{price_html(code, price)} <span class=\"pship\">{'Made to order, prepaid' if PBY.get(code, {}).get('made_to_order') else 'Free shipping in India'}</span>") if price else "Price on request"
     msg = f"Hello Mookmati, I would like to order the {name} (code {code})."
     return f"""
         <div class="pcard">
@@ -537,7 +540,8 @@ PDETAIL = {p["code"]: {"title": p["title"], "lead": p["lead"], "points": p["poin
 
 GPC = {"bedsheets": "Home & Garden > Linens & Bedding > Bedding > Bed Sheets",
        "sarees": "Apparel & Accessories > Clothing > Traditional & Ceremonial Clothing > Saris & Lehengas",
-       "jewellery": "Apparel & Accessories > Jewelry"}
+       "jewellery": "Apparel & Accessories > Jewelry",
+       "home-decor": "Home & Garden > Linens & Bedding > Table Linens > Table Runners"}
 
 def product_ld(code, name, price, slug, img):
     d = PDETAIL[code]
@@ -620,7 +624,42 @@ bedsheets_page = f"""
 CAT_INTRO = {
     "sarees": ("Handloom Sarees", "Handwoven mul cotton, Bengal handloom, linen and Ajrakh sarees. No silk: every saree here is chosen in the spirit of ahimsa."),
     "jewellery": ("Jewellery", "Handcrafted earrings, necklace sets and danglers to complete your look."),
+    "home-decor": ("Table Runners", "Rajasthani waxed handblock print table runners on 100% pure cotton, made to order."),
 }
+RUNNER_STORY = f"""
+  <section class="tint">
+    <div class="wrap narrow prose">
+      <span class="eyebrow">Home Decor</span>
+      <h2 style="margin-top:0;">Elevate Your Dining Space with the Timeless Charm of Rajasthan &#10024;</h2>
+      <p>There is something deeply personal about a beautifully set table. It is where stories are shared, meals are enjoyed, and memories are made. If you want to add a touch of heritage, elegance, and soul to your home, our brand-new Rajasthani Waxed Handblock Print Table Runner Set is exactly what you need.</p>
+      <p>Crafted on 100% pure cotton, each piece is a celebration of centuries-old Indian craftsmanship brought straight to your dining room.</p>
+      <h2>The Art Behind the Fabric: Waxed Handblock Printing &#127806;</h2>
+      <p>Unlike mass-produced machine prints, these table runners are printed entirely by hand using the traditional waxed handblock printing technique.</p>
+      <ol>
+        <li><strong>Intricate Carving:</strong> Skilled artisans meticulously carve breathtaking Rajasthani motifs into wooden blocks.</li>
+        <li><strong>Wax Resist Printing:</strong> Hot wax is applied to the blocks and pressed firmly onto the pure cotton fabric to create a beautiful, crisp resist pattern.</li>
+        <li><strong>Natural Dyeing:</strong> The fabric is dyed, and once the wax is washed away, a stunning, intricate design is revealed.</li>
+      </ol>
+      <p>Because every single piece is handcrafted, no two runners are exactly identical. You aren't just buying table linen, you are bringing a unique piece of wearable art into your home.</p>
+      <h2>Versatile Styling Options &amp; Pricing &#128176;</h2>
+      <p>Whether you want a simple accent or a complete table transformation, we have the perfect option for your space:</p>
+      <ul>
+        <li><strong>&#127991;&#65039; The Solo Accent (Only Table Runner): Rs. 750/-</strong><br>Perfect for adding a pop of culture and color to your dining table, console table, or hallway dresser.</li>
+        <li><strong>&#127869;&#65039; The Complete Experience (Full Table Runner Set): Rs. 1500/-</strong><br>Includes the gorgeous runner along with matching coordinates to give your dining room a fully styled, premium look.</li>
+      </ul>
+      <h2>&#9203; Made Exceptionally For You: Available via Prepaid Orders Only</h2>
+      <p>In a world of fast fashion and instant gratification, we believe in slow, sustainable luxury.</p>
+      <p>We do not hold ready-made factory stock. To minimize waste and support local craft clusters, these pieces are made entirely to order. The moment you place your order, our artisans in Rajasthan begin block-printing your specific fabric.</p>
+      <ul>
+        <li><strong>&#128179; Payment:</strong> Available via Prepaid Order only on WhatsApp through UPI.</li>
+        <li><strong>&#128736;&#65039; Artisan Crafting Time:</strong> Because perfection takes time, please allow a short production window as our artisans hand-dye and finish your set with love.</li>
+      </ul>
+      <h2>&#128717;&#65039; How to Place Your Order</h2>
+      <p>Transform your dining room into a heritage sanctuary. Pick your favourite design above, or tap the button below to secure your piece of Rajasthan&#8217;s artistic history today!</p>
+      <p><a class="btn btn-wa" href="{wa('Hello Mookmati, I would like to order a Rajasthani waxed handblock print table runner (prepaid via UPI).')}" target="_blank" rel="noopener">Order on WhatsApp</a></p>
+    </div>
+  </section>
+"""
 def category_page(s):
     h1, intro = CAT_INTRO[s]
     cards = "".join(product_card(*p, idx=i) for i, p in enumerate(PRODUCTS[s]))
@@ -628,7 +667,7 @@ def category_page(s):
   <section class="pagehead print">
     <div class="wrap">
       <h1>{h1}</h1>
-      <p>{intro} Free shipping across India. Order on WhatsApp.</p>
+      <p>{intro} {"Runner Rs. 750, full set Rs. 1,500. Prepaid orders on WhatsApp via UPI." if s == "home-decor" else "Free shipping across India. Order on WhatsApp."}</p>
     </div>
   </section>
   <section>
@@ -640,7 +679,7 @@ def category_page(s):
       </div>
     </div>
   </section>
-"""
+""" + (RUNNER_STORY if s == "home-decor" else "")
 CAT_PAGES = {c: category_page(c) for c in PAGE_CATS if c != "bedsheets"}
 
 def product_gallery(code, n):
@@ -662,6 +701,11 @@ for cat in [c for c in CATALOG if not c.startswith("_")]:
         else:
             detail = '<ul class="ticks" style="list-style:none;padding:0;">' + "".join(f'<li style="padding-left:24px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;top:9px;width:10px;height:10px;border-radius:50%;background:var(--clay);"></span>{x}</li>' for x in d["points"]) + "</ul>"
             lead = f'<p style="font-size:19px;">{d["lead"]}</p>'
+        if p.get("set_price"):
+            order_btns = (f'            <a class="btn btn-wa" href="{wa(f"Hello Mookmati, I would like to order the {name} (code {code}), only table runner, Rs. {price}. I will pay prepaid via UPI.")}" target="_blank" rel="noopener">Order runner &#8377;{price}</a>\n'
+                          f'            <a class="btn btn-wa" href="{wa(f"Hello Mookmati, I would like to order the {name} (code {code}), full table runner set, Rs. {p["set_price"]}. I will pay prepaid via UPI.")}" target="_blank" rel="noopener">Order full set &#8377;{p["set_price"]}</a>')
+        else:
+            order_btns = f'            <a class="btn btn-wa" href="{wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>'
         ig_btn = f'<a class="btn btn-dark" href="{p["instagram"]}" target="_blank" rel="noopener">See it on Instagram</a>' if p.get("instagram") else f'<a class="btn btn-dark" href="{cat_href(cat)}">More {label.lower()}</a>'
         body = f"""
   <section>
@@ -673,9 +717,9 @@ for cat in [c for c in CATALOG if not c.startswith("_")]:
           <span class="eyebrow">{code}</span>
           <h1 style="font-size:clamp(30px,4.2vw,42px);">{name}</h1>
           {lead}
-          <p class="pprice" style="font-size:26px;">{price_html(code, price)}<span class="pship" style="font-size:14px;">Free shipping across India. International shipping charged extra.</span></p>
+          <p class="pprice" style="font-size:26px;">{price_html(code, price)}<span class="pship" style="font-size:14px;">{"Made to order. Prepaid via UPI on WhatsApp. Please allow a short crafting time." if p.get("made_to_order") else "Free shipping across India. International shipping charged extra."}</span></p>
           <div class="btns" style="justify-content:flex-start;margin:14px 0 22px;">
-            <a class="btn btn-wa" href="{wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
+{order_btns}
             {ig_btn}
           </div>
           {detail}
@@ -853,6 +897,7 @@ body{margin:0;background:#faf6ee;}
 .fstore strong{font-size:17px;}
 .mk-footer2 .small{margin-top:22px;font-size:13px;color:#6b5e55;}
 .mk-float{display:flex;align-items:center;gap:8px;}
+.mk .popt{font-size:.6em;font-weight:600;color:#6b5e55;text-transform:uppercase;letter-spacing:.06em;}
 .mk .mrp{color:#8a7f76;font-weight:400;font-size:.82em;margin-left:6px;}
 .pgal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;}
 .pgal img{width:100%;height:auto;border-radius:10px;display:block;}
