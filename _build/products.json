@@ -2,6 +2,26 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py",
   "bedsheets": [
     {
+      "code": "MK-BS-004",
+      "slug": "bedsheet-neelambari-navy-mustard",
+      "name": "Neelambari Navy and Mustard Bedsheet Set",
+      "price": "1,100",
+      "title": "Neelambari Navy and Mustard Hand Block-Printed Cotton Bedsheet Set, King Size 108 x 90",
+      "note": "Rajasthani hand block print with vegetable dyes. Deep navy cotton, warm mustard motifs and a classic striped border. King size 108 x 90 in, with matching pillow covers.",
+      "lead": "Indigo nights, golden mornings. Deep navy cotton with warm mustard motifs and a classic striped border, hand block-printed by Rajasthani artisans one wooden block at a time.",
+      "points": [
+        "Rajasthani hand block print, one wooden block at a time",
+        "Printed with vegetable dyes",
+        "100% cotton in deep navy with warm mustard motifs and a striped border",
+        "King size: 108 x 90 inches",
+        "Matching pillow covers included",
+        "Free shipping across India"
+      ],
+      "desc": "Neelambari: Rajasthani hand block-printed cotton bedsheet set with warm mustard motifs on deep navy and a classic striped border. Vegetable dyes, 100% cotton, king size 108 x 90 inches, with matching pillow covers. Free shipping across India.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/Des9KAHFDm5/",
+      "added": "2026-10-20"
+    },
+    {
       "code": "MK-BS-003",
       "slug": "bedsheet-cream-terracotta-border",
       "name": "Cream Terracotta Border Bedsheet Set",
