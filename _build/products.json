@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-006",
+      "slug": "bedsheet-basanti-chiraiya",
+      "name": "Basanti Chiraiya Bedsheet Set",
+      "price": "1,100",
+      "title": "Basanti Chiraiya Hand Block-Printed Cotton Bedsheet Set, King Size 108 x 90",
+      "note": "Sunshine-yellow cotton with soft white branches, turquoise leaves and little birds. Rajasthani hand block print with natural vegetable dyes. King size 108 x 90 in, with matching pillow covers.",
+      "lead": "Songbirds on sunlit branches. Sunshine-yellow cotton with soft white branches, turquoise leaves and little birds, hand block-printed by Rajasthani artisans with natural vegetable dyes.",
+      "points": [
+        "Rajasthani hand block print",
+        "Printed with natural vegetable dyes",
+        "100% cotton, 300 thread count, vegan",
+        "Soft white branches, turquoise leaves and little birds on sunshine-yellow cotton",
+        "King size: 108 x 90 inches",
+        "Matching pillow covers included",
+        "Free shipping across India"
+      ],
+      "desc": "Basanti Chiraiya: Rajasthani hand block-printed cotton bedsheet set with songbirds, soft white branches and turquoise leaves on sunshine-yellow cotton. Natural vegetable dyes, 100% cotton, 300 thread count, king size 108 x 90 inches, with matching pillow covers. Free shipping across India.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/Dew0TVCHzuo/",
+      "added": "2026-10-22"
+    },
+    {
       "code": "MK-BS-005",
       "slug": "bedsheet-neel-phulwari",
       "name": "Neel Phulwari Bedsheet Set",
