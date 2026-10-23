@@ -2,6 +2,28 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-007",
+      "slug": "bedsheet-phooldaan",
+      "name": "Phooldaan Bedsheet Set",
+      "price": "1,200",
+      "title": "Phooldaan Hand Block-Printed Cotton Bedsheet Set, King Size 108 x 90",
+      "note": "Blue blossom bouquets in golden vases on soft ivory cotton, framed by leafy borders in mustard, sky blue and indigo. Rajasthani hand block print with natural vegetable dyes. King size 108 x 90 in, with matching pillow covers.",
+      "lead": "A bouquet that blooms on your bed. Blue blossom bouquets in golden vases on soft ivory cotton, framed by leafy borders in mustard, sky blue and indigo, hand block-printed in Rajasthan with natural vegetable dyes.",
+      "points": [
+        "Rajasthani hand block print",
+        "Printed with natural vegetable dyes (vegan, cruelty free)",
+        "100% cotton, 300 thread count",
+        "Blue blossom bouquets in golden vases on soft ivory cotton",
+        "Leafy borders in mustard, sky blue and indigo",
+        "King size: 108 x 90 inches",
+        "Matching pillow covers included",
+        "Free shipping across India"
+      ],
+      "desc": "Phooldaan: Rajasthani hand block-printed cotton bedsheet set with blue blossom bouquets in golden vases on soft ivory cotton and leafy borders in mustard, sky blue and indigo. Natural vegetable dyes, vegan and cruelty free, 100% cotton, 300 thread count, king size 108 x 90 inches, with matching pillow covers. Free shipping across India.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/De0lSM5FC9y/",
+      "added": "2026-10-23"
+    },
+    {
       "code": "MK-BS-006",
       "slug": "bedsheet-basanti-chiraiya",
       "name": "Basanti Chiraiya Bedsheet Set",
