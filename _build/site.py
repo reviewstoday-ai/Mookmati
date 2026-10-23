@@ -301,7 +301,6 @@ about = f"""
           <img src="images/acharya-vidyasagar-ji.webp" fetchpriority="high" width="410" height="320" alt="Acharya Shri Vidyasagar Ji Maharaj raising his hand in blessing" style="width:100%;height:auto;border-radius:14px;display:block;box-shadow:0 10px 28px rgba(35,50,90,.18);">
           <figcaption style="margin-top:10px;text-align:center;">
             <span style="display:block;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--indigo);font-weight:600;">Acharya Shri Vidyasagar Ji Maharaj</span>
-            <span style="display:block;font-size:12px;color:var(--muted);">Photo: Agniban.com via Wikimedia Commons, public domain, cropped.</span>
           </figcaption>
         </figure>
         <p class="quote">Ahimsa is not only what we avoid. It is how we choose to make things.</p>
@@ -588,7 +587,7 @@ bedsheets_page = f"""
   <section class="pagehead print">
     <div class="wrap">
       <h1>Hand Block-Printed Cotton Bedsheets</h1>
-      <p>Pure cotton bedsheets from Rajasthan, printed by hand and sized generously at 108 x 108 inches. Priced {PRICE_FROM_HTML}, with free shipping across India.</p>
+      <p>Pure cotton bedsheets from Rajasthan, block printed designs and sized generously at 108 x 90 inches to 108 x 108 inches. Priced {PRICE_FROM_HTML} onwards, with free shipping across India on orders above Rs 1000/-. Shipping policy: Bedsheets: Free for products over Rs 1000/-; Free shipping for Jewellery and Runners.</p>
     </div>
   </section>
   <section>
