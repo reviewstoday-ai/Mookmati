@@ -594,7 +594,7 @@ bedsheets_page = f"""
   <section class="pagehead print">
     <div class="wrap">
       <h1>Hand Block-Printed Cotton Bedsheets</h1>
-      <p>Pure cotton bedsheets from Rajasthan, block printed designs and sized generously at 108 x 90 inches to 108 x 108 inches. Priced {PRICE_FROM_HTML} onwards, with free shipping across India on orders above Rs 1000/-. Shipping policy: Bedsheets: Free for products over Rs 1000/-; Free shipping for Jewellery and Runners.</p>
+      <p>Pure cotton bedsheets from Rajasthan, block printed designs and sized generously at 108 x 90 inches to 108 x 108 inches. Priced {PRICE_FROM_HTML} onwards, with free shipping across India on orders above Rs 1000/-.</p>
     </div>
   </section>
   <section>
