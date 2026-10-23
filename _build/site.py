@@ -54,6 +54,13 @@ _bs_prices = sorted({_num(p["price"]) for p in CATALOG.get("bedsheets", []) if p
 def _inr(n): return f"{n:,}"
 PRICE_FROM = (f"from \u20b9{_inr(_bs_prices[0])}" if len(_bs_prices) > 1 else f"\u20b9{_inr(_bs_prices[0])}") if _bs_prices else ""
 PRICE_FROM_HTML = PRICE_FROM.replace("\u20b9", "&#8377;")
+BS_SHIP = "Free shipping across India on bedsheet orders above Rs 1,000"
+BS_SIZES = "108 x 90 to 108 x 108 inches"
+def _bs_free(price):
+    return int(str(price).replace(",", "") or 0) > 1000
+def _size_of(title):
+    m = re.search(r"(\d+ x \d+)", title or "")
+    return (m.group(1) + " inches") if m else "108 x 108 inches"
 
 def product_card(code, name, note, price, idx=0):
     shade = ["", " clay", " madder"][idx % 3]
@@ -63,7 +70,7 @@ def product_card(code, name, note, price, idx=0):
             photo = f"images/{code}.{ext}"
     img = (f'<div class="pimg has-img"><img src="{photo}" alt="{esc(name)}" decoding="async" width="337" height="421"></div>'
            if photo else f'<div class="pimg print{shade}" aria-hidden="true"></div>')
-    price_txt = (f"{price_html(code, price)} <span class=\"pship\">{'Made to order, prepaid' if PBY.get(code, {}).get('made_to_order') else 'Free shipping in India'}</span>") if price else "Price on request"
+    price_txt = (f"{price_html(code, price)} <span class=\"pship\">{'Made to order, prepaid' if PBY.get(code, {}).get('made_to_order') else ('Free shipping above Rs 1,000' if PBY.get(code, {}).get('cat') == 'bedsheets' else 'Free shipping in India')}</span>") if price else "Price on request"
     msg = f"Hello Mookmati, I would like to order the {name} (code {code})."
     return f"""
         <div class="pcard">
@@ -156,7 +163,7 @@ def _ico(name):
 _live_bs = CATALOG["bedsheets"]
 _newest = _live_bs[0]
 HERO_SLIDES = [
-    ("indigo", "New arrival", _newest["name"], _newest["lead"], f"&#8377; {_newest['price']}, free shipping across India",
+    ("indigo", "New arrival", _newest["name"], _newest["lead"], f"&#8377; {_newest['price']}, free shipping on bedsheet orders above Rs 1,000",
      f"{_newest['slug']}.html", "Shop now", f"images/{_newest['code']}.webp", _newest["name"]),
     ("madder", "Hand block-printed in Rajasthan", "Bedsheets that carry the touch of a human hand",
      "Pure cotton, printed one wooden block at a time.", f"Prices {PRICE_FROM_HTML}", "bedsheets.html", "Shop bedsheets",
@@ -216,7 +223,7 @@ home = f"""
   <section class="promo print madder">
     <div class="wrap promo-in">
       <div>
-        <span class="peyebrow">Free shipping across India</span>
+        <span class="peyebrow">Free shipping across India, bedsheets above Rs 1,000</span>
         <h2>The Art of Ordering Simply</h2>
         <p>Pick a piece, tap Order on WhatsApp, and we confirm price, stock and delivery with you personally.</p>
       </div>
@@ -390,7 +397,7 @@ shipping = policy("Shipping Policy", "How and when your order reaches you.", f""
       <h2>Processing and delivery time</h2>
       <p>Handmade pieces are packed with care, so timelines vary by product. Before you pay, we tell you on {WA_LINK} when your order will be dispatched and when you can expect it.</p>
       <h2>Shipping charges</h2>
-      <p>Shipping is free on all orders within India. International shipping is charged extra, and we confirm the exact charge on WhatsApp before you pay. There are no hidden costs.</p>
+      <p>Within India, shipping is free on jewellery, table runners and sarees. Bedsheets ship free on orders above Rs 1,000. For bedsheet orders of Rs 1,000 or less, we confirm the shipping charge on WhatsApp before you pay. International shipping is charged extra, and we confirm the exact charge on WhatsApp before you pay. There are no hidden costs.</p>
       <h2>Tracking</h2>
       <p>We share a tracking link on WhatsApp once your order is dispatched.</p>
       <h2>Damaged in transit</h2>
@@ -526,7 +533,7 @@ ORG = {
   "@context": "https://schema.org", "@type": "Store", "@id": SITE + "/#store",
   "name": "Mookmati", "alternateName": "Mookmati, The Silent Earth Studio",
   "url": SITE + "/", "logo": SITE + "/logo.png", "image": SITE + "/logo.png",
-  "description": "Mookmati, The Silent Earth Studio, sells hand block-printed cotton bedsheets and handmade Indian goods guided by ahimsa (non-violence). Orders on WhatsApp, free shipping across India.",
+  "description": "Mookmati, The Silent Earth Studio, sells hand block-printed cotton bedsheets and handmade Indian goods guided by ahimsa (non-violence). Orders on WhatsApp, free shipping across India (bedsheets on orders above Rs 1,000).",
   "telephone": "+91-9456601984",
   "address": {"@type": "PostalAddress", "streetAddress": "GF193, Gaur City Center", "addressLocality": "Greater Noida West (Noida Extension)", "addressRegion": "Uttar Pradesh", "addressCountry": "IN"},
   "areaServed": "IN", "currenciesAccepted": "INR",
@@ -547,14 +554,14 @@ def product_ld(code, name, price, slug, img):
     return {
       "@context": "https://schema.org", "@type": "Product", "sku": code, "name": name,
       "description": d["desc"], "image": [SITE + "/" + img], "brand": {"@type": "Brand", "name": "Mookmati"},
-      **({"material": "Cotton", "size": "108 x 108 inches"} if PBY[code]["cat"] == "bedsheets" else ({"material": PBY[code]["fabric"]} if PBY[code].get("fabric") else {})),
+      **({"material": "Cotton", "size": _size_of(d.get("title"))} if PBY[code]["cat"] == "bedsheets" else ({"material": PBY[code]["fabric"]} if PBY[code].get("fabric") else {})),
       "category": GPC.get(PBY[code]["cat"], "Home & Garden"),
       "countryOfOrigin": "IN",
       "offers": {"@type": "Offer", "url": f"{SITE}/{slug}.html", "price": price.replace(",", ""), "priceCurrency": "INR",
                  "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition",
                  "seller": {"@id": SITE + "/#store"},
-                 "shippingDetails": {"@type": "OfferShippingDetails", "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
-                                     "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"}},
+                 **({} if (PBY[code]["cat"] == "bedsheets" and not _bs_free(price)) else {"shippingDetails": {"@type": "OfferShippingDetails", "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
+                                     "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"}}}),
                  "hasMerchantReturnPolicy": {"@type": "MerchantReturnPolicy", "applicableCountry": "IN",
                                              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
                                              "merchantReturnDays": 7, "returnMethod": "https://schema.org/ReturnByMail"}},
@@ -565,10 +572,10 @@ def crumbs(items):
         {"@type": "ListItem", "position": i + 1, "name": n, "item": SITE + u} for i, (n, u) in enumerate(items)]}
 
 BS_FAQ = [
- ("What size are Mookmati bedsheets?", "Our bedsheets are 108 x 108 inches (king, king plus or super king). They fit king and super king beds, and drape generously over queen beds."),
+ ("What size are Mookmati bedsheets?", "Our bedsheets range from 108 x 90 inches to 108 x 108 inches (king, king plus or super king). Each product page shows its exact size. They fit king beds, and drape generously over queen beds."),
  ("What are the bedsheets made of?", "They are made of 100% pure cotton, which is soft, breathable and cool on warm nights."),
  ("What is hand block printing?", "Artisans press carved wooden blocks dipped in dye onto the cloth, one impression at a time. Small variations in the print are the mark of handwork, not a flaw."),
- ("How much do the bedsheets cost?", f"Our bedsheets are priced {PRICE_FROM}, with free shipping anywhere in India. International shipping is available at an extra charge."),
+ ("How much do the bedsheets cost?", f"Our bedsheets are priced {PRICE_FROM} onwards, with free shipping across India on bedsheet orders above Rs 1,000. International shipping is available at an extra charge."),
  ("How do I order?", "Tap “Order on WhatsApp” on any product, or message +91 94566 01984. You can also visit our store at GF193, Gaur City Center, Noida Extension."),
  ("How should I wash a block-printed cotton bedsheet?", "Wash separately in cold water with a mild detergent for the first few washes, and dry in shade to keep the colours fresh."),
 ]
@@ -602,9 +609,9 @@ bedsheets_page = f"""
       <p>Our bedsheets are made the slow way. In Rajasthan, artisans carve patterns into wooden blocks, dip them in dye and press them onto cotton by hand, one impression at a time. The result is a bedsheet with real character, where every flower carries the touch of the person who printed it.</p>
       <ul>
         <li><strong>Pure cotton:</strong> soft, breathable and cool, ideal for Indian summers and comfortable all year.</li>
-        <li><strong>Large size:</strong> 108 x 108 inches, which fits king and super king beds with room to tuck in.</li>
+        <li><strong>Large size:</strong> 108 x 90 to 108 x 108 inches, which fits king beds with room to tuck in.</li>
         <li><strong>Gentle choices:</strong> natural dyes wherever the craft allows, and no silk. Our work is guided by ahimsa, the path of non-violence taught by Acharya Shri Vidyasagar Ji Maharaj.</li>
-        <li><strong>Fair price:</strong> {PRICE_FROM_HTML}, with free shipping across India.</li>
+        <li><strong>Fair price:</strong> {PRICE_FROM_HTML} onwards, with free shipping across India on bedsheet orders above Rs 1,000.</li>
       </ul>
     </div>
   </section>
@@ -666,7 +673,7 @@ def category_page(s):
   <section class="pagehead print">
     <div class="wrap">
       <h1>{h1}</h1>
-      <p>{intro} {"Runner Rs. 750, full set Rs. 1,500. Prepaid orders on WhatsApp via UPI." if s == "home-decor" else "Free shipping across India. Order on WhatsApp."}</p>
+      <p>{intro} {"Runner Rs. 750, full set Rs. 1,500. Free shipping across India. Prepaid orders on WhatsApp via UPI." if s == "home-decor" else "Free shipping across India. Order on WhatsApp."}</p>
     </div>
   </section>
   <section>
@@ -716,7 +723,7 @@ for cat in [c for c in CATALOG if not c.startswith("_")]:
           <span class="eyebrow">{code}</span>
           <h1 style="font-size:clamp(30px,4.2vw,42px);">{name}</h1>
           {lead}
-          <p class="pprice" style="font-size:26px;">{price_html(code, price)}<span class="pship" style="font-size:14px;">{"Made to order. Prepaid via UPI on WhatsApp. Please allow a short crafting time." if p.get("made_to_order") else "Free shipping across India. International shipping charged extra."}</span></p>
+          <p class="pprice" style="font-size:26px;">{price_html(code, price)}<span class="pship" style="font-size:14px;">{"Made to order. Free shipping across India. Prepaid via UPI on WhatsApp. Please allow a short crafting time." if p.get("made_to_order") else ((BS_SHIP + ". International shipping charged extra.") if cat == "bedsheets" else "Free shipping across India. International shipping charged extra.")}</span></p>
           <div class="btns" style="justify-content:flex-start;margin:14px 0 22px;">
 {order_btns}
             {ig_btn}
@@ -729,7 +736,7 @@ for cat in [c for c in CATALOG if not c.startswith("_")]:
   </section>
 """ + product_strip("You may also like", exclude=code)
         head = ld(product_ld(code, name, price, slug, img)) + "\n" + ld(crumbs([("Home", "/"), (label, "/" + cat_href(cat)), (name, f"/{slug}.html")]))
-        PRODUCT_PAGES.append((slug, None, body, f"{d['title']} | Mookmati", d["desc"] + f" ₹{price}, free shipping in India.", head, SITE + "/" + img))
+        PRODUCT_PAGES.append((slug, None, body, f"{d['title']} | Mookmati", d["desc"] + (f" ₹{price}, free shipping in India on bedsheet orders above Rs 1,000." if cat == "bedsheets" else f" ₹{price}, free shipping in India."), head, SITE + "/" + img))
 
 SCHEMA = {
   "index": ld(ORG) + "\n" + ld({"@context": "https://schema.org", "@type": "WebSite", "name": "Mookmati", "url": SITE + "/"}),
@@ -745,7 +752,7 @@ SCHEMA = {
 
 LLMS = """# Mookmati, The Silent Earth Studio
 
-> Mookmati (mookmati.in) is an Indian brand selling handmade home textiles and crafts guided by ahimsa (non-violence), inspired by Acharya Shri Vidyasagar Ji Maharaj and his epic Mookmati. Products include handloom cotton, linen and Ajrakh sarees (no silk), jewellery, and hand block-printed 100% cotton bedsheets from Rajasthan priced """ + PRICE_FROM.replace("\u20b9","Rs ") + """ with free shipping across India. Orders are placed on WhatsApp (+91 94566 01984) or Instagram (@mookmatistudio). Store: GF193, Gaur City Center, Noida Extension (Greater Noida West), Uttar Pradesh, India.
+> Mookmati (mookmati.in) is an Indian brand selling handmade home textiles and crafts guided by ahimsa (non-violence), inspired by Acharya Shri Vidyasagar Ji Maharaj and his epic Mookmati. Products include handloom cotton, linen and Ajrakh sarees (no silk), jewellery, and hand block-printed 100% cotton bedsheets from Rajasthan priced """ + PRICE_FROM.replace("\u20b9","Rs ") + """ onwards, with free shipping across India on bedsheet orders above Rs 1,000. Orders are placed on WhatsApp (+91 94566 01984) or Instagram (@mookmatistudio). Store: GF193, Gaur City Center, Noida Extension (Greater Noida West), Uttar Pradesh, India.
 
 ## Products
 - [Hand block-printed cotton bedsheets](https://mookmati.in/bedsheets.html): category overview, sizes, care and FAQs
@@ -755,19 +762,19 @@ LLMS = """# Mookmati, The Silent Earth Studio
 ## About and policies
 - [About Mookmati](https://mookmati.in/about.html)
 - [Contact and FAQ](https://mookmati.in/contact.html)
-- [Shipping](https://mookmati.in/shipping.html): free shipping in India, international shipping charged extra
+- [Shipping](https://mookmati.in/shipping.html): free shipping in India on jewellery and table runners, and on bedsheet orders above Rs 1,000; international shipping charged extra
 - [Returns and exchanges](https://mookmati.in/returns.html): returns only for damaged products, within 7 days of delivery, unboxing video required
 """
 
 PAGES = [
     ("index", "Home", home, "Mookmati | Hand Block-Printed Cotton Bedsheets, Handmade in India",
-     "Shop hand block-printed 100% cotton bedsheets from Rajasthan, king size 108 x 108 inches, " + PRICE_FROM + " with free shipping across India. Handmade goods guided by ahimsa. Order on WhatsApp."),
-    ("bedsheets", None, bedsheets_page, "Hand Block-Printed Cotton Bedsheets, King Size 108 x 108 | Mookmati",
-     "Pure cotton hand block-printed bedsheets from Rajasthan, 108 x 108 inches, " + PRICE_FROM + " with free shipping across India. Natural dyes, no silk. Order on WhatsApp or visit our Noida Extension store."),
+     "Shop hand block-printed 100% cotton bedsheets from Rajasthan, 108 x 90 to 108 x 108 inches, " + PRICE_FROM + " onwards, free shipping in India above Rs 1,000. Handmade goods guided by ahimsa. Order on WhatsApp."),
+    ("bedsheets", None, bedsheets_page, "Hand Block-Printed Cotton Bedsheets, 108 x 90 to 108 x 108 | Mookmati",
+     "Pure cotton hand block-printed bedsheets from Rajasthan, 108 x 90 to 108 x 108 inches, " + PRICE_FROM + " onwards, free shipping in India on orders above Rs 1,000. Natural dyes, no silk. Order on WhatsApp or visit our Noida Extension store."),
 ] + [(c, None, CAT_PAGES[c], f"{CAT_INTRO[c][0]} | Mookmati",
       CAT_INTRO[c][1] + " Free shipping across India. Order on WhatsApp.") for c in CAT_PAGES] + [
     ("shop", "Shop", shop, "Shop | Mookmati",
-     "Shop hand block-printed cotton bedsheets, handloom sarees (no silk) and jewellery. Handloom, home decor, serveware and handicrafts coming soon. Order on WhatsApp, free shipping in India."),
+     "Shop hand block-printed cotton bedsheets, handloom sarees (no silk) and jewellery. Handloom, home decor, serveware and handicrafts coming soon. Order on WhatsApp. Free shipping in India, bedsheets above Rs 1,000."),
     ("about", "About", about, "About Us | Mookmati",
      "Mookmati is named after Acharya Vidyasagar Ji's epic and guided by ahimsa, the path of non-violence."),
     ("contact", "Contact", contact, "Contact Us | Mookmati",
@@ -971,7 +978,7 @@ for slug, _, body, title, desc, extra_head, og_img in PAGES:
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="mk-bar">Handmade in India. Free shipping across India. Order easily on <a href="{wa()}" target="_blank" rel="noopener">WhatsApp</a>.</div>
+<div class="mk-bar">Handmade in India. Free shipping across India (bedsheets above Rs 1,000). Order easily on <a href="{wa()}" target="_blank" rel="noopener">WhatsApp</a>.</div>
 <header class="mk-head"><div class="in"><a class="mk-logo" href="index.html"><img src="logo-120.webp" alt="Mookmati, The Silent Earth Studio" width="46" height="60"><span>Mookmati<small>The Silent Earth Studio</small></span></a><div class="mk-icons"><a href="contact.html" title="Visit our store" aria-label="Visit our store">{_ico("pin")}</a><a href="{IG_URL}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">{_ico("ig")}</a><a href="{wa()}" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">{_ico("wa")}</a><a href="shop.html" title="Shop" aria-label="Shop">{_ico("bag")}</a></div></div><nav class="mk-nav" aria-label="Main"><div class="nin">{nav}</div></nav></header>
 <main class="mk">{body}</main>
 {footer}
@@ -1012,7 +1019,7 @@ for _cat, _plist in CATALOG.items():
         _items.append(f"""  <item>
     <g:id>{_x(_p['code'])}</g:id>
     <g:title>{_x(_p['title'])}</g:title>
-    <g:description>{_x(_p['desc'])} Free shipping across India. Order on WhatsApp +91 94566 01984.</g:description>
+    <g:description>{_x(_p['desc'])} {(BS_SHIP + '.') if _cat == 'bedsheets' else 'Free shipping across India.'} Order on WhatsApp +91 94566 01984.</g:description>
     <g:link>{SITE}/{_p['slug']}.html</g:link>
     <g:image_link>{SITE}/{_img}</g:image_link>
     <g:availability>in_stock</g:availability>
@@ -1023,13 +1030,13 @@ for _cat, _plist in CATALOG.items():
     <g:google_product_category>{_x(GPC.get(_cat, "Home & Garden"))}</g:google_product_category>
     <g:product_type>{_x(_cat.replace('-', ' ').title())}</g:product_type>
 """ + ("""    <g:material>Cotton</g:material>
-    <g:size>108 x 108 inches</g:size>
-""" if _cat == "bedsheets" else "") + f"""    <g:shipping>
+    <g:size>""" + _x(_size_of(_p.get("title"))) + """</g:size>
+""" if _cat == "bedsheets" else "") + ("" if (_cat == "bedsheets" and not _bs_free(_p["price"])) else f"""    <g:shipping>
       <g:country>IN</g:country>
       <g:service>Standard</g:service>
       <g:price>0.00 INR</g:price>
     </g:shipping>
-  </item>
+""") + f"""  </item>
 """)
 with open(f"{OUT}/feed.xml", "w", encoding="utf-8") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n<channel>\n'

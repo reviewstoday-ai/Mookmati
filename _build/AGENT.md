@@ -15,6 +15,7 @@ Instructions for the scheduled run that keeps mookmati.in in step with new produ
    - `code`: next free code in that category (bedsheets use MK-BS-###).
    - `slug`: short lowercase words joined by hyphens, starting with the category, e.g. `bedsheet-indigo-butti`.
    - `name`, `price` (digits with Indian commas, no rupee sign), `title`, `note`, `lead`, `points`, `desc`: written only from facts in the caption. Never invent material, size, dye or pillow-cover claims.
+   - Shipping wording for bedsheets: use "Free shipping across India on bedsheet orders above Rs 1,000" (Chirag's shipping policy), even if the caption says free shipping.
    - `instagram`: the post URL. `added`: today's date.
    - Categories: bedsheets, sarees, handloom, jewellery, home-decor, serveware, handicrafts. If a category list does not exist yet, create it.
 5. Save the first product photo of the post: remove Instagram's sign-up overlay, zoom-capture the photo area avoiding the carousel arrow, counter badge, cursor and any text banner, and save it as `images/<code>.webp` (also `.jpg`).
