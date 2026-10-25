@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-009",
+      "slug": "bedsheet-rajgharana",
+      "name": "Rajgharana Bedsheet Set",
+      "price": "1,750",
+      "title": "Rajgharana Cotton Bedsheet Set with Golden Print, Super King Size 108 x 108",
+      "note": "From our ultra luxurious vegan collection. Rich royal maroon cotton with golden blooms framed in palace-style jaalis and grand ornamental borders. Super king size 108 x 108 in, with matching pillow covers.",
+      "lead": "Crafted to make your home look truly palatial. Rich royal maroon cotton is adorned with golden blooms framed in palace-style jaalis and grand ornamental borders, inspired by the regal interiors of Rajasthan's palaces.",
+      "points": [
+        "Part of Mookmati's ultra luxurious vegan collection",
+        "100% rich cotton with golden print motifs",
+        "Rajasthani palace jaali design",
+        "Golden blooms and grand ornamental borders on royal maroon",
+        "Super king size: 108 x 108 inches",
+        "Matching pillow covers included",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Rajgharana: cotton bedsheet set from Mookmati's ultra luxurious vegan collection, with golden blooms framed in palace-style jaalis and grand ornamental borders on rich royal maroon cotton, inspired by the regal interiors of Rajasthan's palaces. 100% rich cotton with golden print motifs, super king size 108 x 108 inches, with matching pillow covers. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/De5s0PtFK1G/",
+      "added": "2026-10-25"
+    },
+    {
       "code": "MK-BS-008",
       "slug": "bedsheet-sheesh-mahal",
       "name": "Sheesh Mahal Bedsheet Set",
