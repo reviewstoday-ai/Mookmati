@@ -18,11 +18,15 @@ Instructions for the scheduled run that keeps mookmati.in in step with new produ
    - Shipping wording for bedsheets: use "Free shipping across India on bedsheet orders above Rs 1,000" (Chirag's shipping policy), even if the caption says free shipping.
    - `instagram`: the post URL. `added`: today's date.
    - Categories: bedsheets, sarees, handloom, jewellery, home-decor, serveware, handicrafts. If a category list does not exist yet, create it.
-5. Save the first product photo of the post: remove Instagram's sign-up overlay, zoom-capture the photo area avoiding the carousel arrow, counter badge, cursor and any text banner, and save it as `images/<code>.webp` (also `.jpg`).
+5. Save the product photos of the post (usually 3 slides; for a reel, take 2 to 3 clear still frames of the bedsheet):
+   - Main photo: the first slide that shows the product, saved as `images/<code>.webp` (also `.jpg`).
+   - Extra photos: each other slide that shows the product (actual product, close-up of the print, room view), saved in post order as `images/<code>-2.jpg`, `images/<code>-3.jpg`, and so on (also `.webp`). The build picks these up automatically and shows them under the main photo.
+   - Skip slides that are only text or an information card (price, size, "Order now").
+   - For every photo: remove Instagram's sign-up overlay, then capture only the photo area. Leave out the carousel arrow, the counter badge (for example "2 / 3"), slide labels such as "Representative image" or "Actual product", logo badges, the cursor and any text banner. A reliable way is to draw the slide image onto a canvas in a full-page overlay and zoom-capture that.
 6. Run `python3 _build/site.py`. Check that the new product page exists, appears on shop.html and in sitemap.xml, and that no image is broken.
 7. Publish:
    - If this session can push to the repository, commit with message `Add <name> from Instagram` and push to `main`.
-   - Otherwise, zip only the changed and new files, send the zip to Chirag, and tell him to upload them with "Add file > Upload files" (images go inside the `images` folder).
+   - Otherwise, zip only the changed and new files, send the zip to Chirag, and tell him to upload them with "Add file > Upload files" (all photos, including the `-2` and `-3` ones, go inside the `images` folder).
 8. Tell search engines, only when a product was added and the site is live (wait until the new page loads on mookmati.in):
    - Google Search Console (property sc-domain:mookmati.in, already signed in in Chrome): use "Inspect any URL" on each new product page and on https://mookmati.in/bedsheets.html (or the product's category page), then click "Request indexing". Google allows only a few requests a day; if it refuses, note it in the summary and move on.
    - Bing Webmaster Tools (bing.com/webmasters, site https://mookmati.in/): open URL Submission, click "Submit URLs", and submit each new product page plus https://mookmati.in/shop.html and https://mookmati.in/.

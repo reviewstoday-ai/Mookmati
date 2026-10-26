@@ -697,7 +697,9 @@ PRODUCT_PAGES = []
 for cat in [c for c in CATALOG if not c.startswith("_")]:
     for code, name, note, price in PRODUCTS[cat]:
         p = PBY[code]; d = PDETAIL[code]; slug = PRODUCT_SLUG[code]
-        gal = product_gallery(code, p.get("images")) if cat != "bedsheets" else [product_img(code)]
+        # Bedsheets: main photo is images/<code>.webp; extra Instagram slides are images/<code>-2.jpg, -3.jpg, ... (picked up automatically)
+        gal = product_gallery(code, p.get("images")) if cat != "bedsheets" else \
+              [product_img(code)] + [f"images/{code}-{k}.jpg" for k in range(2, 10) if os.path.exists(f"{OUT}/images/{code}-{k}.jpg")]
         img = gal[0]; label = CAT_LABEL.get(cat, cat.title())
         msg = f"Hello Mookmati, I would like to order the {name} (code {code})."
         thumbs = ("<div class=\"pgal\">" + "".join(f'<img src="{g}" alt="{esc(name)}, photo {k + 2}" loading="lazy" decoding="async">' for k, g in enumerate(gal[1:])) + "</div>") if len(gal) > 1 else ""
