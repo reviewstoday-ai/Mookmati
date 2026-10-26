@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-010",
+      "slug": "bedsheet-badal-mahal",
+      "name": "Badal Mahal Bedsheet",
+      "price": "1,750",
+      "title": "Badal Mahal Cotton Bedsheet with Golden Jaali Design, Super King Size 108 x 108",
+      "note": "Ultra luxurious bedsheet in midnight-navy black cotton with golden flower jaalis and grand ornamental borders. Super king size 108 x 108 in, with matching pillow covers.",
+      "lead": "A royal night in a Rajasthani palace. Midnight-navy black cotton with golden flower jaalis and grand ornamental borders, inspired by the \"palace of the clouds\" atop Kumbhalgarh Fort. Rich, dramatic and timeless, it turns your bedroom into a royal retreat.",
+      "points": [
+        "Ultra luxurious bedsheet",
+        "Rich cotton with golden threads",
+        "Rajasthani palace jaali design",
+        "Golden flower jaalis and grand ornamental borders on midnight-navy black",
+        "Super king size: 108 x 108 inches",
+        "Matching pillow covers included",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Badal Mahal: ultra luxurious bedsheet in midnight-navy black cotton with golden flower jaalis and grand ornamental borders, inspired by the \"palace of the clouds\" atop Kumbhalgarh Fort. Rich cotton with golden threads in a Rajasthani palace jaali design, super king size 108 x 108 inches, with matching pillow covers. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/De8fCeblAHz/",
+      "added": "2026-10-26"
+    },
+    {
       "code": "MK-BS-009",
       "slug": "bedsheet-rajgharana",
       "name": "Rajgharana Bedsheet Set",
