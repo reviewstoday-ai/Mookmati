@@ -2,6 +2,26 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-011",
+      "slug": "bedsheet-gulabi-bagh",
+      "name": "Gulabi Bagh Bedsheet",
+      "price": "950",
+      "title": "Gulabi Bagh Rajasthani Hand Block Print Cotton Bedsheet, King Size 108 x 90",
+      "note": "Soft rose-pink cotton with earthy brown and lilac florals, hand block printed with natural vegetable dyes. 300 TC, king size 108 x 90 in, with matching pillow covers.",
+      "lead": "A rose garden from the Pink City. Soft rose-pink cotton blooming with earthy brown and lilac florals, hand block printed by Rajasthani artisans with natural vegetable dyes. Crafted in the spirit of ahimsa, it brings Jaipur's gentle charm to your bedroom.",
+      "points": [
+        "100% cotton, 300 thread count",
+        "Rajasthani hand block print with vegetable dyes",
+        "Rose-pink base with earthy brown and lilac florals",
+        "King size: 108 x 90 inches",
+        "Matching pillow covers included",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Gulabi Bagh: a rose garden from the Pink City. Soft rose-pink cotton with earthy brown and lilac florals, hand block printed by Rajasthani artisans with natural vegetable dyes, in the spirit of ahimsa. 100% cotton, 300 thread count, king size 108 x 90 inches, with matching pillow covers. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/De-3QtKFOhQ/",
+      "added": "2026-10-27"
+    },
+    {
       "code": "MK-BS-010",
       "slug": "bedsheet-badal-mahal",
       "name": "Badal Mahal Bedsheet",
