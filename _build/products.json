@@ -229,6 +229,32 @@
   ],
   "sarees": [
     {
+      "code": "MK-SR-021",
+      "slug": "saree-royal-gajagamini-vegan-silk",
+      "name": "Royal Gajagamini Vegan Silk Saree",
+      "price": "6,500",
+      "mrp": "",
+      "title": "Royal Gajagamini Vegan Silk Saree, Elephant Butta Peshwai Bamboo Silk-Cotton, Handwoven",
+      "note": "Gold-woven elephants on an earthy brown body with a royal red contrast pallu. Handwoven bamboo silk-cotton, a vegan alternative to mulberry silk.",
+      "lead": "Our exclusive Diwali launch. Gold-woven elephants march across an earthy brown body, finished with a royal red contrast pallu. A vegan, handwoven alternative to traditional mulberry silk, made in the spirit of ahimsa. Only a few weavers are left who can weave this saree.",
+      "points": [
+        "Pure bamboo silk (bamboo silk-cotton), Jain friendly",
+        "Vegan alternative to traditional pure mulberry silk",
+        "Completely handwoven",
+        "Elephant butta Peshwai weave, gold thread woven throughout (costlier than 1G zari)",
+        "Royal red contrast pallu",
+        "Running blouse",
+        "A weave with 500+ years of history",
+        "Woven only for prepaid orders. Please allow 10 to 15 days for shipping."
+      ],
+      "desc": "Royal Gajagamini Vegan Silk Saree: gold-woven elephants on an earthy brown body with a royal red contrast pallu. Elephant butta Peshwai weave in pure bamboo silk (bamboo silk-cotton), a completely handwoven, vegan and Jain friendly alternative to mulberry silk, with a running blouse. Woven only for prepaid orders; please allow 10 to 15 days for shipping.",
+      "fabric": "Bamboo Silk-Cotton",
+      "images": 3,
+      "made_to_order": true,
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfBhdIIlHeY/",
+      "added": "2026-10-28"
+    },
+    {
       "code": "MK-SR-020",
       "slug": "saree-rust-orange-mirror-glow",
       "name": "Rust Orange Mirror Glow Soft Bengal Handloom Mul Saree with Rani Pink Block Print Blouse",
