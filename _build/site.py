@@ -161,13 +161,20 @@ def _ico(name):
     return f'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths[name]}</svg>'
 
 _live_bs = CATALOG["bedsheets"]
-_newest = _live_bs[0]
+# "New arrival" = the most recently added product in ANY category (ties keep catalogue order, bedsheets first).
+_all_new = [(p.get("added", ""), -i, cat, p) for i, (cat, p) in enumerate((c, q) for c, lst in CATALOG.items() if isinstance(lst, list) for q in lst)
+            if p.get("price") and os.path.exists(f"{OUT}/images/{p['code']}.webp")]
+_, _, _newest_cat, _newest = max(_all_new, key=lambda t: (t[0], t[1]))
+_newest_ship = ("free shipping on bedsheet orders above Rs 1,000" if _newest_cat == "bedsheets"
+                else "made to order, free shipping across India" if _newest.get("made_to_order")
+                else "free shipping across India")
+_bs_hero = _live_bs[1] if (_newest_cat == "bedsheets" and len(_live_bs) > 1) else _live_bs[0]
 HERO_SLIDES = [
-    ("indigo", "New arrival", _newest["name"], _newest["lead"], f"&#8377; {_newest['price']}, free shipping on bedsheet orders above Rs 1,000",
+    ("indigo", "New arrival", _newest["name"], _newest["lead"], f"&#8377; {_newest['price']}, {_newest_ship}",
      f"{_newest['slug']}.html", "Shop now", f"images/{_newest['code']}.webp", _newest["name"]),
     ("madder", "Hand block-printed in Rajasthan", "Bedsheets that carry the touch of a human hand",
      "Pure cotton, printed one wooden block at a time.", f"Prices {PRICE_FROM_HTML}", "bedsheets.html", "Shop bedsheets",
-     f"images/{_live_bs[1]['code']}.webp" if len(_live_bs) > 1 else f"images/{_newest['code']}.webp", "Hand block-printed cotton bedsheet"),
+     f"images/{_bs_hero['code']}.webp", "Hand block-printed cotton bedsheet"),
     ("clay", "Visit our store", "Mookmati, The Silent Earth Studio",
      "See and feel every piece in person at GF193, Gaur City Center, Noida Extension.", "Call or WhatsApp +91 94566 01984", "contact.html", "Get directions",
      "logo-360.webp", "Mookmati logo"),
