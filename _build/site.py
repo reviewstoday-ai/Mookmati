@@ -355,6 +355,10 @@ about = f"""
   </section>
 """
 
+STORE_LAT, STORE_LNG = 28.605595, 77.4279075
+MAP_EMBED = "https://www.google.com/maps?q=Gaur+City+Center,+4+Murti+Chowk,+Gaur+City+1,+Greater+Noida+West+201318&amp;z=17&amp;output=embed"
+MAP_DIR = f"https://www.google.com/maps/dir/?api=1&amp;destination={STORE_LAT},{STORE_LNG}"
+
 contact = f"""
   <section class="pagehead print">
     <div class="wrap">
@@ -366,9 +370,16 @@ contact = f"""
     <div class="wrap">
       <div class="contactgrid" style="max-width:1000px;margin:0 auto;">
         <div class="ccard"><h3>WhatsApp</h3><p>Orders, prices, returns and product questions.</p><a class="btn btn-wa" href="{wa('Hello Mookmati, I have a question.')}" target="_blank" rel="noopener">Chat now</a></div>
-        <div class="ccard"><h3>Visit our store</h3><p>GF193, Gaur City Center,<br>Noida Extension</p><a class="btn btn-clay" href="https://www.google.com/maps/search/?api=1&amp;query=Gaur+City+Center+Noida+Extension" target="_blank" rel="noopener">Get directions</a></div>
+        <div class="ccard"><h3>Visit our store</h3><p>GF193, Gaur City Center, 4 Murti,<br>Gaur City 1, Greater Noida West<br>Open daily, 10 am to 9 pm</p><a class="btn btn-clay" href="{MAP_DIR}" target="_blank" rel="noopener">Get directions</a></div>
         <div class="ccard"><h3>Instagram</h3><p>New arrivals and artisan stories.</p><a class="btn btn-dark" href="{IG_URL}" target="_blank" rel="noopener">@{IG}</a></div>
       </div>
+    </div>
+  </section>
+  <section id="store-locator">
+    <div class="wrap" style="max-width:1000px;">
+      <div class="center" style="margin-bottom:20px;"><h2>Store locator</h2><p>Mookmati, GF193 (ground floor), Gaur City Center, 4 Murti Chowk, Gaur City 1, Greater Noida West, Uttar Pradesh 201318. Near Crossings Republik and Noida Extension.</p></div>
+      <div class="mapbox"><iframe src="{MAP_EMBED}" title="Map showing Mookmati store at Gaur City Center, Greater Noida West" width="1000" height="420" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+      <p class="center" style="margin-top:14px;font-size:15px;color:var(--muted);">Open every day, 10 am to 9 pm &middot; Call or WhatsApp <a href="tel:+919456601984">+91 94566 01984</a> &middot; <a href="{MAP_DIR}" target="_blank" rel="noopener">Open in Google Maps</a></p>
     </div>
   </section>
   <section class="tint">
@@ -500,7 +511,7 @@ footer = f"""<footer class="mk mk-footer2">
       <div>
         <h4>Let us help you</h4>
         <a href="{wa('Hello Mookmati, I would like to place an order.')}" target="_blank" rel="noopener">Order on WhatsApp</a>
-        <a href="contact.html">Store locator</a>
+        <a href="contact.html#store-locator">Store locator</a>
         <a href="{wa('Hello Mookmati, I would like to ask about a bulk order.')}" target="_blank" rel="noopener">Bulk orders</a>
         <a href="contact.html">Contact us</a>
       </div>
@@ -537,12 +548,15 @@ def ld(obj):
     return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False) + '</script>'
 
 ORG = {
-  "@context": "https://schema.org", "@type": "Store", "@id": SITE + "/#store",
+  "@context": "https://schema.org", "@type": "HomeGoodsStore", "@id": SITE + "/#store",
   "name": "Mookmati", "alternateName": "Mookmati, The Silent Earth Studio",
   "url": SITE + "/", "logo": SITE + "/logo.png", "image": SITE + "/logo.png",
   "description": "Mookmati, The Silent Earth Studio, sells hand block-printed cotton bedsheets and handmade Indian goods guided by ahimsa (non-violence). Orders on WhatsApp, free shipping across India (bedsheets on orders above Rs 1,000).",
   "telephone": "+91-9456601984",
-  "address": {"@type": "PostalAddress", "streetAddress": "GF193, Gaur City Center", "addressLocality": "Greater Noida West (Noida Extension)", "addressRegion": "Uttar Pradesh", "addressCountry": "IN"},
+  "address": {"@type": "PostalAddress", "streetAddress": "GF193, Gaur City Center, 4 Murti, Gaur City 1", "addressLocality": "Greater Noida West", "addressRegion": "UP", "postalCode": "201318", "addressCountry": "IN"},
+  "geo": {"@type": "GeoCoordinates", "latitude": 28.605595, "longitude": 77.4279075},
+  "hasMap": "https://www.google.com/maps?cid=6880888118234254602",
+  "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "10:00", "closes": "21:00"},
   "areaServed": "IN", "currenciesAccepted": "INR",
   "sameAs": [IG_URL, FB_URL, X_URL],
   "contactPoint": {"@type": "ContactPoint", "telephone": "+91-9456601984", "contactType": "sales", "availableLanguage": ["en", "hi"]},
@@ -965,7 +979,7 @@ for slug, _, body, title, desc, extra_head, og_img in PAGES:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="format-detection" content="telephone=no">
 <title>{title}</title>
