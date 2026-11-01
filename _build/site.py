@@ -505,6 +505,176 @@ terms = policy("Terms of Use", "The rules for using our website and buying from 
       <p>Questions about these terms? Message us on {WA_LINK}.</p>
 """)
 
+# Wash & Care page
+def _cico(kind):
+    # Simple care-symbol style icons, drawn inline (no external images)
+    paths = {
+        "cold": '<path d="M8 20h48l-6 30a4 4 0 0 1-4 3H18a4 4 0 0 1-4-3z"/><path d="M8 26c6 4 10-4 16 0s10-4 16 0 10-4 16 0"/><text x="32" y="45" text-anchor="middle" font-size="13" font-weight="700" stroke="none" fill="currentColor">30&#176;</text>',
+        "hand": '<path d="M8 20h48l-6 30a4 4 0 0 1-4 3H18a4 4 0 0 1-4-3z"/><path d="M24 44V30a3 3 0 0 1 6 0v8m0-10a3 3 0 0 1 6 0v10m0-8a3 3 0 0 1 6 0v12c0 6-4 9-9 9h-2c-4 0-7-3-9-6l-4-6a3 3 0 0 1 5-3l3 3"/>',
+        "nobleach": '<path d="M32 8 58 52H6z"/><path d="M14 12l36 44M50 12 14 56"/>',
+        "shade": '<rect x="10" y="10" width="44" height="44" rx="4"/><path d="M10 22h44"/><path d="M18 10l-8 12M28 10l-8 12M38 10l-8 12M48 10l-8 12"/>',
+        "nowring": '<path d="M10 24c8-8 14 8 22 0s14 8 22 0M10 40c8-8 14 8 22 0s14 8 22 0"/><path d="M10 10l44 44M54 10 10 54"/>',
+        "iron": '<path d="M10 48h44l-4-18a8 8 0 0 0-8-6H22c-6 0-10 4-10 10"/><path d="M22 18h18"/><circle cx="28" cy="40" r="2.5" fill="currentColor"/><circle cx="36" cy="40" r="2.5" fill="currentColor"/>',
+        "dry": '<circle cx="32" cy="32" r="22"/><path d="M14 18l36 28M50 18 14 46"/>',
+        "store": '<path d="M10 24 32 12l22 12v26a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4z"/><path d="M22 54V36h20v18"/>',
+        "drop": '<path d="M32 8c10 14 16 22 16 30a16 16 0 0 1-32 0c0-8 6-16 16-30z"/><path d="M10 10l44 44"/>',
+        "cloth": '<path d="M12 14h40v36H12z"/><path d="M12 24h40M12 34h40M12 44h40"/>',
+    }
+    return f'<svg class="cico" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">{paths[kind]}</svg>'
+
+def _pic(code, alt, slug_code=None):
+    href = PRODUCT_SLUG.get(slug_code or code)
+    img = f'<img src="images/{code}.webp" alt="{alt}" loading="lazy" decoding="async">'
+    return f'<a class="cpic" href="{href}.html">{img}</a>' if href else f'<span class="cpic">{img}</span>'
+
+def _steps(rows):
+    return '<div class="csteps">' + "".join(
+        f'<div class="cstep">{_cico(k)}<div><h4>{t}</h4><p>{d}</p></div></div>' for k, t, d in rows) + '</div>'
+
+care = f"""
+  <section class="pagehead print">
+    <div class="wrap">
+      <h1>Wash &amp; Care</h1>
+      <p>Our textiles are hand block printed in Rajasthan with natural vegetable dyes, and our jewellery is handcrafted. A little gentle care keeps their colours rich and textures soft for years.</p>
+    </div>
+  </section>
+  <nav class="jump"><div class="wrap">
+    <a href="#bedsheets">Bedsheets &amp; table runners</a>
+    <a href="#mul">Mul cotton sarees</a>
+    <a href="#vegan-silk">Vegan silk sarees</a>
+    <a href="#jewellery">Jewellery</a>
+    <a href="#tips">Quick tips</a>
+  </div></nav>
+
+  <section id="bedsheets">
+    <div class="wrap">
+      <div class="csec">
+        <div class="cpics">{_pic("MK-BS-012", "Kesariya hand block printed cotton bedsheet in an Indian bedroom")}{_pic("MK-HD-032", "Kesar Bagh hand block printed table runner set on a dining table")}</div>
+        <div>
+          <span class="eyebrow">100% cotton, natural vegetable dyes</span>
+          <h2>Hand block printed cotton bedsheets &amp; table runners</h2>
+          <p>Natural vegetable dyes are sensitive to strong chemicals and heavy scrubbing. Gentle cleaning preserves the beauty of the hand block prints.</p>
+          {_steps([
+            ("cold", "First wash", "Wash separately in cold water with a pinch of sea salt to help set the natural colours."),
+            ("hand", "Hand wash or gentle machine wash", "Wash by hand, or use a gentle or delicate machine cycle with cold water."),
+            ("nobleach", "Mild detergent only", "Use a mild, pH-neutral liquid detergent without bleach, optical brighteners or harsh enzymes. Avoid detergent powders that contain bleach."),
+            ("drop", "Do not soak", "Wash quickly. Do not leave the fabric in soapy water for a long time."),
+            ("nowring", "Squeeze, do not wring", "Gently squeeze out excess water. Do not wring or twist hard."),
+            ("shade", "Dry in shade, inside out", "Line dry in a shady spot, inside out. Direct sunlight fades natural dyes faster, so avoid the harsh afternoon sun on the terrace."),
+            ("iron", "Iron on the reverse", "Use a warm to medium iron on the reverse side while the fabric is slightly damp, for a crisp, smooth finish."),
+          ])}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mul" class="tint">
+    <div class="wrap">
+      <div class="csec">
+        <div class="cpics">{_pic("MK-SR-023", "Mul cotton saree draped in a Rajasthani haveli courtyard")}</div>
+        <div>
+          <span class="eyebrow">Handcrafted sarees</span>
+          <h2>Mulmul (mul) cotton sarees</h2>
+          <p>Mulmul is an exceptionally soft, breathable cotton. It needs delicate handling to stay soft and keep its print vibrant.</p>
+          {_steps([
+            ("dry", "First wash: dry clean", "We recommend dry cleaning for the first wash. After that, hand wash separately in cold water."),
+            ("hand", "Swish, never scrub", "Gently swish in cold water with a mild liquid soap made for fine cottons, or baby shampoo. Never scrub or rub the fabric hard."),
+            ("drop", "Soak for 5 minutes at most", "Avoid soaking for longer than 5 minutes."),
+            ("shade", "Air dry in shade", "Dry in the shade only, away from direct sunlight."),
+            ("iron", "Steam iron on the reverse", "Iron on medium to high heat with steam, on the reverse side."),
+          ])}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vegan-silk">
+    <div class="wrap">
+      <div class="csec">
+        <div class="cpics">{_pic("MK-SR-021", "Royal Gajagamini vegan silk saree")}</div>
+        <div>
+          <span class="eyebrow">Handcrafted sarees</span>
+          <h2>Vegan silk sarees</h2>
+          <p>Vegan silk gives a luxurious, silky drape with no animal products. Gentle handling prevents stress on the fabric and keeps its lustre.</p>
+          {_steps([
+            ("dry", "Dry clean for best results", "Dry cleaning is recommended. You can also hand wash gently and separately in cold or lukewarm water."),
+            ("nobleach", "Silk-safe detergent", "Use a mild, silk-safe liquid detergent or baby shampoo."),
+            ("hand", "Dip and swish", "Dip and gently swish the saree in soapy water. Do not scrub, brush or rub it."),
+            ("drop", "Rinse well", "Rinse thoroughly in cold water to remove all detergent."),
+            ("nowring", "Towel, then dry flat in shade", "Do not wring or twist. Roll it in a clean towel to absorb excess water, then dry flat in the shade."),
+            ("iron", "Low heat, with a press cloth", "Iron on the silk or low heat setting on the reverse side. If you iron the front, place a thin cotton cloth between the iron and the saree."),
+          ])}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="jewellery" class="tint">
+    <div class="wrap">
+      <div class="center" style="margin-bottom:26px;">
+        <span class="eyebrow">Handcrafted jewellery</span>
+        <h2>Jewellery care</h2>
+        <p style="max-width:720px;margin:0 auto;">Our earrings, danglers and necklace sets are made in brass, silver-tone and gunmetal finishes, often set with kundan, stones or pearls. Metal reacts with moisture, sweat and chemicals, so the golden rule is simple: <strong>last on, first off</strong>. Put jewellery on after perfume, hair oil and make-up, and take it off before bathing, cooking or exercise.</p>
+      </div>
+      <div class="jcards">
+        <div class="jcard">
+          {_pic("MK-JW-018", "Brass earrings with stones")}
+          <h3>Brass jewellery</h3>
+          <ul>
+            <li>Brass naturally darkens with time. This is normal and can be cleaned.</li>
+            <li>Wipe with a soft dry cloth after each wear to remove sweat and oils.</li>
+            <li>For light dirt, wipe with a cloth dipped in mild soapy water, then dry at once.</li>
+            <li>For tarnish on plain brass, gently rub with a little lemon juice and salt, rinse and dry completely. Do not use this on pieces with stones, kundan, pearls, enamel or a plated finish.</li>
+            <li>A slight green mark on the skin can happen with brass in humid weather. It is harmless and washes off. Keeping the piece dry helps prevent it.</li>
+          </ul>
+        </div>
+        <div class="jcard">
+          {_pic("MK-JW-005", "Silver-tone teapot earrings")}
+          <h3>Silver &amp; gunmetal (oxidised) finish</h3>
+          <ul>
+            <li>The dark, antique look on oxidised and gunmetal pieces is part of the design.</li>
+            <li>Do not use silver polish, silver dip or lemon. They strip the oxidised finish.</li>
+            <li>Clean only when needed, by wiping gently with a soft dry cloth.</li>
+            <li>Keep away from water, perfume, sanitiser and deodorant.</li>
+            <li>Store in an airtight zip pouch to slow tarnishing, especially in the monsoon.</li>
+          </ul>
+        </div>
+        <div class="jcard">
+          {_pic("MK-JW-013", "Rajwadi kundan necklace set with pearls")}
+          <h3>Kundan, stone &amp; pearl sets</h3>
+          <ul>
+            <li>Never wash or soak. Water loosens settings and dulls pearls.</li>
+            <li>Wipe gently with a soft dry cloth or cotton bud after wearing.</li>
+            <li>Keep perfume, hairspray and hair oil away from stones and pearls.</li>
+            <li>Store flat, each piece wrapped in soft cloth or tissue, so stones do not scratch each other.</li>
+            <li>A small sachet of silica gel in the box keeps moisture away.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tips">
+    <div class="wrap narrow">
+      <div class="center" style="margin-bottom:22px;"><span class="eyebrow">For all Mookmati pieces</span><h2>Quick tips</h2></div>
+      {_steps([
+        ("cold", "Colour bleed is normal", "A little colour may run in the first one or two washes. This is typical of natural vegetable dyes and does not affect the vibrancy of the print."),
+        ("cloth", "Let natural fibres breathe", "Store cotton and vegan silk sarees wrapped in soft cotton cloth or a cloth bag, in a cool, dry place. Avoid plastic covers."),
+        ("store", "Refold and air your sarees", "Refold sarees along different lines every few months, and air them out after the monsoon, so the folds do not weaken."),
+        ("store", "Jewellery: separate and dry", "Keep each jewellery piece in its own pouch or box compartment, with silica gel, away from the bathroom and kitchen."),
+      ])}
+      <div class="box" style="margin-top:26px;">Have a care question about a piece you bought from us? Message us on <a href="{wa('Hello Mookmati, I have a question about caring for my product.')}" target="_blank" rel="noopener">WhatsApp</a> and we will help.</div>
+    </div>
+  </section>
+"""
+
+CARE_ANCHOR = {"bedsheets": "bedsheets", "home-decor": "bedsheets", "sarees": "", "jewellery": "jewellery"}
+def care_link(cat, name=""):
+    anc = CARE_ANCHOR.get(cat, "")
+    if cat == "sarees":
+        anc = "vegan-silk" if "vegan silk" in name.lower() else "mul"
+    return f'For product care info, visit our <a href="wash-care.html{"#" + anc if anc else ""}">Wash &amp; Care</a> page.'
+
 footer = f"""<footer class="mk mk-footer2">
   <div class="wrap">
     <div class="fcols">
@@ -520,6 +690,7 @@ footer = f"""<footer class="mk mk-footer2">
         <a href="contact.html">How to order</a>
         <a href="shipping.html">Shipping and delivery</a>
         <a href="returns.html">Returns and exchanges</a>
+        <a href="wash-care.html">Wash &amp; care</a>
         <a href="contact.html">FAQs</a>
       </div>
       <div>
@@ -598,7 +769,7 @@ BS_FAQ = [
  ("What is hand block printing?", "Artisans press carved wooden blocks dipped in dye onto the cloth, one impression at a time. Small variations in the print are the mark of handwork, not a flaw."),
  ("How much do the bedsheets cost?", f"Our bedsheets are priced {PRICE_FROM} onwards, with free shipping across India on bedsheet orders above Rs 1,000. International shipping is available at an extra charge."),
  ("How do I order?", "Tap “Order on WhatsApp” on any product, or message +91 94566 01984. You can also visit our store at GF193, Gaur City Center, Noida Extension."),
- ("How should I wash a block-printed cotton bedsheet?", "Wash separately in cold water with a mild detergent for the first few washes, and dry in shade to keep the colours fresh."),
+ ("How should I wash a block-printed cotton bedsheet?", "Wash it separately in cold water with a pinch of sea salt the first time, then hand wash or use a gentle cold cycle with a mild liquid detergent without bleach. Do not soak, squeeze gently instead of wringing, and dry inside out in the shade. Full instructions are on our Wash & Care page (mookmati.in/wash-care.html)."),
 ]
 faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in BS_FAQ]}
@@ -752,6 +923,7 @@ for cat in [c for c in CATALOG if not c.startswith("_")]:
             {ig_btn}
           </div>
           {detail}
+          <p class="pcare">{_cico("hand")}<span>{care_link(cat, name)}</span></p>
           <p style="font-size:14px;color:var(--muted);margin-top:18px;">Prefer to see it in person? Visit our store at GF193, Gaur City Center, Noida Extension. See our <a href="shipping.html">Shipping</a> and <a href="returns.html">Returns</a> policies.</p>
         </div>
       </div>
@@ -787,6 +959,7 @@ LLMS = """# Mookmati, The Silent Earth Studio
 - [Contact and FAQ](https://mookmati.in/contact.html)
 - [Shipping](https://mookmati.in/shipping.html): free shipping in India on jewellery and table runners, and on bedsheet orders above Rs 1,000; international shipping charged extra
 - [Returns and exchanges](https://mookmati.in/returns.html): returns only for damaged products, within 7 days of delivery, unboxing video required
+- [Wash and care](https://mookmati.in/wash-care.html): washing, drying, ironing and storage for block printed cotton, mul cotton and vegan silk sarees, and care for brass, silver, gunmetal and kundan jewellery
 """
 
 PAGES = [
@@ -807,6 +980,8 @@ PAGES = [
     ("privacy", None, privacy, "Privacy Policy | Mookmati", "How Mookmati handles your personal data."),
     ("credits", None, credits, "Photo Credits | Mookmati", "Credits for photos used on mookmati.in."),
     ("terms", None, terms, "Terms of Use | Mookmati", "Terms of using mookmati.in and ordering from Mookmati."),
+    ("wash-care", None, care, "Wash & Care Instructions | Mookmati",
+     "How to wash and care for hand block printed cotton bedsheets, table runners, mul cotton and vegan silk sarees, and brass, silver, gunmetal and kundan jewellery from Mookmati."),
 ]
 PAGES = [p + ((SCHEMA.get(p[0], ""), SITE + "/logo.png") if len(p) == 5 else ()) for p in PAGES] + PRODUCT_PAGES
 
@@ -928,6 +1103,25 @@ body{margin:0;background:#faf6ee;}
 .mk-float{display:flex;align-items:center;gap:8px;}
 .mk .popt{font-size:.6em;font-weight:600;color:#6b5e55;text-transform:uppercase;letter-spacing:.06em;}
 .mk .mrp{color:#8a7f76;font-weight:400;font-size:.82em;margin-left:6px;}
+.mk .csec{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:start;}
+.mk .cpics{display:grid;gap:14px;position:sticky;top:130px;}
+.mk .cpic img{width:100%;height:auto;max-height:440px;object-fit:cover;border-radius:14px;display:block;box-shadow:0 10px 28px rgba(35,50,90,.14);}
+.mk .csteps{display:grid;gap:12px;margin-top:18px;}
+.mk .cstep{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid #e2d6c3;border-left:4px solid #b5653f;border-radius:10px;padding:14px 16px;}
+.mk .cstep:nth-child(3n+2){border-left-color:#23325a;}
+.mk .cstep:nth-child(3n){border-left-color:#8e2f2a;}
+.mk .cstep h4{font:700 16px Mulish,sans-serif;color:#2b2420;margin:2px 0 4px;}
+.mk .cstep p{margin:0;font-size:15px;color:#6b5e55;}
+.mk .cico{flex:0 0 40px;width:40px;height:40px;color:#8e2f2a;}
+.mk .jcards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.mk .jcard{background:#fff;border:1px solid #e2d6c3;border-radius:14px;overflow:hidden;}
+.mk .jcard .cpic img{border-radius:0;box-shadow:none;aspect-ratio:4/3;max-height:none;}
+.mk .jcard h3{font-size:26px;margin:18px 20px 8px;}
+.mk .jcard ul{margin:0 20px 20px;padding-left:18px;font-size:15px;color:#4a403a;}
+.mk .jcard li{margin-bottom:7px;}
+.mk .pcare{display:flex;gap:10px;align-items:center;background:#f6efe4;border:1px solid #e2d6c3;border-radius:10px;padding:10px 14px;font-size:15px;margin:18px 0 0;}
+.mk .pcare .cico{flex-basis:28px;width:28px;height:28px;}
+@media (max-width:860px){.mk .csec{grid-template-columns:1fr;gap:24px;}.mk .cpics{position:static;grid-template-columns:1fr 1fr;}.mk .cpics .cpic:only-child{grid-column:1/-1;}.mk .jcards{grid-template-columns:1fr;}}
 .pgal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;}
 .pgal img{width:100%;height:auto;border-radius:10px;display:block;}
 .mk .pdesc{font-size:16px;}
