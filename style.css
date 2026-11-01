@@ -278,6 +278,25 @@ body{margin:0;background:#faf6ee;}
 .mk-float{display:flex;align-items:center;gap:8px;}
 .mk .popt{font-size:.6em;font-weight:600;color:#6b5e55;text-transform:uppercase;letter-spacing:.06em;}
 .mk .mrp{color:#8a7f76;font-weight:400;font-size:.82em;margin-left:6px;}
+.mk .csec{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:start;}
+.mk .cpics{display:grid;gap:14px;position:sticky;top:130px;}
+.mk .cpic img{width:100%;height:auto;max-height:440px;object-fit:cover;border-radius:14px;display:block;box-shadow:0 10px 28px rgba(35,50,90,.14);}
+.mk .csteps{display:grid;gap:12px;margin-top:18px;}
+.mk .cstep{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid #e2d6c3;border-left:4px solid #b5653f;border-radius:10px;padding:14px 16px;}
+.mk .cstep:nth-child(3n+2){border-left-color:#23325a;}
+.mk .cstep:nth-child(3n){border-left-color:#8e2f2a;}
+.mk .cstep h4{font:700 16px Mulish,sans-serif;color:#2b2420;margin:2px 0 4px;}
+.mk .cstep p{margin:0;font-size:15px;color:#6b5e55;}
+.mk .cico{flex:0 0 40px;width:40px;height:40px;color:#8e2f2a;}
+.mk .jcards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.mk .jcard{background:#fff;border:1px solid #e2d6c3;border-radius:14px;overflow:hidden;}
+.mk .jcard .cpic img{border-radius:0;box-shadow:none;aspect-ratio:4/3;max-height:none;}
+.mk .jcard h3{font-size:26px;margin:18px 20px 8px;}
+.mk .jcard ul{margin:0 20px 20px;padding-left:18px;font-size:15px;color:#4a403a;}
+.mk .jcard li{margin-bottom:7px;}
+.mk .pcare{display:flex;gap:10px;align-items:center;background:#f6efe4;border:1px solid #e2d6c3;border-radius:10px;padding:10px 14px;font-size:15px;margin:18px 0 0;}
+.mk .pcare .cico{flex-basis:28px;width:28px;height:28px;}
+@media (max-width:860px){.mk .csec{grid-template-columns:1fr;gap:24px;}.mk .cpics{position:static;grid-template-columns:1fr 1fr;}.mk .cpics .cpic:only-child{grid-column:1/-1;}.mk .jcards{grid-template-columns:1fr;}}
 .pgal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;}
 .pgal img{width:100%;height:auto;border-radius:10px;display:block;}
 .mk .pdesc{font-size:16px;}
