@@ -2,6 +2,26 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-012",
+      "slug": "bedsheet-kesariya",
+      "name": "Kesariya Bedsheet",
+      "price": "1,000",
+      "title": "Kesariya Rajasthani Hand Block Print Cotton Bedsheet, King Size 108 x 90",
+      "note": "Ivory cotton with saffron flower bootis and a grand earthy border of blooming vines and checks, hand block printed with natural vegetable dyes. 300 TC, king size 108 x 90 in, with matching pillow covers.",
+      "lead": "The warmth of Rajasthan block prints, on your bed. Ivory cotton scattered with saffron flower bootis, framed by a grand earthy border of blooming vines and checks. Hand block printed by skilled artisans with natural vegetable dyes, using concepts of ahimsa. Part of the Diwali collection.",
+      "points": [
+        "100% pure cotton, 300 thread count",
+        "Rajasthani hand block print with vegetable dyes",
+        "Ivory base with saffron flower bootis and an earthy border of vines and checks",
+        "King size: 108 x 90 inches",
+        "Matching pillow covers included",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Kesariya: the warmth of Rajasthan block prints, on your bed. Ivory cotton scattered with saffron flower bootis, framed by a grand earthy border of blooming vines and checks, hand block printed by skilled artisans with natural vegetable dyes using concepts of ahimsa. 100% pure cotton, 300 thread count, king size 108 x 90 inches, with matching pillow covers. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfL_XnzFJAL/",
+      "added": "2026-11-01"
+    },
+    {
       "code": "MK-BS-011",
       "slug": "bedsheet-gulabi-bagh",
       "name": "Gulabi Bagh Bedsheet",
