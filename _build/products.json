@@ -2,6 +2,26 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-013",
+      "slug": "bedsheet-jamuni",
+      "name": "Jamuni Bedsheet",
+      "price": "1,000",
+      "title": "Jamuni Rajasthani Hand Block Print Cotton Bedsheet, King Size 108 x 100",
+      "note": "Ivory cotton covered in tiny jamun-hued blossoms, framed by paisley bands, flower bootis and a zigzag edge, hand block printed with vegetable dyes. 300 TC, king size 108 x 100 in, with matching pillow covers.",
+      "lead": "A garden in jamun season. Ivory cotton covered in tiny jamun-hued blossoms, framed by paisley bands, flower bootis and a zigzag edge. Hand block printed on pure natural cotton handloom fabric with vegetable dyes, using non-violent (ahimsa) friendly methods. Part of the Diwali Handloom Collection.",
+      "points": [
+        "100% cotton, 300 thread count",
+        "Rajasthani hand block print with vegetable dyes",
+        "Ivory base with jamun-hued blossoms, paisley bands, flower bootis and a zigzag edge",
+        "King size: 108 x 100 inches",
+        "Matching pillow covers included",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Jamuni: a garden in jamun season. Ivory cotton covered in tiny jamun-hued blossoms, framed by paisley bands, flower bootis and a zigzag edge, hand block printed on pure natural cotton handloom fabric with vegetable dyes using non-violent (ahimsa) friendly methods. 100% cotton, 300 thread count, king size 108 x 100 inches, with matching pillow covers. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfObcDUlE7I/",
+      "added": "2026-11-02"
+    },
+    {
       "code": "MK-BS-012",
       "slug": "bedsheet-kesariya",
       "name": "Kesariya Bedsheet",
