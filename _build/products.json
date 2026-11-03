@@ -2,6 +2,26 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-014",
+      "slug": "bedsheet-aasmani",
+      "name": "Aasmani Bedsheet",
+      "price": "1,000",
+      "title": "Aasmani Rajasthani Hand Block Print Cotton Bedsheet, King Size 108 x 100",
+      "note": "Ivory cotton covered in sky-blue vines, framed by floral borders, flower bootis and tall cypress motifs, hand block printed with natural vegetable dyes. 300 TC, king size 108 x 100 in, with matching pillow covers.",
+      "lead": "The calm of a clear blue sky. Ivory cotton covered in sky-blue vines, framed by floral borders, flower bootis and tall cypress motifs. Pure cotton handloom bedsheet, hand block printed with natural vegetable dyes and slow-made in the spirit of ahimsa. A fresh look for your home this Diwali.",
+      "points": [
+        "100% cotton, 300 thread count",
+        "Rajasthani hand block print with vegetable dyes",
+        "Ivory base with sky-blue vines, floral borders, flower bootis and tall cypress motifs",
+        "King size: 108 x 100 inches",
+        "Matching pillow covers included",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Aasmani: the calm of a clear blue sky. Ivory cotton covered in sky-blue vines, framed by floral borders, flower bootis and tall cypress motifs, hand block printed with natural vegetable dyes and slow-made in the spirit of ahimsa. Pure cotton handloom, 100% cotton, 300 thread count, king size 108 x 100 inches, with matching pillow covers. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfQ_B5pCFK-/",
+      "added": "2026-11-03"
+    },
+    {
       "code": "MK-BS-013",
       "slug": "bedsheet-jamuni",
       "name": "Jamuni Bedsheet",
