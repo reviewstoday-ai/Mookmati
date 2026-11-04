@@ -2,6 +2,26 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-015",
+      "slug": "bedsheet-rang-mahal",
+      "name": "Rang Mahal Bedsheet",
+      "price": "1,750",
+      "title": "Rang Mahal Luxury Pure Handloom Cotton Bedsheet, Super King Size 108 x 108",
+      "note": "Rich royal maroon cotton adorned with golden palace jaalis, flowering bouquets and layered floral borders. Pure handloom cotton, 300 TC, super king size 108 x 108 in, with matching pillow covers.",
+      "lead": "Sleep in a palace of colours. Rich royal maroon cotton, adorned with golden palace jaalis, flowering bouquets and layered floral borders, inspired by the painted halls of Rajasthan's palaces. Pure handloom cotton, woven with patience, in harmony with ahimsa. Part of our Dhanteras and Diwali collection.",
+      "points": [
+        "Pure handloom cotton fabric, 300 TC",
+        "Skin friendly, soft and breathable",
+        "Royal maroon with golden palace jaalis, flowering bouquets and layered floral borders",
+        "Super King size: 108 x 108 inches",
+        "Matching pillow covers included",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Rang Mahal: sleep in a palace of colours. Rich royal maroon cotton, adorned with golden palace jaalis, flowering bouquets and layered floral borders, inspired by the painted halls of Rajasthan's palaces and woven with patience, in harmony with ahimsa. Pure handloom cotton fabric, 300 TC, skin friendly, soft and breathable. Super King size 108 x 108 inches, with matching pillow covers. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfTqXLNFCPo/",
+      "added": "2026-11-04"
+    },
+    {
       "code": "MK-BS-014",
       "slug": "bedsheet-aasmani",
       "name": "Aasmani Bedsheet",
