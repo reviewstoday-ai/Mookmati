@@ -989,6 +989,12 @@ HEADER_CSS = """
 body{margin:0;background:#faf6ee;}
 .mk-bar{background:#8e2f2a;color:#faf6ee;text-align:center;font:600 13px Mulish,sans-serif;padding:8px 12px;letter-spacing:.04em;}
 .mk-bar a{color:#faf6ee;}
+.mk-sale{background:#f3c64b;color:#4a1d12;overflow:hidden;white-space:nowrap;font:700 14px Mulish,sans-serif;letter-spacing:.03em;padding:9px 0;border-bottom:1px solid #d9a92a;}
+.mk-sale .trk{display:inline-flex;animation:mksale 28s linear infinite;}
+.mk-sale .trk span{padding:0 48px;}
+.mk-sale:hover .trk{animation-play-state:paused;}
+@keyframes mksale{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mk-sale .trk{animation:none;}.mk-sale{text-align:center;white-space:normal;}.mk-sale .trk span+span{display:none;}}
 .mk-head{background:#faf6ee;border-bottom:1px solid #e2d6c3;font-family:Mulish,sans-serif;position:sticky;top:0;z-index:60;box-shadow:0 2px 10px rgba(35,50,90,.06);}
 .mk .jump{position:static;}
 .mk .strip-sec{padding:36px 0 40px;border-bottom:1px solid #e2d6c3;}
@@ -1164,6 +1170,16 @@ with open(f"{OUT}/style.css", "w") as f:
 with open(f"{OUT}/images/README.txt", "w") as f:
     f.write("Put product photos here, named by product code, e.g. MK-BS-001.jpg\n")
 
+# Diwali sale running banner on the home page. Shown until SALE_END (inclusive, IST).
+SALE_END = "2026-11-11"
+SALE_TEXT = "🪔 Happy Diwali! Flat 5% off when you shop two or more bedsheets, sarees or jewellery. Offer ends 11 November. 🪔"
+def sale_banner():
+    if TODAY > SALE_END:
+        return ""
+    items = "".join(f"<span>{SALE_TEXT}</span>" for _ in range(4))
+    return (f'<div class="mk-sale" id="mk-sale" role="region" aria-label="Diwali offer"><div class="trk">{items}</div></div>\n'
+            f'<script>(function(){{if(Date.now()>=Date.parse("{SALE_END}T23:59:59+05:30")){{var b=document.getElementById("mk-sale");if(b)b.remove();}}}})();</script>\n')
+
 NAV = [("index", "Home"), ("shop", "Shop All")] + [(s if s in PAGE_CATS else f"shop.html#{s}", n) for s, n, _ in CATS] + [("about", "Our Story"), ("contact", "Contact")]
 for slug, _, body, title, desc, extra_head, og_img in PAGES:
     nav = "".join(f'<a class="{"on" if s == slug or (s in CAT_SLUG_PREFIX and slug.startswith(CAT_SLUG_PREFIX[s])) else ""}" href="{s if "#" in s else s + ".html"}">{n}</a>' for s, n in NAV)
@@ -1196,7 +1212,7 @@ for slug, _, body, title, desc, extra_head, og_img in PAGES:
 </head>
 <body>
 <div class="mk-bar">Handmade in India. Free shipping across India (bedsheets above Rs 1,000). Order easily on <a href="{wa()}" target="_blank" rel="noopener">WhatsApp</a>.</div>
-<header class="mk-head"><div class="in"><a class="mk-logo" href="index.html"><img src="logo-120.webp" alt="Mookmati, The Silent Earth Studio" width="46" height="60"><span>Mookmati<small>The Silent Earth Studio</small></span></a><div class="mk-icons"><a href="contact.html" title="Visit our store" aria-label="Visit our store">{_ico("pin")}</a><a href="{IG_URL}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">{_ico("ig")}</a><a href="{wa()}" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">{_ico("wa")}</a><a href="shop.html" title="Shop" aria-label="Shop">{_ico("bag")}</a></div></div><nav class="mk-nav" aria-label="Main"><div class="nin">{nav}</div></nav></header>
+{sale_banner() if slug == "index" else ""}<header class="mk-head"><div class="in"><a class="mk-logo" href="index.html"><img src="logo-120.webp" alt="Mookmati, The Silent Earth Studio" width="46" height="60"><span>Mookmati<small>The Silent Earth Studio</small></span></a><div class="mk-icons"><a href="contact.html" title="Visit our store" aria-label="Visit our store">{_ico("pin")}</a><a href="{IG_URL}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">{_ico("ig")}</a><a href="{wa()}" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">{_ico("wa")}</a><a href="shop.html" title="Shop" aria-label="Shop">{_ico("bag")}</a></div></div><nav class="mk-nav" aria-label="Main"><div class="nin">{nav}</div></nav></header>
 <main class="mk">{body}</main>
 {footer}
 </body>
@@ -1213,6 +1229,7 @@ nf = ('<main class="mk"><section class="pagehead print"><div class="wrap"><h1>Pa
       '<section><div class="wrap" style="text-align:center;"><a class="btn btn-dark" href="index.html">Go to the home page</a></div></section>')
 with open(f"{OUT}/404.html", "w") as f:
     out = src[:start] + nf + src[end:]
+    out = re.sub(r'<div class="mk-sale".*?</script>\n', "", out, flags=re.S)
     out = re.sub(r'(href|src)="(?!https?:|mailto:|/|#)', r'\1="/', out)
     out = out.replace('<link rel="canonical" href="https://mookmati.in/">\n', '')
     out = re.sub(r"<title>.*?</title>", "<title>Page not found | Mookmati</title>", out, count=1)

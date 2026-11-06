@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-016",
+      "slug": "bedsheet-mewar-bagh",
+      "name": "Mewar Bagh Bedsheet",
+      "price": "1,500",
+      "title": "Mewar Bagh Rajasthani Block Print Handloom Cotton Bedsheet, Super King Size 108 x 108",
+      "note": "Rani-pink chrysanthemum bootis with sage-green leaves on crisp white cotton, inspired by the palace gardens of Mewar. 300 TC super fine handloom cotton, vegetable dye, super king size 108 x 108 in.",
+      "lead": "A royal garden in full bloom. Inspired by the palace gardens of Mewar, rani-pink chrysanthemum bootis with sage-green leaves bloom across crisp white cotton. Each motif is a block print design, carrying the gentle way of ahimsa into every thread. Unveiled for Diwali.",
+      "points": [
+        "300 TC super fine handloom cotton fabric",
+        "Vegetable dye, Rajasthani block print design",
+        "Breathable and skin friendly, 100% vegan and Jain friendly",
+        "Rani-pink chrysanthemum bootis with sage-green leaves on crisp white cotton",
+        "Export quality finish",
+        "Super King size: 108 x 108 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Mewar Bagh: a royal garden in full bloom. Inspired by the palace gardens of Mewar, rani-pink chrysanthemum bootis with sage-green leaves bloom across crisp white cotton, each motif a block print design carrying the gentle way of ahimsa into every thread. 300 TC super fine handloom cotton fabric, vegetable dye, Rajasthani block print design, breathable and skin friendly, 100% vegan and Jain friendly, export quality finish. Super King size 108 x 108 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfYy6iclKA0/",
+      "added": "2026-11-06"
+    },
+    {
       "code": "MK-BS-015",
       "slug": "bedsheet-rang-mahal",
       "name": "Rang Mahal Bedsheet",
