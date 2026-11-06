@@ -164,6 +164,12 @@
 body{margin:0;background:#faf6ee;}
 .mk-bar{background:#8e2f2a;color:#faf6ee;text-align:center;font:600 13px Mulish,sans-serif;padding:8px 12px;letter-spacing:.04em;}
 .mk-bar a{color:#faf6ee;}
+.mk-sale{background:#f3c64b;color:#4a1d12;overflow:hidden;white-space:nowrap;font:700 14px Mulish,sans-serif;letter-spacing:.03em;padding:9px 0;border-bottom:1px solid #d9a92a;}
+.mk-sale .trk{display:inline-flex;animation:mksale 28s linear infinite;}
+.mk-sale .trk span{padding:0 48px;}
+.mk-sale:hover .trk{animation-play-state:paused;}
+@keyframes mksale{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mk-sale .trk{animation:none;}.mk-sale{text-align:center;white-space:normal;}.mk-sale .trk span+span{display:none;}}
 .mk-head{background:#faf6ee;border-bottom:1px solid #e2d6c3;font-family:Mulish,sans-serif;position:sticky;top:0;z-index:60;box-shadow:0 2px 10px rgba(35,50,90,.06);}
 .mk .jump{position:static;}
 .mk .strip-sec{padding:36px 0 40px;border-bottom:1px solid #e2d6c3;}
