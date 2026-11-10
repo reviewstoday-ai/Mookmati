@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-017",
+      "slug": "bedsheet-jag-mandir",
+      "name": "Jag Mandir Bedsheet",
+      "price": "1,500",
+      "title": "Jag Mandir Rajasthani Block Print Handloom Cotton Borderless Bedsheet, Super King Size 108 x 108",
+      "note": "Lake-blue blossoms, slender cypress bootis and sunlit marigolds on crisp white cotton, inspired by Udaipur's lake palace. 300 TC super fine handloom cotton, vegetable dye, borderless, super king size 108 x 108 in.",
+      "lead": "The calm of Udaipur's lake palace. Inspired by the island palace of the Mewar kings on Lake Pichola, lake-blue blossoms, slender cypress bootis and sunlit marigolds float across crisp white cotton. Each block print is curated exclusively, slowly and kindly, the ahimsa way. An exclusive gifting option for the festive season.",
+      "points": [
+        "300 TC super fine handloom cotton",
+        "Vegetable dye, Rajasthani block print design",
+        "Breathable and skin friendly",
+        "Borderless design: lake-blue blossoms, slender cypress bootis and sunlit marigolds on crisp white cotton",
+        "Export quality finish",
+        "Super King size: 108 x 108 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Jag Mandir: the calm of Udaipur's lake palace. Inspired by the island palace of the Mewar kings on Lake Pichola, lake-blue blossoms, slender cypress bootis and sunlit marigolds float across crisp white cotton, each block print curated exclusively, slowly and kindly, the ahimsa way. 300 TC super fine handloom cotton, vegetable dye, Rajasthani block print design, breathable and skin friendly, export quality finish. Borderless bedsheet, Super King size 108 x 108 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfjBKG8FPcR/",
+      "added": "2026-11-10"
+    },
+    {
       "code": "MK-BS-016",
       "slug": "bedsheet-mewar-bagh",
       "name": "Mewar Bagh Bedsheet",
