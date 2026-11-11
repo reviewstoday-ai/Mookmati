@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-018",
+      "slug": "bedsheet-chandra-mahal",
+      "name": "Chandra Mahal Bedsheet",
+      "price": "1,500",
+      "title": "Chandra Mahal Rajasthani Block Print Handloom Cotton Bedsheet, Super King Size 108 x 108",
+      "note": "Indigo chrysanthemum bootis on leafy green stems across crisp white cotton, inspired by the blue chamber of Jaipur's Chandra Mahal. 300 TC super fine handloom 100% cotton, vegetable dye, super king size 108 x 108 in.",
+      "lead": "The calm blues of Jaipur's moon palace. Inspired by the Chandra Mahal of Jaipur's City Palace and its famous blue chamber, indigo chrysanthemum bootis on leafy green stems bloom across crisp white cotton. Every block is laid down with care, honouring the quiet path of ahimsa.",
+      "points": [
+        "300 TC super fine handloom 100% cotton",
+        "Vegetable dye, Rajasthani block print design",
+        "Breathable and skin friendly",
+        "Indigo chrysanthemum bootis on leafy green stems across crisp white cotton",
+        "Export quality finish",
+        "Super King size: 108 x 108 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Chandra Mahal: the calm blues of Jaipur's moon palace. Inspired by the Chandra Mahal of Jaipur's City Palace and its famous blue chamber, indigo chrysanthemum bootis on leafy green stems bloom across crisp white cotton, every block laid down with care, honouring the quiet path of ahimsa. 300 TC super fine handloom 100% cotton, vegetable dye, Rajasthani block print design, breathable and skin friendly, export quality finish. Super King size 108 x 108 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DfllZbRCK9h/",
+      "added": "2026-11-11"
+    },
+    {
       "code": "MK-BS-017",
       "slug": "bedsheet-jag-mandir",
       "name": "Jag Mandir Bedsheet",
