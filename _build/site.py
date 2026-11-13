@@ -1170,14 +1170,14 @@ with open(f"{OUT}/style.css", "w") as f:
 with open(f"{OUT}/images/README.txt", "w") as f:
     f.write("Put product photos here, named by product code, e.g. MK-BS-001.jpg\n")
 
-# Diwali sale running banner on the home page. Shown until SALE_END (inclusive, IST).
-SALE_END = "2026-11-11"
-SALE_TEXT = "🪔 Happy Diwali! Flat 5% off when you shop two or more bedsheets, sarees or jewellery. Offer ends 11 November. 🪔"
+# Winter collection sale running banner on the home page. Shown until SALE_END (inclusive, IST).
+SALE_END = "2099-12-31"
+SALE_TEXT = "❄️ Our Winter Collection is here! Flat 5% off when you shop two or more bedsheets, sarees or jewellery. ❄️"
 def sale_banner():
     if TODAY > SALE_END:
         return ""
     items = "".join(f"<span>{SALE_TEXT}</span>" for _ in range(4))
-    return (f'<div class="mk-sale" id="mk-sale" role="region" aria-label="Diwali offer"><div class="trk">{items}</div></div>\n'
+    return (f'<div class="mk-sale" id="mk-sale" role="region" aria-label="Winter collection offer"><div class="trk">{items}</div></div>\n'
             f'<script>(function(){{if(Date.now()>=Date.parse("{SALE_END}T23:59:59+05:30")){{var b=document.getElementById("mk-sale");if(b)b.remove();}}}})();</script>\n')
 
 NAV = [("index", "Home"), ("shop", "Shop All")] + [(s if s in PAGE_CATS else f"shop.html#{s}", n) for s, n, _ in CATS] + [("about", "Our Story"), ("contact", "Contact")]

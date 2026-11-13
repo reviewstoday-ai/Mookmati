@@ -372,6 +372,30 @@
   ],
   "sarees": [
     {
+      "code": "MK-SR-024",
+      "slug": "saree-pallava-rani-vegan-silk",
+      "name": "Pallava Rani Vegan Silk Saree",
+      "price": "4,500",
+      "mrp": "",
+      "title": "Pallava Rani Vegan Silk Saree, Black and White Checks with Flame-Red Border, Handwoven Kanjipattu Vegan Silk",
+      "note": "Classic black-and-white checks meet a flame-red border and a richly woven pallu. Handwoven Kanjipattu vegan silk, no silkworms harmed.",
+      "lead": "From our Ahimsa Silk Collection, a tribute to Kanchipuram, the ancient Pallava capital and home of Kanjipattu weaving. Classic black-and-white checks meet a flame-red border and a richly woven pallu, handwoven by skilled weavers with a gentle, cruelty-free heart.",
+      "points": [
+        "Handwoven Kanjipattu vegan silk",
+        "No silkworms harmed: an ahimsa choice (Jain friendly)",
+        "Flame-red contrast border and pallu",
+        "Woven by skilled weavers",
+        "Made to order: sourced and woven only after you book, and may take up to 15 days",
+        "Delivery worldwide at a nominal courier charge"
+      ],
+      "desc": "Pallava Rani Vegan Silk Saree: classic black-and-white checks with a flame-red contrast border and a richly woven pallu. Handwoven Kanjipattu vegan silk by skilled weavers, no silkworms harmed, Jain friendly. Made to order: woven only after you book, and may take up to 15 days.",
+      "fabric": "Kanjipattu Vegan Silk",
+      "images": 3,
+      "made_to_order": true,
+      "instagram": "https://www.instagram.com/mookmatistudio/p/Dfq-s8RFJJ0/",
+      "added": "2026-11-13"
+    },
+    {
       "code": "MK-SR-023",
       "slug": "saree-gulabi-bengali-mul-cotton",
       "name": "Gulabi Bengali Pure Mul Cotton Saree",
