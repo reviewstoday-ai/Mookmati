@@ -1180,6 +1180,17 @@ def sale_banner():
     return (f'<div class="mk-sale" id="mk-sale" role="region" aria-label="Winter collection offer"><div class="trk">{items}</div></div>\n'
             f'<script>(function(){{if(Date.now()>=Date.parse("{SALE_END}T23:59:59+05:30")){{var b=document.getElementById("mk-sale");if(b)b.remove();}}}})();</script>\n')
 
+# Cache-busting: add ?v=<content hash> to product photo URLs, so a replaced photo shows at once
+# instead of an old copy kept by browsers or GitHub Pages.
+import hashlib as _hl
+_IMG_V = {}
+def _img_ver(m):
+    path = m.group(1)
+    if path not in _IMG_V:
+        fp = f"{OUT}/{path}"
+        _IMG_V[path] = _hl.md5(open(fp, "rb").read()).hexdigest()[:8] if os.path.exists(fp) else ""
+    return path + (f"?v={_IMG_V[path]}" if _IMG_V[path] else "")
+
 NAV = [("index", "Home"), ("shop", "Shop All")] + [(s if s in PAGE_CATS else f"shop.html#{s}", n) for s, n, _ in CATS] + [("about", "Our Story"), ("contact", "Contact")]
 for slug, _, body, title, desc, extra_head, og_img in PAGES:
     nav = "".join(f'<a class="{"on" if s == slug or (s in CAT_SLUG_PREFIX and slug.startswith(CAT_SLUG_PREFIX[s])) else ""}" href="{s if "#" in s else s + ".html"}">{n}</a>' for s, n in NAV)
@@ -1218,6 +1229,7 @@ for slug, _, body, title, desc, extra_head, og_img in PAGES:
 </body>
 </html>
 """
+    doc = re.sub(r'(images/[\w./-]+?\.(?:webp|jpg|jpeg|png))(?=["\s,)])', _img_ver, doc)
     with open(f"{OUT}/{slug}.html", "w") as f:
         f.write(doc)
 
