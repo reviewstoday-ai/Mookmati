@@ -211,9 +211,10 @@ home = f"""
     <div class="hdots" aria-hidden="true">{hero_dots}</div>
   </section>
   <div class="trustbar" aria-label="Why shop with Mookmati">
-    <span>Hand block-printed pure cotton bedsheets</span>
+    <span>100% pure cotton block-printed bedsheets</span>
+    <span>Handloom and vegan silk sarees</span>
     <span>Handmade in India, guided by ahimsa</span>
-    <span>{BS_SHIP.replace(" on bedsheet orders", ", bedsheets")}</span>
+    <span>Free shipping across India above Rs 1,000</span>
     <a href="contact.html">Visit our store: Gaur City Center, Noida Extension</a>
   </div>
 {product_strip("New Arrivals")}
