@@ -174,12 +174,12 @@ HERO_SLIDES = [
      f"{_newest['slug']}.html", "Shop now", f"images/{_newest['code']}.webp", _newest["name"]),
     ("madder", "Hand block-printed in Rajasthan", "Bedsheets that carry the touch of a human hand",
      "Pure cotton, printed one wooden block at a time.", f"Prices {PRICE_FROM_HTML}", "bedsheets.html", "Shop bedsheets",
-     f"images/{_bs_hero['code']}.webp", "Hand block-printed cotton bedsheet"),
+     f"images/{_bs_hero['code']}.webp", "Hand block-printed cotton bedsheet", ("sarees.html", "Handloom sarees")),
     ("clay", "Visit our store", "Mookmati, The Silent Earth Studio",
      "See and feel every piece in person at GF193, Gaur City Center, Noida Extension.", "Call or WhatsApp +91 94566 01984", "contact.html", "Get directions",
      "logo-360.webp", "Mookmati logo"),
 ]
-def _slide(i, tone, eyebrow, title, text, price, href, cta, img, alt):
+def _slide(i, tone, eyebrow, title, text, price, href, cta, img, alt, cta2=None):
     return f"""
       <div class="hslide {tone}" style="animation-delay:{i * 6}s;"{' aria-hidden="true"' if i else ''}>
         <div class="htext">
@@ -187,7 +187,7 @@ def _slide(i, tone, eyebrow, title, text, price, href, cta, img, alt):
           <h2>{title}</h2>
           <p>{text}</p>
           <p class="hprice">{price}</p>
-          <a class="hbtn" href="{href}"{' tabindex="-1"' if i else ''}>{cta}</a>
+          <a class="hbtn" href="{href}"{' tabindex="-1"' if i else ''}>{cta}</a>{(f' <a class="hbtn ghost hbtn2" href="{cta2[0]}"' + (' tabindex="-1"' if i else '') + f'>{cta2[1]}</a>') if cta2 else ''}
         </div>
         <div class="himg"><img src="{img}" alt="{'' if i else esc(alt)}" {'fetchpriority="high"' if not i else 'loading="lazy"'} decoding="async"></div>
       </div>"""
@@ -210,6 +210,12 @@ home = f"""
     </div>
     <div class="hdots" aria-hidden="true">{hero_dots}</div>
   </section>
+  <div class="trustbar" aria-label="Why shop with Mookmati">
+    <span>Hand block-printed pure cotton bedsheets</span>
+    <span>Handmade in India, guided by ahimsa</span>
+    <span>{BS_SHIP.replace(" on bedsheet orders", ", bedsheets")}</span>
+    <a href="contact.html">Visit our store: Gaur City Center, Noida Extension</a>
+  </div>
 {product_strip("New Arrivals")}
   <section class="finds-sec">
     <div class="wrap">
@@ -422,8 +428,8 @@ shipping = policy("Shipping Policy", "How and when your order reaches you.", f""
       <p>Please record an unboxing video when you open your parcel. If it arrives damaged, message us within 7 days of delivery with the video. Without an unboxing video we cannot accept a return. See our <a href="returns.html">Returns and Exchanges</a> policy.</p>
 """)
 
-returns = policy("Returns and Exchanges", "Our promise if your product arrives damaged.", f"""
-      <div class="box"><strong>In short:</strong> we accept returns only for products that arrive damaged, within 7 days of delivery, and only with an unboxing video. You send the damaged product back to us, and we refund your return shipping charge once we receive it, against the shipping invoice.</div>
+returns = policy("Returns and Exchanges", "If your order arrives damaged, we will make it right.", f"""
+      <div class="box"><strong>In short:</strong> if your product arrives damaged, message us on WhatsApp within 7 days of delivery with your unboxing video and we will take it back. You send the damaged product to us, and we refund your return shipping charge once we receive it, against the shipping invoice. Please record an unboxing video when you open every parcel: it is how we confirm the damage, and we cannot accept a return without it.</div>
       <h2>When we accept a return</h2>
       <ul>
         <li>Returns are accepted <strong>only for damaged products</strong>.</li>
@@ -447,7 +453,7 @@ returns = policy("Returns and Exchanges", "Our promise if your product arrives d
       </ol>
       <h2>Return shipping cost</h2>
       <p>The buyer pays the cost of shipping the damaged product back to us. Once our team receives the product, we refund that shipping charge to you, subject to the shipping invoice. Please share a copy of the invoice with us on WhatsApp.</p>
-""", updated="20 October 2026")
+""", updated="16 November 2026")
 
 privacy = policy("Privacy Policy", "What we collect, why, and how we protect it.", f"""
       <p>This policy explains how Mookmati ("we", "us") handles your personal data when you visit mookmati.in or order from us through WhatsApp or Instagram.</p>
@@ -906,6 +912,10 @@ for cat in [c for c in CATALOG if not c.startswith("_")]:
                           f'            <a class="btn btn-wa" href="{wa(f"Hello Mookmati, I would like to order the {name} (code {code}), full table runner set, Rs. {p["set_price"]}. I will pay prepaid via UPI.")}" target="_blank" rel="noopener">Order full set &#8377;{p["set_price"]}</a>')
         else:
             order_btns = f'            <a class="btn btn-wa" href="{wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>'
+        _sz = re.search(r"(\d+) x (\d+) inches", " ".join(d.get("points") or [])) if cat == "bedsheets" else None
+        _ft = lambda n: f"{int(n) // 12} ft" + (f" {int(n) % 12} in" if int(n) % 12 else "")
+        size_note = (f'\n          <p class="psize">Size in other units: {_sz.group(1)} x {_sz.group(2)} inches is {_ft(_sz.group(1))} x {_ft(_sz.group(2))}, or about {round(int(_sz.group(1)) * 2.54)} x {round(int(_sz.group(2)) * 2.54)} cm. Please measure your bed and mattress before you order.</p>') if _sz else ""
+        sticky = f'\n  <div class="mk-sticky"><span class="sprice2">{"From " if p.get("set_price") else ""}&#8377; {price}</span><a class="btn btn-wa" href="{wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a></div>' if price else ""
         ig_btn = f'<a class="btn btn-dark" href="{p["instagram"]}" target="_blank" rel="noopener">See it on Instagram</a>' if p.get("instagram") else f'<a class="btn btn-dark" href="{cat_href(cat)}">More {label.lower()}</a>'
         body = f"""
   <section>
@@ -922,14 +932,14 @@ for cat in [c for c in CATALOG if not c.startswith("_")]:
 {order_btns}
             {ig_btn}
           </div>
-          {detail}
+          {detail}{size_note}
           <p class="pcare">{_cico("hand")}<span>{care_link(cat, name)}</span></p>
           <p style="font-size:14px;color:var(--muted);margin-top:18px;">Prefer to see it in person? Visit our store at GF193, Gaur City Center, Noida Extension. See our <a href="shipping.html">Shipping</a> and <a href="returns.html">Returns</a> policies.</p>
         </div>
       </div>
     </div>
   </section>
-""" + product_strip("You may also like", exclude=code)
+""" + product_strip("You may also like", exclude=code) + sticky
         head = ld(product_ld(code, name, price, slug, img)) + "\n" + ld(crumbs([("Home", "/"), (label, "/" + cat_href(cat)), (name, f"/{slug}.html")]))
         PRODUCT_PAGES.append((slug, None, body, f"{d['title']} | Mookmati", d["desc"] + (f" ₹{price}, free shipping in India on bedsheet orders above Rs 1,000." if cat == "bedsheets" else f" ₹{price}, free shipping in India."), head, SITE + "/" + img))
 
@@ -1107,6 +1117,13 @@ body{margin:0;background:#faf6ee;}
 .fstore strong{font-size:17px;}
 .mk-footer2 .small{margin-top:22px;font-size:13px;color:#6b5e55;}
 .mk-float{display:flex;align-items:center;gap:8px;}
+.mk .hbtn2{margin-left:10px;}
+.trustbar{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 28px;padding:13px 20px;background:#f3ebdd;border-bottom:1px solid #e4d6c3;font:600 14px Mulish,sans-serif;color:#2b2420;text-align:center;}
+.trustbar span,.trustbar a{position:relative;padding-left:16px;color:#2b2420;text-decoration:none;}
+.trustbar a{text-decoration:underline;text-underline-offset:3px;}
+.trustbar span::before,.trustbar a::before{content:"";position:absolute;left:0;top:.5em;width:7px;height:7px;border-radius:50%;background:#8e2f2a;}
+.mk .psize{font-size:14px;color:#6b5e55;margin:4px 0 14px;}
+.mk-sticky{display:none;}
 .mk .popt{font-size:.6em;font-weight:600;color:#6b5e55;text-transform:uppercase;letter-spacing:.06em;}
 .mk .mrp{color:#8a7f76;font-weight:400;font-size:.82em;margin-left:6px;}
 .mk .csec{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:start;}
@@ -1155,6 +1172,13 @@ body{margin:0;background:#faf6ee;}
   .iggrid a{flex:0 1 calc(50% - 5px);}
   .mk-float span{display:none;}
   .mk-float{padding:12px !important;}
+  .mk .hbtn2{margin:10px 0 0;}
+  .trustbar{flex-direction:column;align-items:flex-start;gap:6px;font-size:13px;text-align:left;}
+  .mk-sticky{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:98;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#faf6ee;border-top:1px solid #dccbc4;box-shadow:0 -4px 14px rgba(0,0,0,.12);}
+  .mk-sticky .sprice2{font:700 18px Mulish,sans-serif;color:#2b2420;white-space:nowrap;}
+  .mk-sticky .btn{margin:0;padding:11px 18px;font-size:14px;white-space:nowrap;}
+  body:has(.mk-sticky){padding-bottom:66px;}
+  body:has(.mk-sticky) .mk-float{display:none;}
 }
 """
 
