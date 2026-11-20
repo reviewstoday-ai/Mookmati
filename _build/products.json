@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-019",
+      "slug": "bedsheet-sajjangarh",
+      "name": "Sajjangarh Bedsheet",
+      "price": "1,500",
+      "title": "Sajjangarh Rajasthani Block Print Handloom Cotton Bedsheet, Super King Size 108 x 108",
+      "note": "Slender cypress trees, coral blossoms and deep-blue wildflowers across crisp white cotton, inspired by Udaipur's Monsoon Palace. 300 TC super fine handloom cotton, vegetable dye, matching pillow covers, super king size 108 x 108 in.",
+      "lead": "A palace garden for your bedroom. Inspired by Sajjangarh, Udaipur's Monsoon Palace, slender cypress trees, coral blossoms and deep-blue wildflowers grow across crisp white cotton. Each motif is stamped by hand, with patience and a gentle, ahimsa heart.",
+      "points": [
+        "300 TC super fine handloom cotton",
+        "Vegetable dye, Rajasthani block print design",
+        "Breathable and skin friendly",
+        "Cypress trees, coral blossoms and deep-blue wildflowers across crisp white cotton",
+        "Matching pillow covers",
+        "Super King size: 108 x 108 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Sajjangarh: a palace garden for your bedroom. Inspired by Udaipur's Monsoon Palace, slender cypress trees, coral blossoms and deep-blue wildflowers grow across crisp white cotton, each motif stamped by hand with patience and a gentle, ahimsa heart. 300 TC super fine handloom cotton, vegetable dye, Rajasthani block print design, breathable and skin friendly, with matching pillow covers. Super King size 108 x 108 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/Df9Dx4TlCgu/",
+      "added": "2026-11-20"
+    },
+    {
       "code": "MK-BS-018",
       "slug": "bedsheet-chandra-mahal",
       "name": "Chandra Mahal Bedsheet",
