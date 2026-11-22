@@ -2,6 +2,26 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-020",
+      "slug": "bedsheet-phool-mahal",
+      "name": "Phool Mahal Bedsheet",
+      "price": "1,500",
+      "title": "Phool Mahal 100% Cotton Bedsheet, Golden Trellis with Lilies, Marigolds and Cypress Bootis, Super King Size 108 x 108",
+      "note": "A golden trellis of vines frames lilies, marigolds and cypress bootis on crisp white cotton, inspired by the painted Phool Mahal of Jodhpur's Fort. 100% cotton, skin friendly and breathable, super king size 108 x 108 in.",
+      "lead": "A palace of flowers for your bedroom. Inspired by the painted Phool Mahal of Jodhpur's Fort, a golden trellis of vines frames lilies, marigolds and cypress bootis on crisp white cotton. Soft on skin and gentle on every living being, the ahimsa way.",
+      "points": [
+        "100% cotton",
+        "Skin friendly and breathable",
+        "Jain and vegan friendly",
+        "Golden trellis of vines framing lilies, marigolds and cypress bootis on crisp white cotton",
+        "Super King size: 108 x 108 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Phool Mahal: a palace of flowers for your bedroom. Inspired by the painted Phool Mahal of Jodhpur's Fort, a golden trellis of vines frames lilies, marigolds and cypress bootis on crisp white cotton. Soft on skin and gentle on every living being, the ahimsa way. 100% cotton, skin friendly and breathable, Jain and vegan friendly. Super King size 108 x 108 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DgCLFCOFDiK/",
+      "added": "2026-11-22"
+    },
+    {
       "code": "MK-BS-019",
       "slug": "bedsheet-sajjangarh",
       "name": "Sajjangarh Bedsheet",
