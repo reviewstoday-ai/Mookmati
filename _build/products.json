@@ -2,6 +2,27 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-021",
+      "slug": "bedsheet-rani-vatika",
+      "name": "Rani Vatika Bedsheet",
+      "price": "1,500",
+      "title": "Rani Vatika 100% Cotton Bedsheet, Natural Vegetable Dyes, Rose-Pink Lilies and Cypress Bootis, Super King Size 108 x 108",
+      "note": "A sage-green trellis of vines frames rose-pink lilies and slender cypress bootis on soft white cotton. 100% cotton, natural vegetable dyes, skin comforting and breathable, super king size 108 x 108 in.",
+      "lead": "The queen's garden, on your bed. Inspired by the palaces of Rajasthan, a sage-green trellis of vines frames rose-pink lilies and slender cypress bootis on soft white cotton. Coloured only with natural vegetable dyes and made without harming a single life, it is ahimsa you can sleep in.",
+      "points": [
+        "100% cotton",
+        "Natural vegetable dyes",
+        "Skin comforting and breathable",
+        "Jain and vegan friendly",
+        "Sage-green trellis of vines framing rose-pink lilies and slender cypress bootis on soft white cotton",
+        "Super King size: 108 x 108 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Rani Vatika: the queen's garden, on your bed. Inspired by the palaces of Rajasthan, a sage-green trellis of vines frames rose-pink lilies and slender cypress bootis on soft white cotton. Coloured only with natural vegetable dyes and made without harming a single life, it is ahimsa you can sleep in. 100% cotton, skin comforting and breathable, Jain and vegan friendly. Super King size 108 x 108 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DgHCfL6iIyg/",
+      "added": "2026-11-24"
+    },
+    {
       "code": "MK-BS-020",
       "slug": "bedsheet-phool-mahal",
       "name": "Phool Mahal Bedsheet",
