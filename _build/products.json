@@ -2,6 +2,29 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-022",
+      "slug": "bedsheet-padmini",
+      "name": "Padmini Bedsheet",
+      "price": "1,500",
+      "title": "Padmini 100% Cotton Bedsheet, Rajasthani Block Print, Natural Dyes, Borderless Blue, Wine and Ochre Roses, Super King Size 108 x 108",
+      "note": "Blue, wine and ochre roses bloom on soft white cotton in a borderless all-over block print. 100% cotton, natural dyes, skin friendly and breathable, with matching pillow covers. Super king size 108 x 108 in.",
+      "lead": "Roses fit for a Rajput queen. Named after the legendary Rani Padmini of Chittorgarh, this borderless block print bedsheet, crafted in Rajasthan, blooms with blue, wine and ochre roses on soft white cotton. Coloured with natural dyes and made without harm to any being, it is ahimsa woven into everyday comfort.",
+      "points": [
+        "100% pure cotton",
+        "Block print design, crafted in Rajasthan",
+        "Natural dyes",
+        "Skin friendly and breathable",
+        "Borderless all-over rose print: blue, wine and ochre roses on soft white cotton",
+        "Matching pillow covers",
+        "Jain and vegan friendly",
+        "Super King size: 108 x 108 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Padmini: roses fit for a Rajput queen. Named after the legendary Rani Padmini of Chittorgarh, this borderless block print bedsheet, crafted in Rajasthan, blooms with blue, wine and ochre roses on soft white cotton. Coloured with natural dyes and made without harm to any being. 100% pure cotton, skin friendly and breathable, with matching pillow covers. Jain and vegan friendly. Super King size 108 x 108 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DgMQsDtFO4Y/",
+      "added": "2026-11-26"
+    },
+    {
       "code": "MK-BS-021",
       "slug": "bedsheet-rani-vatika",
       "name": "Rani Vatika Bedsheet",
