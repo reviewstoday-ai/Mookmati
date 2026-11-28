@@ -2,6 +2,28 @@
   "_readme": "Mookmati product catalogue. Newest first. Add a product by adding an object to the right category list; put its photo at images/<code>.webp. Then run: python3 _build/site.py Sarees and jewellery are imported from the parent brand sareebari.com (field 'source'); 'images' is the number of photos (images/<code>.jpg, <code>-2.jpg, ...).",
   "bedsheets": [
     {
+      "code": "MK-BS-023",
+      "slug": "bedsheet-jal-mahal",
+      "name": "Jal Mahal Cotton Bedsheet",
+      "price": "950",
+      "title": "Jal Mahal Cotton Bedsheet, Rajasthani Hand Block Print, Vegetable Dyes, Blue Bouquets in Golden Vases on Cream with Turquoise Border, King Size 108 x 100",
+      "note": "Blue bouquets rise from golden vases across soft cream cotton, framed by a turquoise border. Hand block printed with natural vegetable dyes, with matching pillow covers. King size 108 x 100 in.",
+      "lead": "The calm of Jaipur's water palace. Inspired by the Rajput water palace on Man Sagar Lake, blue bouquets rise from golden vases across soft cream cotton, framed by a turquoise border. Every motif is hand block printed with vegetable dyes, in quiet harmony with all living beings.",
+      "points": [
+        "Cotton bedsheet",
+        "Hand block print by Rajasthani artisans",
+        "Natural vegetable dyes",
+        "Blue bouquets in golden vases on soft cream cotton, with a turquoise border",
+        "Matching pillow covers",
+        "Jain and vegan friendly",
+        "King size: 108 x 100 inches",
+        "Free shipping across India on bedsheet orders above Rs 1,000"
+      ],
+      "desc": "Jal Mahal: the calm of Jaipur's water palace. Inspired by the Rajput water palace on Man Sagar Lake, blue bouquets rise from golden vases across soft cream cotton, framed by a turquoise border. Every motif is hand block printed by Rajasthani artisans with natural vegetable dyes. Matching pillow covers. Jain and vegan friendly. King size 108 x 100 inches. Free shipping across India on bedsheet orders above Rs 1,000.",
+      "instagram": "https://www.instagram.com/mookmatistudio/p/DgRiNa4FNfK/",
+      "added": "2026-11-28"
+    },
+    {
       "code": "MK-BS-022",
       "slug": "bedsheet-padmini",
       "name": "Padmini Bedsheet",
